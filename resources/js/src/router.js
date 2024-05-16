@@ -1,0 +1,64 @@
+
+import {createRouter, createWebHistory} from "vue-router";
+
+import guest from './middlewares/guest'
+import auth from './middlewares/auth'
+import isAdmin from './middlewares/isAdmin'
+import middlewarePipeline from './middlewares/middlewarePipeline'
+
+// components
+import HomeComponent from '@/pages/homePages.vue';
+import skeletonAdmin from '@/layouts/EskeletonAdmin.vue'
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    {
+      path:'/',
+      redirect:'/dashboard'
+    },
+    { 
+      path: '/',
+      name: "Home",
+      component: skeletonAdmin ,
+      children: [
+        {
+          name: "dashboard",
+          path: 'dashboard',
+          component: () => import('@/pages/dashboardPages.vue'),
+          meta: {
+            // middleware: [
+            //   auth
+            // ],
+            title : 'Dashboard'
+          },
+        },
+      ]
+    },
+    // {
+    //   path: "/login",
+    //   name: "Login",
+    //   component: () => import('@/pages/logins.vue'),
+    //   meta: {
+    //     title: 'Bienvenido'
+    //   },
+    // },
+    // {
+    //   path: '/404',
+    //   component: () => import('@/pages/[...all].vue'),
+    //   meta: {
+    //     title : 'OPPS! 404',
+    //   },
+    // },
+    // {
+    //   path: '/:pathMatch(.*)*',
+    //   component: () => import('@/pages/[...all].vue'),
+    //   meta: {
+    //     title : 'OPPS! 404',
+    //   },
+    // },
+  ]
+});
+
+
+export default router
