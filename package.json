@@ -22,6 +22,7 @@
         "vuetify": "3.6.6"
     },
     "dependencies": {
+        "@mdi/light-js": "^0.2.63",
         "@vitejs/plugin-vue": "^5.0.4",
         "bootstrap": "^5.3.3",
         "lodash": "^4.17.21",

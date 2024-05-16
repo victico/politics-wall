@@ -1,29 +1,62 @@
 <template>
-  <nav class="d-flex justify-center position-fixed mt-2">
+  <nav class="d-flex justify-center position-fixed mt-2 desktop ">
     <v-bottom-navigation grow class=" position-relative rounded-pill">
-      <v-btn value="recent" class="mx-5">
-        <VIcon icon="mdi-home" />
-        <span>Home</span>
-      </v-btn>
-
-      <v-btn value="favorites" class="mx-5">
-        <VIcon icon="$politic" />
-        <span>Politicos</span>
-      </v-btn>
-
-      <v-btn value="nearby" class="mx-5">
-        <VIcon icon="$report" />
-        <span>Estadisticas</span>
+      <RouterLink to="/">
+        <v-btn value="home" class="mx-md-5 menu-btns h-100">
+          <VIcon icon="$home" />
+          <span>Home</span>
+        </v-btn>
+      </RouterLink>
+      
+      <RouterLink to="/politics">
+        <v-btn value="favorites" class="mx-md-5 menu-btns h-100">
+          <VIcon icon="$politic" />
+          <span>Politicos</span>
+        </v-btn>
+      </RouterLink>
+      <RouterLink to="/">
+        <v-btn value="nearby" class="mx-md-5 menu-btns h-100">
+          <VIcon icon="$report" />
+          <span>Estadisticas</span>
+        </v-btn>
+      </RouterLink>
+      <v-btn value="logout" class="mx-md-5 menu-btns h-100">
+        <VIcon icon="$logout" />
+        <span>Salir</span>
       </v-btn>
     </v-bottom-navigation>
   </nav>
+
 </template>
 <style lang="scss">
-  .v-bottom-navigation{
-    top: 0px;
-    width: 50%;
-    position: relative;
+  .desktop {
+    & span{
+      font-size: 10px;
+    }
+    & > .v-bottom-navigation{
+      top: 0px;
+      width: 50%;
+      position: relative;
+      box-shadow: 0px 4px 6px 2px #03044177;
+    }
   }
+  .menu-btns {
+    &:hover{
+      text-shadow: #0508b1b7 0px 1px 5px;
+    }
+    &:hover > .v-btn__content{
+      text-shadow: #0508b1b7 0px 1px 5px;
+    }
+    &:focus-visible  > .v-btn__content{
+      text-shadow: #0609b4bd 1px 0 10px;
+    }
+    &:hover  > .v-btn__overlay{
+      opacity: 0.1!important;
+      border: 0px;
+      outline: 0px;
+    }
+  }
+
 </style>
 <script lang="ts">
 import { defineComponent } from 'vue'
