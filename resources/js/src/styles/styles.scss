@@ -1,11 +1,13 @@
 // Write your overrides
 *{
-  color: #000!important;
+  color: #000;
   padding: 0;
   margin: 0;
   box-sizing: border-box!important;
 }
-
+h1,h2,h3,h4,h4,h5{
+  color: black!important;
+}
 @media only screen and (max-width: 600px){
   /* … */
   .v-table > .v-table__wrapper > table > tbody > tr > td{

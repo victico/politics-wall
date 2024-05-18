@@ -19,5 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('politic')->name('politic.')->group(function () {
     Route::get('/', [PoliticContoller::class, 'index']);
     Route::post('/', [PoliticContoller::class, 'store']);
+    Route::get('/{id}', [PoliticContoller::class, 'getById']);
 
 });

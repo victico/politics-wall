@@ -1,6 +1,13 @@
 import { Icon } from '@iconify/vue'
 import { mdi } from 'vuetify/iconsets/mdi-svg'
-import { mdiAccount, mdiAccountTie, mdiChartLine, mdiHomeCircle } from '@mdi/js'
+import { 
+  mdiAccount, 
+  mdiAccountTie,
+  mdiDeleteOutline,
+  mdiViewDashboardEditOutline,
+  mdiCloseCircleOutline,
+  mdiCamera,
+} from '@mdi/js'
 import { mdilPlus, mdilHome, mdilChartLine, mdilLogout  } from '@mdi/light-js'
 // const aliases = {
 //   collapse: 'bx-chevron-up',
@@ -60,7 +67,11 @@ export const icons = {
     politic: mdiAccountTie,
     home: mdilHome,
     logout: mdilLogout,
-    plus:mdilPlus,
+    plus: mdilPlus,
+    edit: mdiViewDashboardEditOutline,
+    delete:  mdiDeleteOutline,
+    close: mdiCloseCircleOutline,
+    photo: mdiCamera
   },
   sets: {
     mdi,

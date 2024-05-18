@@ -54,6 +54,7 @@ router.beforeEach(async (to, from, next) => {
   })
 });
 
+// console.log(store)
 app.use(VueAxios, axios);
 app.use(vuetify)
 app.use(router)

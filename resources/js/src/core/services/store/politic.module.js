@@ -2,17 +2,17 @@ import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
 
 // action types
-export const GET_MESSAGE = "GET_MESSAGE";
-export const CREATE_MESSAGE = "CREATE_MESSAGE"
-export const SEE_ALL_MESSAGE = "SEE_ALL_MESSAGE"
-
+export const GET_POLITICS= "GET_POLITICS";
+export const SEE_ALL_NOTIFICATIONS_BY_TYPE = "SEE_ALL_NOTIFICATIONS_BY_TYPE";
+export const GET_POLITIC_BY_ID = "GET_POLITIC_BY_ID";
+export const STORE_POLITIC = "STORE_POLITIC";
 
 const actions = {
-  [GET_MESSAGE](context,userId){
+  [GET_POLITICS](context,query =''){
     return new Promise((resolve, reject) => {
-      if (JwtService.getToken()) {
+      // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/message/"+userId)
+        ApiService.get("api/politic/"+query)
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);
@@ -22,14 +22,14 @@ const actions = {
             console.log(response )
             reject('Ocurrió un error desconocido al intentar obtener las ordenes');
         });
-      }
+      // }
     });
   },
-  [CREATE_MESSAGE](context,ProductId){
+  [GET_POLITIC_BY_ID](context,politicID){
     return new Promise((resolve, reject) => {
-      if (JwtService.getToken()) {
+      // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/products/notify-out-stock/"+ProductId)
+        ApiService.get("api/politic/"+politicID)
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);
@@ -39,16 +39,16 @@ const actions = {
             console.log(response )
             reject('Ocurrió un error desconocido al intentar obtener las ordenes');
         });
-      }
+      // }
     });
   },
-  [SEE_ALL_MESSAGE](context, userId){
+  [STORE_POLITIC](context, data){
     return new Promise((resolve, reject) => {
-      if (JwtService.getToken()) {
+      // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/message/see-all/"+userId)
+        ApiService.post("api/politic/", data)
         .then(( { data } ) => {
-            // console.log(data)
+            console.log(data)
             resolve(data);
             
         })
@@ -56,8 +56,9 @@ const actions = {
             console.log(response )
             reject('Ocurrió un error desconocido al intentar obtener las ordenes');
         });
-      }
+      // }
     });
+
   }
 };
 export default {

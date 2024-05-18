@@ -20,7 +20,7 @@
           <span>Estadisticas</span>
         </v-btn>
       </RouterLink>
-      <v-btn value="logout" class="mx-md-5 menu-btns h-100">
+      <v-btn value="logout" class="mx-md-5 menu-btns h-100 d-block d-md-none">
         <VIcon icon="$logout" />
         <span>Salir</span>
       </v-btn>

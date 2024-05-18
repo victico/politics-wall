@@ -11,9 +11,14 @@ class PoliticContoller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $allPolitics = Politic::query();
+        if(isset($request->status)){
+            $allPolitics->where('status', $request->status);
+        }
+        return $this->returnSuccess(200, $allPolitics->get() );
     }
 
     /**
@@ -29,26 +34,39 @@ class PoliticContoller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //.
+        $imgPath = '';
+        $jailImgPath = '';
+
+        if ($request->photo) {
+            $imgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name ));
+            $request->file('photo')->move('images/politics/', $imgPath);
+        }
+        if ($request->jail_photo) {
+            $jailImgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name )) .'_jail';
+            $request->file('jail_photo')->move('images/politics/', $jailImgPath);
+        }
+
         $newPolitic = Politic::create([
-            'name' => 'Nicólas Maduro',
-            'office' => 'Presidente',
-            'age' => '61',
-            'since' => 2013,
-            'status' => 1,
-            'normal_photo' => 'https://www.lapatilla.com/wp-content/uploads/2013/04/000_Was7438662.jpg',
-            'jail_photo' => 'https://elsolweb.tv/wp-content/uploads/2018/04/maduro-preso.jpg',
+            'name' => $request->name,
+            'office' => $request->office,
+            'age' => $request->age,
+            'since' => $request->since,
+            'vite_jail' => 0,
+            'vote_no_jail' => 0,
+            'normal_photo' => $imgPath,
+            'jail_photo' => $jailImgPath,
 
         ]);
-        return $this->returnSuccess(200,$newPolitic);
+        return $this->returnSuccess(200,[$newPolitic, $file = $request->photo, $request->jail_photo]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function getById(string $id)
     {
-        //
+        return $this->returnSuccess(200, Politic::find($id) );
     }
 
     /**
