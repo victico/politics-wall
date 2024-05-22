@@ -3,10 +3,10 @@ import JwtService from "@/core/services/jwt.service";
 
 // action types
 export const GET_POLITICS= "GET_POLITICS";
-export const SEE_ALL_NOTIFICATIONS_BY_TYPE = "SEE_ALL_NOTIFICATIONS_BY_TYPE";
 export const GET_POLITIC_BY_ID = "GET_POLITIC_BY_ID";
 export const STORE_POLITIC = "STORE_POLITIC";
-
+export const UPDATE_POLITIC = "UPDATE_POLITIC";
+export const DELETE_POLITIC = "DELETE_POLITIC"
 const actions = {
   [GET_POLITICS](context,query =''){
     return new Promise((resolve, reject) => {
@@ -19,8 +19,8 @@ const actions = {
             
         })
         .catch(( { response } ) => {
-            console.log(response )
-            reject('Ocurrió un error desconocido al intentar obtener las ordenes');
+          console.log(response )
+          reject('Ocurrió un error desconocido al intentar obtener las ordenes');
         });
       // }
     });
@@ -59,6 +59,32 @@ const actions = {
       // }
     });
 
+  },
+  [UPDATE_POLITIC](context, data){
+    return new Promise( (resolve, reject) => {
+      ApiService.setHeader();
+      ApiService.post('api/politic/'+data.id, data.data)
+      .then(( {data} ) =>{
+        resolve(data);
+      })
+      .catch(( { response } ) => {
+        console.log(response )
+        reject('Ocurrió un error desconocido al intentar obtener las ordenes');
+      });
+    })
+  },
+  [DELETE_POLITIC](context, politicID){
+    return new Promise( (resolve, reject) => {
+      ApiService.setHeader();
+      ApiService.post('api/politic/delete/'+politicID)
+      .then(( {data} ) =>{
+        resolve(data);
+      })
+      .catch(( { response } ) => {
+        console.log(response )
+        reject('Ocurrió un error desconocido al intentar obtener las ordenes');
+      });
+    })
   }
 };
 export default {

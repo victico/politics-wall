@@ -52,7 +52,7 @@ class PoliticContoller extends Controller
             'office' => $request->office,
             'age' => $request->age,
             'since' => $request->since,
-            'vite_jail' => 0,
+            'vote_jail' => 0,
             'vote_no_jail' => 0,
             'normal_photo' => $imgPath,
             'jail_photo' => $jailImgPath,
@@ -64,7 +64,7 @@ class PoliticContoller extends Controller
     /**
      * Display the specified resource.
      */
-    public function getById(string $id)
+    public function get(string $id)
     {
         return $this->returnSuccess(200, Politic::find($id) );
     }
@@ -83,6 +83,30 @@ class PoliticContoller extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $politic = Politic::find($id);
+        $imgPath = $politic->normal_photo;
+        $jailImgPath = $politic->jail_photo;
+
+
+        if ($request->hasFile('photo_update')) {
+            $imgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name ));
+            $request->file('photo_update')->move('images/politics/', $imgPath);
+        }
+        if ($request->hasFile('jail_photo_update')) {
+            $jailImgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name )) .'_jail';
+            $request->file('jail_photo_update')->move('images/politics/', $jailImgPath);
+        }
+
+
+        $politic->name = $request->name;
+        $politic->office = $request->office;
+        $politic->age = $request->age;
+        $politic->since = $request->since;
+        $politic->normal_photo = $imgPath;
+        $politic->jail_photo = $jailImgPath;
+        
+        $politic->save();
+        return $this->returnSuccess(200, $politic);
     }
 
     /**
@@ -91,5 +115,9 @@ class PoliticContoller extends Controller
     public function destroy(string $id)
     {
         //
+        $politic = Politic::find($id);
+        $politic->delete();
+
+        return $this->returnSuccess(200, $politic);
     }
 }
