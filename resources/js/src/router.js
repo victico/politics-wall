@@ -7,7 +7,7 @@ import isAdmin from './middlewares/isAdmin'
 import middlewarePipeline from './middlewares/middlewarePipeline'
 
 // components
-import politicPage from '@/pages/politicsPages.vue';
+import politicPage from '@/pages/politicsPage.vue';
 import skeletonAdmin from '@/layouts/EskeletonAdmin.vue'
 
 const router = createRouter({
@@ -25,7 +25,7 @@ const router = createRouter({
         {
           name: 'dashboard',
           path: 'dashboard',
-          component: () => import('@/pages/dashboardPages.vue'),
+          component: () => import('@/pages/dashboardPage.vue'),
           meta: {
             // middleware: [
             //   auth
@@ -46,14 +46,14 @@ const router = createRouter({
         },
       ]
     },
-    // {
-    //   path: "/login",
-    //   name: "Login",
-    //   component: () => import('@/pages/logins.vue'),
-    //   meta: {
-    //     title: 'Bienvenido'
-    //   },
-    // },
+    {
+      path: "/login",
+      name: "Login",
+      component: () => import('@/pages/loginPage.vue'),
+      meta: {
+        title: 'Bienvenido'
+      },
+    },
     // {
     //   path: '/404',
     //   component: () => import('@/pages/[...all].vue'),
