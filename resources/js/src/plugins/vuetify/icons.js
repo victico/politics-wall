@@ -7,8 +7,9 @@ import {
   mdiViewDashboardEditOutline,
   mdiCloseCircleOutline,
   mdiCamera,
+  mdiCardAccountDetailsStar
 } from '@mdi/js'
-import { mdilPlus, mdilHome, mdilChartLine, mdilLogout  } from '@mdi/light-js'
+import { mdilPlus, mdilHome, mdilChartLine, mdilLogout } from '@mdi/light-js'
 // const aliases = {
 //   collapse: 'bx-chevron-up',
 //   complete: 'bx-check',
@@ -71,7 +72,8 @@ export const icons = {
     edit: mdiViewDashboardEditOutline,
     delete:  mdiDeleteOutline,
     close: mdiCloseCircleOutline,
-    photo: mdiCamera
+    photo: mdiCamera,
+    card: mdiCardAccountDetailsStar,
   },
   sets: {
     mdi,
