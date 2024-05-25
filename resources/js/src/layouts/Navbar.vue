@@ -20,6 +20,12 @@
           <span>Estadisticas</span>
         </v-btn>
       </RouterLink>
+      <RouterLink to="/view">
+        <v-btn value="nearby" class="mx-md-5 menu-btns h-100">
+          <VIcon icon="$card" />
+          <span>View</span>
+        </v-btn>
+      </RouterLink>
       <v-btn value="logout" class="mx-md-5 menu-btns h-100 d-block d-md-none">
         <VIcon icon="$logout" />
         <span>Salir</span>

@@ -8,6 +8,7 @@ import middlewarePipeline from './middlewares/middlewarePipeline'
 
 // components
 import politicPage from '@/pages/politicsPage.vue';
+import viewPage from '@/pages/viewPage.vue';
 import skeletonAdmin from '@/layouts/EskeletonAdmin.vue'
 
 const router = createRouter({
@@ -44,6 +45,17 @@ const router = createRouter({
             title : 'Dashboard'
           },
         },
+        {
+          name: 'view',
+          path: 'view',
+          component: viewPage,
+          meta: {
+            // middleware: [
+            //   auth
+            // ],
+            title : 'Cartas'
+          },
+        }
       ]
     },
     {
