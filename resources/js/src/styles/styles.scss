@@ -8,6 +8,11 @@
 h1,h2,h3,h4,h4,h5{
   color: black!important;
 }
+.vote-buttons{
+  & > .v-btn__content{
+    color: white!important;
+  }
+}
 @media only screen and (max-width: 600px){
   /* … */
   .v-table > .v-table__wrapper > table > tbody > tr > td{

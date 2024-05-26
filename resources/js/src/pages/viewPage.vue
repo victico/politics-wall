@@ -2,132 +2,153 @@
   <div>
     <VRow class="pa-0 ma-0 mt-5 ">
       <VCol cols="12" md="3"  v-for="(politic, index) in politics" :key="index">
-        <VCard class=" px-0 pb-0 pt-2 d-flex flex-column align-center justify-space-between position-relative poilitic-card__image-content" height="auto" v-if="moreInfo">
-          <div class="w-100 d-flex flex-column align-center h-300 "> 
-            
-            <VImg 
-              class="rounded-lg"
-              cover
-              :width="200"
-              height="200"
-              :src="politic.normal_photo"
-            />
-          </div>
-          <div class="w-100 mt-0 h-40 px-2 bg-white description mt-5 " >
-            <div class="politic-button description-politic pt-md-4 pt-5 d-flex flex-column align-center justify-space-between h-100" >
-              <div class=" w-100 px-0" style="height: 150px;">
-                <div>
-                  <div class="text-center ">
-                    <h5 class="text-h5 ">{{ politic.name }}</h5>
-                  </div>
-                </div>
-                <VRow class="pa-0 ma-0">
-                  <VCol cols="7" md="6" class="px-2 pt-0"> 
-                    <div class="mt-3 ">
-                      <div class="text-subtitle-1 ">
-                        <b>▪ Cargo: {{ politic.office }}</b>
-                      </div>
-                      <div class="text-subtitle-1  d-flex justify-start align-center mt-2">
-                        <b> ▪ Nacionalidad:</b>
-                        <img src="https://flagsapi.com/VE/shiny/24.png" class="ms-1">
-                      </div>
-                      
-                    </div>
-                  </VCol>
-                  <VCol cols="5" md="6" class="px-1 pt-0"> 
-                    <div class="mt-3">
-                      <div class="text-subtitle-1 ">
-                        <b> ▪ Edad: {{ politic.age }} años</b>
-                      </div>
-                      <div class="text-subtitle-1  mt-2">
-                        <b> ▪ Desde: {{ politic.since }}</b>
-                      </div>
-                    </div>
-                  </VCol>
-                  <!-- <VCol cols="12"  class="d-flex justify-end pt-0">
-                    <v-btn icon="$edit" size="small"  color="white" class="bg-primary mx-2 politics-actions" @click="shoModal(politic.id, 'update')" />
-                    <v-btn icon="$delete" size="small"  color="white" class="bg-error mx-2 politics-actions" @click="shoModal(politic.id, 'delete')"/>
-                  </VCol> -->
-                </VRow>
-              </div>
-              <div class="mt-2 w-100 bg-primary ">
-                <div class=" more_info_btn">
-                  <v-btn variant="text" class="w-100 px-0" @click="moreInfo = !moreInfo">
-                    Mas información
-                  </v-btn>
-                </div>
-              </div>
+        <transition 
+          mode="out-in" 
+          enter-active-class="animate__animated animate__flipInY" 
+          leave-active-class="animate__animated animate__flipOutY"
+        >
+          <VCard class=" px-0 pb-0 pt-2 d-flex flex-column align-center justify-space-between position-relative poilitic-card__image-content elevation-24" height="auto" v-if="!politic.show">
+            <div class="w-100 d-flex flex-column align-center h-300 "> 
+              
+              <VImg 
+                class="rounded-lg"
+                cover
+                :width="250"
+                height="200"
+                :src="politic.normal_photo"
+              />
             </div>
-          </div>
-        </VCard>
-
-        <VCard class=" px-0 pb-0 pt-0 " height="532" v-else>
-          <div class="w-100 mt-0 h-100 px-2 bg-white description ">
-            <div class="politic-button description-politic pt-md-5 pt-5 d-flex flex-column align-center justify-space-between h-100"   >
-              <div class=" w-100 px-0" style="">
-                <div>
-                  <div class="text-center ">
-                    <h5 class="text-h5 ">{{ politic.name }}</h5>
+            <div class="w-100 mt-0 h-40 px-2 bg-white description mt-5 " >
+              <div class="politic-button description-politic pt-md-4 pt-5 d-flex flex-column align-center justify-space-between h-100" >
+                <div class=" w-100 px-0" style="height: 150px;">
+                  <div>
+                    <div class="text-center ">
+                      <h5 class="text-h5 ">{{ politic.name }}</h5>
+                    </div>
                   </div>
-                </div>
-                <VRow class="pa-0 ma-0" >
-                    <VCol cols="12" class="px-2 pt-0"> 
-                      <div class="w-100 ">
-                        <h2 class="text-h6 text-center">Delitos</h2>
-                      </div>
+                  <VRow class="pa-0 ma-0">
+                    <VCol cols="7" md="7" class="px-2 pt-0"> 
                       <div class="mt-3 ">
-      
-                        <div class="text-subtitle-1 d-flex justify-cneter align-center mt-2">
-                          <b> ▪ 
-                            <span class="text-decoration-underline"> 
-                              Desvió de fondos nacionales.
-                            </span>
-                          </b>
+                        <div class="text-subtitle-2 ">
+                          <b>▪ Cargo: {{ politic.office }}</b>
                         </div>
-                        <div class="text-subtitle-1 d-flex justify-cneter align-center mt-2">
-                          <b> ▪ 
-                            <span class="text-decoration-underline"> 
-                              Crimenes de lesahumanidad.
-                            </span>
-                          </b>
+                        <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
+                          <b> ▪ Nacionalidad:</b>
+                          <img :src="`https://flagsapi.com/${politic.nationality}/shiny/24.png`" class="ms-1">
                         </div>
-                        <div class="text-subtitle-1 d-flex justify-cneter align-center mt-2">
-                          <b> ▪ 
-                            <span class="text-decoration-underline"> 
-                              Jefe del cartel de los soles.
-                            </span>
-                          </b>
+                        
+                      </div>
+                    </VCol>
+                    <VCol cols="5" md="5" class="px-1 pt-0"> 
+                      <div class="mt-3">
+                        <div class="text-subtitle-2 ">
+                          <b> ▪ Edad: {{ politic.age }} años</b>
                         </div>
-                        <div class="text-subtitle-1 d-flex justify-cneter align-center mt-2">
-                          <b> ▪ 
-                            <span class="text-decoration-underline"> 
-                              Corrupción.
-                            </span>
-                          </b>
-                        </div>
-                        <div class="text-subtitle-1 d-flex justify-cneter align-center mt-2">
-                          <b> ▪ 
-                            <span class="text-decoration-underline"> 
-                              Enriquicimiento ilicito.
-                            </span>
-                          </b>
+                        <div class="text-subtitle-2  mt-2">
+                          <b> ▪ Desde: {{ politic.since }}</b>
                         </div>
                       </div>
                     </VCol>
-                </VRow>
+                    <!-- <VCol cols="12"  class="d-flex justify-end pt-0">
+                      <v-btn icon="$edit" size="small"  color="white" class="bg-primary mx-2 politics-actions" @click="shoModal(politic.id, 'update')" />
+                      <v-btn icon="$delete" size="small"  color="white" class="bg-error mx-2 politics-actions" @click="shoModal(politic.id, 'delete')"/>
+                    </VCol> -->
+                  </VRow>
+                </div>
+                <div class="mt-2 w-100 bg-primary ">
+                  <div class=" more_info_btn">
+                    <v-btn variant="text" class="w-100 px-0" @click="getPoliticByID(politic.id)" >
+                      Mas información
+                    </v-btn>
+                  </div>
+                </div>
               </div>
-              <div class="mt-2 w-100 bg-primary ">
-                <div class=" more_info_btn">
-                  <v-btn variant="text" class="w-100 px-0" @click="moreInfo = !moreInfo">
-                    Mas información
+            </div>
+          </VCard>
+          <VCard class=" px-0 pb-0 pt-0  poilitic-card__image-content description elevation-24" height="540" v-else>
+            <div class="w-100 mt-0 h-100 px-2  description ">
+              <div class="politic-button description-politic  d-flex flex-column align-center justify-space-between h-100"   >
+                <div class="w-100 back-section_card">
+                  <div class="pa-2 pt-4 w-100 d-flex"  @click="unSelectPolictic(politic.id)">
+                    <v-icon icon="$back" class="mx-2 " />
+                    <span>
+                      Volver
+                    </span>
+                  </div>
+                </div>
+                <div class="w-100 d-flex flex-column align-center h-300 mt-8 "> 
+                  <VImg 
+                    class="rounded-lg"
+                    cover
+                    :width="250"
+                    height="155"
+                    :src="politic.normal_photo"
+                  />
+                </div>
+                <div class=" w-100 px-0">
+                  <div>
+                    <div class="text-center mt-2">
+                      <h5 class="text-h6 ">{{ politic.name }}</h5>
+                    </div>
+                  </div>
+                  <VRow class="pa-0 ma-0" >
+                      <VCol cols="12" class="px-2 pt-0"> 
+                        <div class="w-100 ">
+                          <h2 class="text-subtitle-1 text-center mt-1">Delitos</h2>
+                        </div>
+                        <div class="mt-3 ">
+        
+                          <div class="text-subtitle-1 d-flex align-center mt-2">
+                            <b> ▪ 
+                              <span class="text-decoration-underline"> 
+                                Desvió de fondos nacionales.
+                              </span>
+                            </b>
+                          </div>
+                          <div class="text-subtitle-1 d-flex align-center mt-2">
+                            <b> ▪ 
+                              <span class="text-decoration-underline"> 
+                                Crimenes de lesahumanidad.
+                              </span>
+                            </b>
+                          </div>
+                          <div class="text-subtitle-1 d-flex align-center mt-2">
+                            <b> ▪ 
+                              <span class="text-decoration-underline"> 
+                                Jefe del cartel de los soles.
+                              </span>
+                            </b>
+                          </div>
+                          <div class="text-subtitle-1 d-flex align-center mt-2">
+                            <b> ▪ 
+                              <span class="text-decoration-underline"> 
+                                Corrupción.
+                              </span>
+                            </b>
+                          </div>
+                          <div class="text-subtitle-1 d-flex align-center mt-2">
+                            <b> ▪ 
+                              <span class="text-decoration-underline"> 
+                                Enriquicimiento ilicito.
+                              </span>
+                            </b>
+                          </div>
+                        </div>
+                      </VCol>
+                  </VRow>
+                </div>
+                <div class="mt-2 w-100  d-flex justify-space-between px-8 pb-5">
+                  <v-btn variant="tonal"  class="bg-error px-4 vote-buttons" >
+                    No carcel
+                  </v-btn>
+                  <v-btn variant="tonal"  class="bg-success px-4 me-3 vote-buttons" >
+                    A la carcel
                   </v-btn>
                 </div>
               </div>
             </div>
-          </div>
-        </VCard>
-
-        
+          </VCard>
+        </transition>
       </VCol>
     </VRow>
     <v-dialog
@@ -426,7 +447,6 @@ import { GET_POLITICS, GET_POLITIC_BY_ID, STORE_POLITIC, UPDATE_POLITIC, DELETE_
 export default defineComponent({
   data: () => {
     return{
-      moreInfo:true,
       politics: [],
       selectedPolitic: {},
       dialogCreate: false,
@@ -459,23 +479,16 @@ export default defineComponent({
       })
     },
     getPoliticByID(idPolitic){
-      return new Promise( (resolve) => {
-        this.$store
-          .dispatch(GET_POLITIC_BY_ID, idPolitic)
-          .then((response) => {
-            // console.log(response)
-            this.selectedPolitic = Object.assign({}, response.data);
-            setTimeout(() => {
-              
-              resolve(response.data);
-            }, 700);
-          })
-      }).catch((err) => {
-          console.log(err)
-          return new Promise((resolve) => {
-            resolve(false);
-          });
-      });
+      
+      this.selectedPolitic = this.politics.find((politic) => politic.id == idPolitic);
+      this.selectedPolitic.show = true
+      console.log(this.selectedPolitic)
+
+    },
+    unSelectPolictic(id){
+      let politic = this.politics.find((politic) => politic.id == id);
+      politic.show = false
+
     },
     resetForm(){
       this.newPolitic = {
@@ -496,150 +509,97 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.description > .animate__animated{
-  animation-duration: 1s;
-}
-.dabo{
-  animation: 1s linear 0s  alternate forwards sun-rise;
-}
-.dabo2{
-  animation: 1s linear 0s  alternate forwards sun-rise2;
-}
-@keyframes sun-rise {
-  0%{
-    /* pushes the sun down past the viewport */
-    transform: rotateY(0deg);
+  .animate__animated{
+    animation-duration: 0.8s;
   }
-  45%{
-    transform: rotateY(90deg);
+  .back-section_card{
+    height: 25px;
+    cursor: pointer;
   }
-  98%{
-    opacity: 1;
+  .h-300{
+    height: 300px;
   }
-  99%{
-    margin-left: 0px;
-    opacity: 0;
+  .h-60{
+    height: 58.5%;
   }
-  100% {
-    opacity: 0!important;
-    /* returns the sun to its default position */
-    position: absolute!important;
-    margin-left: -1000px!important;
+  .h-40{
+    height: 40%;
   }
-}
-@keyframes sun-rise2 {
-  0%{
-    /* pushes the sun down past the viewport */
-    opacity: 0;
-    /* returns the sun to its default position */
-    position: absolute;
-    left: -1000px;
-    
+  .politic-button{
+    margin:0px -8px;
   }
-  1%{
-    left: 0px;
-    position: relative;
-    opacity: 0;
+  .poilitic-card__image-content{
+    max-height: 580px;
+    background: rgb(173,177,173);
+    background: radial-gradient(circle, rgb(211, 211, 211) 20%, rgb(238, 240, 238) 33%, #c2c3ec 100%);
   }
-  2%{
-    opacity: 1;
+  .description-politic{
+    box-shadow: 0px 0px 11px 0px #00000057;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
   }
-  45%{
-    
-    transform: rotateY(90deg);
+  .description{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
   }
-  100% {
-    transform: rotateY(0deg);
-    
+  .more_info_btn{
+    background: rgb(161 161 161);
+    transition: all 0.5s ease;
   }
-}
-.h-300{
-  height: 300px;
-}
-.h-60{
-  height: 58.5%;
-}
-.h-40{
-  height: 40%;
-}
-.politic-button{
-  margin:0px -8px;
-}
-.poilitic-card__image-content{
-  max-height: 532px;
-  background: rgb(173,177,173);
-  background: radial-gradient(circle, rgba(173,177,173,1) 16%, rgba(225,227,225,1) 33%, rgba(240,241,240,1) 100%);
-}
-.description-politic{
-  box-shadow: 0px 0px 11px 0px #00000057;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
-.description{
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
-.more_info_btn{
-  background: #e1e3e1;
-  transition: all 0.5s ease;
-  // &:hover{
-  //   background: #4647e3;
-  // }
-  // &:hover > button > .v-btn__content{
-  //   color: white!important;
-  // }
-}
-.politics {
-  .v-card-item{
-    padding-top: 0px;
+  .text-decoration-underline{
+    cursor: pointer;
   }
-}
-.v-overlay__scrim{
-  opacity: .9!important;
-}
-.politics-actions {
-  &:hover{
-    opacity: 0.9;
-    transform: scale(1.1);
+  .politics {
+    .v-card-item{
+      padding-top: 0px;
+    }
   }
-  & path{
-    color: white!important;
+  .v-overlay__scrim{
+    opacity: .9!important;
   }
-} 
-.w-100-50{
-  width: 50%;
-}
-.img-content{
-  position:relative;
-  width: auto;
-  max-width: fit-content;
-  border-radius: 10px;
-  &:hover > label > .overlay-img{
-    opacity: 1;
-    transform: scale(1);
-  }
-  & path{
-    color: white!important;
-  }
-}
-.overlay-img{
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: #3f3f3f70;
-  border-radius: 20px;
-  opacity: 0;
-  transform: scale(0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s ease-in;
-}
-@media screen and (max-width: 780px){
+  .politics-actions {
+    &:hover{
+      opacity: 0.9;
+      transform: scale(1.1);
+    }
+    & path{
+      color: white!important;
+    }
+  } 
   .w-100-50{
-    width: 100%;
+    width: 50%;
   }
-}
+  .img-content{
+    position:relative;
+    width: auto;
+    max-width: fit-content;
+    border-radius: 10px;
+    &:hover > label > .overlay-img{
+      opacity: 1;
+      transform: scale(1);
+    }
+    & path{
+      color: white!important;
+    }
+  }
+  .overlay-img{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #3f3f3f70;
+    border-radius: 20px;
+    opacity: 0;
+    transform: scale(0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in;
+  }
+  @media screen and (max-width: 780px){
+    .w-100-50{
+      width: 100%;
+    }
+  }
 </style>
