@@ -22,7 +22,7 @@
                   </div>
                 </div>
                 <VRow class="pa-0 ma-0">
-                  <VCol cols="7" md="6" class="px-2 pt-0"> 
+                  <VCol cols="7" md="6" class="px-1 pt-0"> 
                     <div class="mt-3 ">
                       <div class="text-subtitle-1 ">
                         <b>▪ Cargo: {{ politic.office }}</b>
@@ -34,7 +34,7 @@
                       
                     </div>
                   </VCol>
-                  <VCol cols="5" md="6" class="px-1 pt-0"> 
+                  <VCol cols="5" md="6" class="px-0 pt-0"> 
                     <div class="mt-3">
                       <div class="text-subtitle-1 ">
                         <b> ▪ Edad: {{ politic.age }} años</b>
@@ -73,7 +73,7 @@
                 <VRow class="pa-0 ma-0" >
                     <VCol cols="12" class="px-2 pt-0"> 
                       <div class="w-100 ">
-                        <h2 class="text-h6 text-center">Delitos</h2>
+                        <h2 class="text-h6 text-center mt-4">Delitos</h2>
                       </div>
                       <div class="mt-3 ">
       
