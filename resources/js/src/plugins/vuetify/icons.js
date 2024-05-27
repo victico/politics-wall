@@ -7,9 +7,11 @@ import {
   mdiViewDashboardEditOutline,
   mdiCloseCircleOutline,
   mdiCamera,
-  mdiCardAccountDetailsStar
+  mdiCardAccountDetailsStar,
+  mdiArrowLeft,
+  mdiListBoxOutline,
 } from '@mdi/js'
-import { mdilPlus, mdilHome, mdilChartLine, mdilLogout } from '@mdi/light-js'
+import { mdilPlus, mdilHome, mdilChartLine, mdilLogout, } from '@mdi/light-js'
 // const aliases = {
 //   collapse: 'bx-chevron-up',
 //   complete: 'bx-check',
@@ -74,6 +76,8 @@ export const icons = {
     close: mdiCloseCircleOutline,
     photo: mdiCamera,
     card: mdiCardAccountDetailsStar,
+    back: mdiArrowLeft,
+    listCrime: mdiListBoxOutline,
   },
   sets: {
     mdi,

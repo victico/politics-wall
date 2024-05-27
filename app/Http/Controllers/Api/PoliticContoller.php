@@ -14,7 +14,7 @@ class PoliticContoller extends Controller
     public function index(Request $request)
     {
         //
-        $allPolitics = Politic::query();
+        $allPolitics = Politic::query()->with(['crimes']);
         if(isset($request->status)){
             $allPolitics->where('status', $request->status);
         }
@@ -51,6 +51,7 @@ class PoliticContoller extends Controller
             'name' => $request->name,
             'office' => $request->office,
             'age' => $request->age,
+            'nationality' => $request->nationality,
             'since' => $request->since,
             'vote_jail' => 0,
             'vote_no_jail' => 0,
@@ -58,7 +59,7 @@ class PoliticContoller extends Controller
             'jail_photo' => $jailImgPath,
 
         ]);
-        return $this->returnSuccess(200,[$newPolitic, $file = $request->photo, $request->jail_photo]);
+        return $this->returnSuccess(200,[$newPolitic]);
     }
 
     /**
@@ -66,7 +67,7 @@ class PoliticContoller extends Controller
      */
     public function get(string $id)
     {
-        return $this->returnSuccess(200, Politic::find($id) );
+        return $this->returnSuccess(200, Politic::with(['crimes'])->find($id) );
     }
 
     /**
@@ -87,7 +88,6 @@ class PoliticContoller extends Controller
         $imgPath = $politic->normal_photo;
         $jailImgPath = $politic->jail_photo;
 
-
         if ($request->hasFile('photo_update')) {
             $imgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name ));
             $request->file('photo_update')->move('images/politics/', $imgPath);
@@ -97,10 +97,10 @@ class PoliticContoller extends Controller
             $request->file('jail_photo_update')->move('images/politics/', $jailImgPath);
         }
 
-
         $politic->name = $request->name;
         $politic->office = $request->office;
         $politic->age = $request->age;
+        $politic->nationality = $request->nationality;
         $politic->since = $request->since;
         $politic->normal_photo = $imgPath;
         $politic->jail_photo = $jailImgPath;
