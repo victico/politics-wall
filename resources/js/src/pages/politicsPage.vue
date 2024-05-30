@@ -210,7 +210,7 @@
     <div v-if=" Object.values(selectedPolitic).length > 1">
       <v-dialog
         v-model="dialogUpdate"
-        max-width="100%"
+        max-width="50%"
       >
         <v-card
           prepend-icon="$account"
@@ -348,7 +348,7 @@
       </v-dialog>
       <v-dialog
         v-model="dialogDelete"
-        max-width="100%"
+        max-width="50%"
       >
         <v-card
           prepend-icon="$account"
@@ -384,7 +384,7 @@
       </v-dialog>
       <v-dialog
         v-model="dialogCrimes"
-        max-width="100%"
+        max-width="50%"
       >
         <v-card
           prepend-icon="$listCrime"
@@ -392,7 +392,7 @@
         >
           <v-card-text class="mt-5">
             <div class="w-100 d-flex justify-end">
-              <v-btn prepend-icon="$plus" variant="tonal" @click="dialogCreate = true">
+              <v-btn prepend-icon="$plus" variant="tonal" @click="showInternalModal('createCrimes')">
                 Agregar delito
               </v-btn>
             </div>
@@ -438,116 +438,57 @@
       </v-dialog>
       <v-dialog
         v-model="dialogCreateCrimes"
-        max-width="100%"
+        max-width="50%"
       >
         <v-card
-          prepend-icon="$account"
-          title="Modificar Politico"
+          prepend-icon="$listCrime"
+          title="Creacion de delitos"
         >
           <v-card-text class="mt-5">
             <v-row dense>
-              <VCol cols="12" md="6" class="px-0 "> 
-                  <div class="img-content mx-auto">
-                    <label for="photo_update">
-                      <VImg
-                        width="180"
-                        height="180"
-                        class="rounded"
-                        :src="selectedPolitic.normal_photo"
-                        style="border-radius:10%!important"
-                        id="newProduct-img-content"
-                      />
-                      <div class="overlay-img">
-                        <VIcon color="white" size="x-large" icon="$photo"/>
-                      </div>
-                    </label>
-                    <div class="w-100 text-subtitle-2 text-center">
-                      Foto
-                    </div>
-                    <div   class="form-group text-center ma-0 mt-0 pa-0">
-                      <input type="file"  id="photo_update" ref="photoUpdate" name="photoUpdate" data-type="update" class="d-none" @change="onFileChange" >
-                    </div>
-                  </div>
-              </VCol>
-              <VCol cols="12" md="6" class="px-0 "> 
-                <div class="img-content mx-auto">
-                  <label for="jail_photo_update">
-                    <VImg
-                      width="180"
-                      height="180"
-                      class="rounded"
-                      :src="selectedPolitic.jail_photo"
-                      style="border-radius:10%!important"
-                      id="newProduct-img-content"
-                    />
-                    <div class="overlay-img">
-                      <VIcon color="white" size="x-large" icon="$photo"/>
-                    </div>
-                  </label>
-                  <div class="w-100 text-subtitle-1 text-center">
-                    Foto en la carcel
-                  </div>
-                  <div   class="form-group text-center ma-0 mt-0 pa-0">
-                    <input type="file"  id="jail_photo_update" ref="jailPhotoUpdate" name="jail_photo" data-type="update" class="d-none"  @change="onFileChange" >
-                  </div>
-                </div>
-              </VCol>
               <v-col
                 cols="12"
                 sm="6"
               >
                 <v-text-field
-                  label="Nombre*"
+                  label="Titulo del delito*"
                   required
-                  v-model="selectedPolitic.name"
-                ></v-text-field>
+                  v-model="createCrime.title"
+                />
               </v-col>
               <v-col
                 cols="12"
                 sm="6"
+                
               >
                 <v-text-field
-                  label="Cargo*"
-                  persistent-hint
+                  label="Fecha*"
                   required
-                  v-model="selectedPolitic.office"
-                ></v-text-field>
+                  v-model="createCrime.date"
+                />
               </v-col>
               <v-col
                 cols="12"
-                sm="4"
                 class="mt-5"
               >
-                <v-text-field
-                  label="Edad*"
-                  required
-                  v-model="selectedPolitic.age"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="4"
-                class="mt-5"
-              >
-                <v-text-field
-                  label="En el puesto desde*"
-                  required
-                  v-model="selectedPolitic.since"
-                ></v-text-field>
-              </v-col>
-                <v-col
-                cols="12"
-                sm="4"
-                class="mt-5"
-              >
-                <v-autocomplete
-                  label="Nacionalidad*"
-                  :items="nationality"
-                  item-title="en_short_name"
-                  item-value="alpha_2_code"
+                <v-textarea 
+                  label="Descripción del caso*"
                   variant="outlined"
-                  v-model="selectedPolitic.nationality"
-                ></v-autocomplete>
+                  required
+                  v-model="createCrime.description"
+                />
+              </v-col>
+              
+              <v-col
+                cols="12"
+                class="mt-5"
+              >
+                <v-textarea 
+                  label="Link de referencias*"
+                  variant="outlined"
+                  required
+                  v-model="createCrime.references"
+                />
               </v-col>
             </v-row>
   
@@ -562,14 +503,14 @@
             <v-btn
               text="Cerrar"
               variant="plain"
-              @click="dialogUpdate = false; "
+              @click="hideInternalModal('createCrimes') "
             ></v-btn>
   
             <v-btn
               color="primary"
-              text="Modificar"
+              text="Crear"
               variant="tonal"
-              @click="updatePolitic()"
+              @click="createCrimes()"
             ></v-btn>
           </v-card-actions>
         </v-card>
@@ -593,6 +534,8 @@ export default defineComponent({
       dialogDelete: false,
       dialogCreateCrimes: false,
       dialogCrimes: false,
+      dialogCrimesUpdate: true,
+      dialogCrimesDelete: true,
       newPolitic:{
         name:'',
         office:'',
@@ -602,6 +545,12 @@ export default defineComponent({
         photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png',
         jail_photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
 
+      },
+      createCrime:{
+        title: '',
+        description: '',
+        date: '',
+        references: '',
       },
       nationality,
     }
@@ -619,9 +568,19 @@ export default defineComponent({
         if(modal == 'delete') this.dialogDelete = true
         if(modal == 'update') this.dialogUpdate = true
         if(modal == 'crimes') this.dialogCrimes = true
-        if(modal == 'createCrimes') this.dialogCreateCrimes = true
-
       })
+    },
+    showInternalModal( modal = ""){
+      if(modal == 'createCrimes') this.dialogCreateCrimes = true
+      if(modal == 'delete') this.dialogCrimesDelete = true
+      if(modal == 'update') this.dialogCrimesUpdate = true
+      
+    },
+    hideInternalModal(modal){
+      if(modal == 'createCrimes') this.dialogCreateCrimes = false
+      if(modal == 'delete') this.dialogCrimesDelete = false
+      if(modal == 'update') this.dialogCrimesUpdate = false
+      this.dialogCrimes = true
     },
     getPoliticByID(idPolitic){
       return new Promise( (resolve) => {
@@ -711,6 +670,9 @@ export default defineComponent({
         this.getPolitics();
         this.dialogDelete = false; 
       })
+    },
+    createCrimes(){
+      alert('quevisaje')
     }
   },
   mounted(){

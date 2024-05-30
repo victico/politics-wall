@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Politic;
 use Illuminate\Http\Request;
 
-class PoliticContoller extends Controller
+class PoliticController extends Controller
 {
     /**
      * Display a listing of the resource.

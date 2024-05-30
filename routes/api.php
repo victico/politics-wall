@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\PoliticContoller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CrimeController;
+use App\Http\Controllers\Api\PoliticController;
 
 
 
@@ -17,10 +18,17 @@ use Illuminate\Support\Facades\Route;
 //     Route::get('/get-by-id/{id}',[UserController::class, 'getUserById']);
 // });
 Route::prefix('politic')->name('politic.')->group(function () {
-    Route::get('/', [PoliticContoller::class, 'index']);
-    Route::post('/', [PoliticContoller::class, 'store']);
-    Route::get('/{id}', [PoliticContoller::class, 'get']);
-    Route::post('/{id}', [PoliticContoller::class, 'update']);
-    Route::post('/delete/{id}', [PoliticContoller::class, 'destroy']);
+    Route::get('/', [PoliticController::class, 'index']);
+    Route::post('/', [PoliticController::class, 'store']);
+    Route::get('/{id}', [PoliticController::class, 'get']);
+    Route::post('/{id}', [PoliticController::class, 'update']);
+    Route::post('/delete/{id}', [PoliticController::class, 'destroy']);
+
+});
+Route::prefix('crime')->name('crime.')->group(function () {
+    Route::post('/', [CrimeController::class, 'store']);
+    Route::get('/{id}', [CrimeController::class, 'show']);
+    Route::post('/{id}', [CrimeController::class, 'update']);
+    Route::post('/delete/{id}', [CrimeController::class, 'destroy']);
 
 });
