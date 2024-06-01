@@ -71,7 +71,7 @@
     </VRow>
     <v-dialog
       v-model="dialogCreate"
-      max-width="100%"
+      max-width="50%"
     >
       <v-card
         prepend-icon="$account"
@@ -407,8 +407,8 @@
                     </b>
                   </div>
                   <div class="d-flex justify-end w-25">
-                    <v-btn icon="$edit" size="x-small"  color="white" class="bg-primary mx-2 politics-actions" @click="showModal(politic.id, 'update')" />
-                    <v-btn icon="$delete" size="x-small"  color="white" class="bg-error mx-2 politics-actions" @click="showModal(politic.id, 'crimes')"/>
+                    <v-btn icon="$edit" size="x-small"  color="white" class="bg-primary mx-2 politics-actions" @click="selectCrime(crime.id, 'update')" />
+                    <v-btn icon="$delete" size="x-small"  color="white" class="bg-error mx-2 politics-actions" @click="selectCrime(crime.id, 'delete')"/>
                   </div>
                 </div>
               </VCol>
@@ -437,7 +437,7 @@
         </v-card>
       </v-dialog>
       <v-dialog
-        v-model="dialogCreateCrimes"
+        v-model="dialogCrimesCreate"
         max-width="50%"
       >
         <v-card
@@ -462,11 +462,16 @@
                 
               >
                 <v-text-field
-                  label="Fecha*"
-                  required
-                  v-model="createCrime.date"
+                  placeholder="Fecha"
+                  label="Fecha"
+                  type="text"
+                  name="newCrimeDate"
+                  ref="newCrimeDate"
+                  id="date-create-crimes"
                 />
+                <input type="hidden" id="date-input-val-crimes" ref="dateCreateCrimes" >
               </v-col>
+
               <v-col
                 cols="12"
                 class="mt-5"
@@ -503,7 +508,7 @@
             <v-btn
               text="Cerrar"
               variant="plain"
-              @click="hideInternalModal('createCrimes') "
+              @click="hideInternalModal('createCrimes')"
             ></v-btn>
   
             <v-btn
@@ -515,27 +520,160 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog
+        v-model="dialogCrimesUpdate"
+        max-width="50%"
+      >
+        <v-card
+          prepend-icon="$listCrime"
+          title="Modificación de delitos"
+        >
+          <v-card-text class="mt-5">
+            <v-row dense>
+              <v-col
+                cols="12"
+                sm="6"
+              >
+                <v-text-field
+                  label="Titulo del delito*"
+                  required
+                  v-model="selectedCrime.title"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                
+              >
+                <v-text-field
+                  placeholder="Fecha"
+                  label="Fecha"
+                  type="text"
+                  name="UpdateCrimeDate"
+                  ref="UpdateCrimeDate"
+                  id="date-update-crimes"
+                />
+                <input type="hidden" id="date-input-val-crimes-update" ref="dateUpdateCrimes" >
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="mt-5"
+              >
+                <v-textarea 
+                  label="Descripción del caso*"
+                  variant="outlined"
+                  required
+                  v-model="selectedCrime.description"
+                />
+              </v-col>
+              
+              <v-col
+                cols="12"
+                class="mt-5"
+              >
+                <v-textarea 
+                  label="Link de referencias*"
+                  variant="outlined"
+                  required
+                  v-model="selectedCrime.references"
+                />
+              </v-col>
+            </v-row>
+  
+            <!-- <small class="text-caption text-medium-emphasis">*indicates required field</small> -->
+          </v-card-text>
+  
+          <v-divider></v-divider>
+  
+          <v-card-actions>
+            <v-spacer></v-spacer>
+  
+            <v-btn
+              text="Cerrar"
+              variant="plain"
+              @click="hideInternalModal('update')"
+            ></v-btn>
+  
+            <v-btn
+              color="primary"
+              text="Crear"
+              variant="tonal"
+              @click="createCrimes()"
+            ></v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        v-model="dialogCrimesDelete"
+        max-width="50%"
+      >
+        <v-card
+          prepend-icon="$listCrime"
+          title="Eliminar Delito"
+        >
+          <v-card-text class="mt-5">
+            <v-row dense>
+              <VCol cols="12" class="px-0 "> 
+                <div class="">
+                    <h3>¿Seguro que desea eliminar  <b>"{{ selectedCrime.title }}"</b> de {{selectedPolitic.name}}?</h3>
+                </div>
+              </VCol>
+            </v-row>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+  
+            <v-btn
+              text="Cerrar"
+              variant="plain"
+              @click="hideInternalModal('delete')"
+            ></v-btn>
+  
+            <v-btn
+              color="error"
+              text="Eliminar"
+              variant="tonal"
+              @click="deleteCrime()"
+            ></v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </div>
 </template>
 <script>
 import { defineComponent } from 'vue'
 import { GET_POLITICS, GET_POLITIC_BY_ID, STORE_POLITIC, UPDATE_POLITIC, DELETE_POLITIC } from '@/core/services/store/politic.module'
+import { STORE_CRIME, DELETE_CRIME } from '@/core/services/store/crime.module'
+
 // import * as bootstrap from 'bootstrap'
 import nationality from '@/core/plugins/nationalityJson'
+import moment from 'moment';
+import flatpickr from "flatpickr";
+import 'flatpickr/dist/themes/confetti.css';
+import { Spanish } from "flatpickr/dist/l10n/es.js";
 export default defineComponent({
   data: () => {
     return{
-      politics: [],
-      selectedPolitic: {},
-      dialogCreate: false,
-      dialogUpdate: false,
-      dialogReport: false,
+      createCrime:{
+        title: '',
+        description: '',
+        date: '',
+        references: '',
+      },
       dialogDelete: false,
-      dialogCreateCrimes: false,
+      dialogCreate: false,
+      dialogReport: false,
+      dialogUpdate: false,
+      dialogCrimesCreate: false,
       dialogCrimes: false,
-      dialogCrimesUpdate: true,
-      dialogCrimesDelete: true,
+      dialogCrimesDelete: false,
+      dialogCrimesUpdate: false,
+      dialogCrimesView: false,
+      inputDate:'',
+      nationality,
       newPolitic:{
         name:'',
         office:'',
@@ -546,13 +684,9 @@ export default defineComponent({
         jail_photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
 
       },
-      createCrime:{
-        title: '',
-        description: '',
-        date: '',
-        references: '',
-      },
-      nationality,
+      politics: [],
+      selectedCrime: {},
+      selectedPolitic: {},
     }
   },
   methods:{
@@ -571,16 +705,24 @@ export default defineComponent({
       })
     },
     showInternalModal( modal = ""){
-      if(modal == 'createCrimes') this.dialogCreateCrimes = true
+      if(modal == 'createCrimes') { 
+        this.dialogCrimesCreate = true
+        setTimeout(() => {
+          this.initFlatpickr()
+        },500)
+      }
       if(modal == 'delete') this.dialogCrimesDelete = true
       if(modal == 'update') this.dialogCrimesUpdate = true
+      if(modal == 'view') this.dialogCrimesView = true
+     
       
     },
     hideInternalModal(modal){
-      if(modal == 'createCrimes') this.dialogCreateCrimes = false
+      if(modal == 'createCrimes') this.dialogCrimesCreate = false
       if(modal == 'delete') this.dialogCrimesDelete = false
       if(modal == 'update') this.dialogCrimesUpdate = false
-      this.dialogCrimes = true
+      if(modal == 'view') this.dialogCrimesView = false
+      this.dialogCrimes = true;
     },
     getPoliticByID(idPolitic){
       return new Promise( (resolve) => {
@@ -615,16 +757,28 @@ export default defineComponent({
       : this.newPolitic.photo = URL.createObjectURL(element.files[0]) 
       
     },
-    resetForm(){
-      this.newPolitic = {
-        name:'',
-        office:'',
-        age:'',
-        nationality:'PE',
-        since:'',
-        photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png',
-        jail_photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
-
+    resetForm(id = 'new'){
+      if(id == 'new'){
+        this.newPolitic = {
+          name:'',
+          office:'',
+          age:'',
+          nationality:'PE',
+          since:'',
+          photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png',
+          jail_photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
+  
+        }
+        return
+      }
+      if(id == 'newCrime'){
+        this.inputDate.clear();
+        this.createCrime = {
+          title: '',
+          description: '',
+          date: '',
+          references: '',
+        };
       }
     },
     createPolitic(){
@@ -672,7 +826,47 @@ export default defineComponent({
       })
     },
     createCrimes(){
-      alert('quevisaje')
+      const data = new FormData();
+      data.append('title', this.createCrime.title)
+      data.append('description', this.createCrime.description)
+      data.append('date', this.$refs.dateCreateCrimes.value)
+      data.append('references', this.createCrime.references)
+      data.append('user_id', this.selectedPolitic.id)
+
+      this.$store
+      .dispatch(STORE_CRIME, data)
+      .then((response) =>{
+        this.getPolitics();
+        this.selectedPolitic = Object.assign({}, response.data);
+        this.resetForm('newCrime');
+        this.hideInternalModal('createCrimes')
+      })
+    },
+    deleteCrime(){
+      this.$store
+      .dispatch(DELETE_CRIME, this.selectedCrime.id)
+      .then((response) => {
+        this.getPolitics();
+        this.selectedPolitic = Object.assign({}, response.data);
+        this.hideInternalModal('delete')
+      })
+    },
+    initFlatpickr(){
+      this.inputDate = flatpickr(document.getElementById('date-create-crimes'), {
+        dateFormat: 'd/m/Y',
+        maxDate: "today",
+        locale: Spanish,
+        disableMobile:true,
+        onClose: function (selectedDate) {
+          document.querySelector('#date-input-val-crimes').value = moment(selectedDate[0]).format('YYYY-MM-DD')
+        }
+      });
+    },
+    selectCrime(id, modal){
+      this.selectedCrime = this.selectedPolitic.crimes.find((crime) => crime.id == id);
+      setTimeout(() => {
+        this.showInternalModal(modal)
+      }, 400);
     }
   },
   mounted(){

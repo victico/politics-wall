@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Crime;
+use App\Models\Politic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -33,11 +34,11 @@ class CrimeController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'date' => $request->date,
-            'refrences' => $request->refrences,
+            'references' => $request->references,
             'user_id' => $request->user_id,
 
         ]);
-        return $this->returnSuccess(200,[$newCrime]);
+        return $this->returnSuccess(200, Politic::with(['crimes'])->find($newCrime->user_id));
     }
 
     /**
@@ -66,7 +67,7 @@ class CrimeController extends Controller
         $crime->title = $request->title;
         $crime->description = $request->description;
         $crime->date = $request->date;
-        $crime->refrences = $request->refrences;
+        $crime->refrences = $request->references;
         $crime->user_id = $request->user_id;
         
         $crime->save();
@@ -82,6 +83,6 @@ class CrimeController extends Controller
         $crime = Crime::find($id);
         $crime->delete();
 
-        return $this->returnSuccess(200, $crime);
+        return $this->returnSuccess(200, Politic::with(['crimes'])->find($crime->user_id));
     }
 }
