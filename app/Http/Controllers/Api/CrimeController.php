@@ -6,6 +6,7 @@ use App\Models\Crime;
 use App\Models\Politic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Date;
 
 class CrimeController extends Controller
 {
@@ -36,7 +37,6 @@ class CrimeController extends Controller
             'date' => $request->date,
             'references' => $request->references,
             'user_id' => $request->user_id,
-
         ]);
         return $this->returnSuccess(200, Politic::with(['crimes'])->find($newCrime->user_id));
     }
@@ -62,17 +62,14 @@ class CrimeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         $crime = Crime::find($id);
         $crime->title = $request->title;
         $crime->description = $request->description;
-        $crime->date = $request->date;
-        $crime->refrences = $request->references;
-        $crime->user_id = $request->user_id;
+        $crime->date = empty($request->date) ? $crime->date : $request->date;
+        $crime->references = empty($request->references) ? $crime->references : $request->references;
         
         $crime->save();
-        return $this->returnSuccess(200, $crime);
-
+        return $this->returnSuccess(200, Politic::with(['crimes'])->find($crime->user_id));
     }
 
     /**
@@ -82,7 +79,6 @@ class CrimeController extends Controller
     {
         $crime = Crime::find($id);
         $crime->delete();
-
         return $this->returnSuccess(200, Politic::with(['crimes'])->find($crime->user_id));
     }
 }

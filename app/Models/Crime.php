@@ -14,7 +14,7 @@ class Crime extends Model
         'title', 
         'description', 
         'date', 
-        'refrences', 
+        'references', 
         'user_id',
     ];
     public function politic(): BelongsTo

@@ -401,7 +401,7 @@
                 <div class="mt-3 d-flex align-center" v-for="(crime, index) in selectedPolitic.crimes" :key="index" >
                   <div class="text-subtitle-1 d-flex align-center mt-2 w-75">
                     <b> ▪ 
-                      <span class="text-decoration-underline"> 
+                      <span class="text-decoration-underline" @click="selectCrime(crime.id, 'view')"> 
                         {{crime.title}}
                       </span>
                     </b>
@@ -469,7 +469,7 @@
                   ref="newCrimeDate"
                   id="date-create-crimes"
                 />
-                <input type="hidden" id="date-input-val-crimes" ref="dateCreateCrimes" >
+                <input type="hidden" id="date-input-val-date-create-crimes" ref="dateCreateCrimes" >
               </v-col>
 
               <v-col
@@ -553,7 +553,7 @@
                   ref="UpdateCrimeDate"
                   id="date-update-crimes"
                 />
-                <input type="hidden" id="date-input-val-crimes-update" ref="dateUpdateCrimes" >
+                <input type="hidden" id="date-input-val-date-update-crimes" ref="dateUpdateCrimes" >
               </v-col>
 
               <v-col
@@ -588,18 +588,16 @@
   
           <v-card-actions>
             <v-spacer></v-spacer>
-  
             <v-btn
               text="Cerrar"
               variant="plain"
               @click="hideInternalModal('update')"
             ></v-btn>
-  
             <v-btn
               color="primary"
-              text="Crear"
+              text="Modificar"
               variant="tonal"
-              @click="createCrimes()"
+              @click="updateCrime()"
             ></v-btn>
           </v-card-actions>
         </v-card>
@@ -640,13 +638,70 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog
+        v-model="dialogCrimesView"
+        max-width="50%"
+      >
+        <v-card
+          prepend-icon="$listCrime"
+          title="Detalles del delitos"
+        >
+          <v-card-text class="mt-5 pb-0">
+            <v-row dense>
+              <v-col
+                cols="12"
+                class="mt-4"
+              >
+                <h1 class="text-right me-2">
+                 Fecha: {{ moment(selectedCrime.date).format('DD/MM/YYYY') }}
+                </h1>
+              </v-col>
+              <v-col
+                cols="12"
+                class="mt-0"
+              >
+                <h1 class="text-h5 text-center">
+                  {{ selectedCrime.title }}.
+                </h1>
+              </v-col>
+              <v-col
+                cols="12"
+                class="mt-4"
+              >
+                <div>
+                  - {{ selectedCrime.description }}
+                </div>
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="mt-4"
+              >
+                <div>
+                  Referencias: <a :href="selectedCrime.references" target="_blank"><span class="text-decoration-underline">{{ selectedCrime.references }}</span></a>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              text="Cerrar"
+              variant="plain"
+              @click="hideInternalModal('view')"
+            ></v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      
     </div>
   </div>
 </template>
 <script>
 import { defineComponent } from 'vue'
 import { GET_POLITICS, GET_POLITIC_BY_ID, STORE_POLITIC, UPDATE_POLITIC, DELETE_POLITIC } from '@/core/services/store/politic.module'
-import { STORE_CRIME, DELETE_CRIME } from '@/core/services/store/crime.module'
+import { DELETE_CRIME, STORE_CRIME, UPDATE_CRIME } from '@/core/services/store/crime.module'
 
 // import * as bootstrap from 'bootstrap'
 import nationality from '@/core/plugins/nationalityJson'
@@ -687,6 +742,7 @@ export default defineComponent({
       politics: [],
       selectedCrime: {},
       selectedPolitic: {},
+      moment,
     }
   },
   methods:{
@@ -706,13 +762,18 @@ export default defineComponent({
     },
     showInternalModal( modal = ""){
       if(modal == 'createCrimes') { 
-        this.dialogCrimesCreate = true
+        this.dialogCrimesCreate = true;
         setTimeout(() => {
-          this.initFlatpickr()
-        },500)
+          this.initFlatpickr('date-create-crimes')
+        },200)
       }
       if(modal == 'delete') this.dialogCrimesDelete = true
-      if(modal == 'update') this.dialogCrimesUpdate = true
+      if(modal == 'update') {
+        this.dialogCrimesUpdate = true;
+        setTimeout(() => {
+          this.initFlatpickr('date-update-crimes');
+        },200)
+      }
       if(modal == 'view') this.dialogCrimesView = true
      
       
@@ -851,16 +912,37 @@ export default defineComponent({
         this.hideInternalModal('delete')
       })
     },
-    initFlatpickr(){
-      this.inputDate = flatpickr(document.getElementById('date-create-crimes'), {
+    updateCrime(){
+      const data = new FormData();
+      data.append('title', this.selectedCrime.title)
+      data.append('description', this.selectedCrime.description)
+      data.append('date', this.$refs.dateUpdateCrimes.value)
+      data.append('references', this.selectedCrime.references)
+
+      this.$store
+      .dispatch(UPDATE_CRIME, {id:this.selectedCrime.id, data:data})
+      .then((response) =>{
+        this.getPolitics();
+        this.selectedPolitic = Object.assign({}, response.data);
+        // this.resetForm('newCrime');
+        this.hideInternalModal('update')
+      })
+    },
+    initFlatpickr(id){
+      this.inputDate = flatpickr(document.getElementById(id), {
         dateFormat: 'd/m/Y',
         maxDate: "today",
         locale: Spanish,
         disableMobile:true,
         onClose: function (selectedDate) {
-          document.querySelector('#date-input-val-crimes').value = moment(selectedDate[0]).format('YYYY-MM-DD')
+          document.querySelector('#date-input-val-'+id).value = moment(selectedDate[0]).format('YYYY-MM-DD')
         }
       });
+      if(id == 'date-update-crimes'){
+        console.log(id)
+        console.log(this.selectedCrime.date)
+        this.inputDate.setDate(moment(this.selectedCrime.date).format('DD-MM-YYYY'),true);
+      }
     },
     selectCrime(id, modal){
       this.selectedCrime = this.selectedPolitic.crimes.find((crime) => crime.id == id);
