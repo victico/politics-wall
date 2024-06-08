@@ -107,7 +107,7 @@
                         </div>
                         <div v-else >
                           <h3 class="text-center text-h6 my-2">
-                            No tiene delitos Registrado
+                            No tiene delitos registrado
                           </h3>
                         </div>
                       </VCol>

@@ -125,7 +125,7 @@
             <v-btn
               text="Cerrar"
               variant="plain"
-              @click="dialogCreate = false; resetForm()"
+              @click="closeModal()"
             ></v-btn>
   
             <v-btn
@@ -141,6 +141,8 @@
 <script>
 import { defineComponent } from 'vue'
 import nationality from '@/core/plugins/nationalityJson'
+import { STORE_POLITIC } from '@/core/services/store/politic.module'
+
 export default defineComponent({
   props:[
     'dialog'
@@ -170,9 +172,48 @@ export default defineComponent({
       : this.newPolitic.photo = URL.createObjectURL(element.files[0]) 
       
     },
+    resetForm(){
+      this.newPolitic = {
+        name:'',
+        office:'',
+        age:'',
+        nationality:'PE',
+        since:'',
+        photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png',
+        jail_photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
+
+      }
+    },
+    createPolitic(){
+      const data = new FormData();
+      data.append('name', this.newPolitic.name)
+      data.append('office', this.newPolitic.office)
+      data.append('age', this.newPolitic.age)
+      data.append('nationality', this.newPolitic.nationality)
+      data.append('since', this.newPolitic.since)
+      data.append('photo', this.$refs.photo.files[0])
+      data.append('jail_photo', this.$refs.jailPhoto.files[0])
+
+      this.$store
+      .dispatch(STORE_POLITIC, data)
+      .then((data) =>{
+         this.$emit("refresh")
+        this.closeModal();
+      })
+    },
+    closeModal(){
+      this.resetForm()
+      this.$emit("hideModal", 'create')
+    }
   },
   mounted(){
-    console.log('abusooo')
-  }
+  },
+  watch: {
+    // whenever question changes, this function will run
+    dialog(newQuestion, oldQuestion) {
+      // console.log('ooo')
+      this.dialogCreate = newQuestion
+    }
+  },
 })
 </script>

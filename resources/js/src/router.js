@@ -66,6 +66,14 @@ const router = createRouter({
         title: 'Bienvenido'
       },
     },
+    {
+      path: "/client",
+      name: "Client",
+      component: () => import('@/pages/clientHomePage.vue'),
+      meta: {
+        title: 'Bienvenido'
+      },
+    }
     // {
     //   path: '/404',
     //   component: () => import('@/pages/[...all].vue'),

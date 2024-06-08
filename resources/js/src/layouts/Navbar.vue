@@ -1,27 +1,15 @@
 <template>
   <nav class="d-flex justify-center position-fixed mt-2 desktop ">
     <v-bottom-navigation grow class=" position-relative rounded-pill">
-      <RouterLink to="/">
-        <v-btn value="home" class="mx-md-5 menu-btns h-100">
-          <VIcon icon="$home" />
-          <span>Home</span>
-        </v-btn>
-      </RouterLink>
       
       <RouterLink to="/politics">
-        <v-btn value="favorites" class="mx-md-5 menu-btns h-100">
+        <v-btn value="politics" class="mx-md-5 menu-btns h-100">
           <VIcon icon="$politic" />
           <span>Politicos</span>
         </v-btn>
       </RouterLink>
-      <RouterLink to="/">
-        <v-btn value="nearby" class="mx-md-5 menu-btns h-100">
-          <VIcon icon="$report" />
-          <span>Estadisticas</span>
-        </v-btn>
-      </RouterLink>
       <RouterLink to="/view">
-        <v-btn value="nearby" class="mx-md-5 menu-btns h-100">
+        <v-btn value="view" class="mx-md-5 menu-btns h-100">
           <VIcon icon="$card" />
           <span>View</span>
         </v-btn>
