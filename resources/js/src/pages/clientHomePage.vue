@@ -1,15 +1,15 @@
 <template>
   <div>
     <nav style="" class="nav-bar-homepage" >
-      <div class="h-100 d-flex w-100 align-center px-5">
-        <div class="h-100 px-5 py-2 w-75"> 
-          <h1 class="text-h2" style="color:red!important">
+      <div class="h-100 d-flex flex-md-row flex-column w-100 align-center px-5">
+        <div class="h-100 px-5 py-2 w-100 "> 
+          <h1 class="text-h2 text-center" style="color:red!important">
             El Muro
           </h1>
         </div>
-        <div class="w-25">
-          <div class="d-flex w-100 justify-end">
-            <RouterLink to="/client">
+        <div class="w-100 mb-3 mb-md-0">
+          <div class="d-flex w-100 justify-center justify-md-end ">
+            <RouterLink to="/">
               <div class="text-white mx-5">Muro</div>
             </RouterLink>
             <RouterLink to="/client">

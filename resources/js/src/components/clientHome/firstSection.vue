@@ -111,11 +111,11 @@
                           </VCol>
                       </VRow>
                     </div>
-                    <div class="mt-2 w-100  d-flex justify-space-between px-8 pb-5">
-                      <v-btn variant="tonal"  class="bg-error px-4 vote-buttons" >
+                    <div class="mt-2 w-100  d-flex justify-center justify-md-space-between px-md-8 px-2 pb-5">
+                      <v-btn variant="tonal"  class="bg-error px-4 mx-1 vote-buttons" >
                         No carcel
                       </v-btn>
-                      <v-btn variant="tonal"  class="bg-success px-4 me-3 vote-buttons" >
+                      <v-btn variant="tonal"  class="bg-success px-4 mx-1 vote-buttons" >
                         A la carcel
                       </v-btn>
                     </div>
