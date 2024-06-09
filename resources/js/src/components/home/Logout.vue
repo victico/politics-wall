@@ -1,7 +1,7 @@
 <template>
   <div class="w-100 d-flex mt-4 align-center">
 
-    <v-btn value="favorites" class="mx-5 bg-secondary">
+    <v-btn value="favorites" class="mx-5 bg-secondary" @click="logout()">
        <VIcon icon="$logout" class="mx-2" />
        <span>Salir</span>
      </v-btn>
@@ -16,5 +16,10 @@ export default defineComponent({
   setup() {
     
   },
+  methods: {
+    logout(){
+      this.$router.push('/')
+    }
+  }
 })
 </script>

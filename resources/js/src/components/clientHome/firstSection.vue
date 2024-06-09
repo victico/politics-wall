@@ -1,138 +1,133 @@
 <template>
-  <Carousel :itemsToShow="4" :wrapAround="true" :transition="500">
-    <Slide v-for="(politic, index) in politics" :key="index">
-      <div class="carousel__item w-100">
-        <div class="w-100">
-          <transition 
-            mode="out-in" 
-            enter-active-class="animate__animated animate__flipInY" 
-            leave-active-class="animate__animated animate__flipOutY"
-          >
-            <VCard class="w-100 px-0 pb-0 pt-2 ms-12 d-flex flex-column align-center justify-space-between position-relative poilitic-card__image-content elevation-24" height="auto" v-if="!politic.show">
-              <div class="w-100 d-flex flex-column align-center h-300 "> 
-                
-                <VImg 
-                  class="rounded-lg"
-                  cover
-                  :width="250"
-                  height="200"
-                  :src="politic.normal_photo"
-                />
-              </div>
-              <div class="w-100 mt-0 h-40 px-2 bg-white description mt-5 " >
-                <div class="politic-button description-politic pt-md-4 pt-5 d-flex flex-column align-center justify-space-between h-100" >
-                  <div class=" w-100 px-0" style="height: 150px;">
-                    <div>
-                      <div class="text-center ">
-                        <h5 class="text-h5 ">{{ politic.name }}</h5>
+  <div class="mt-14">
+    <Carousel :itemsToShow="view" :wrapAround="true" :transition="500" @slide-start="handleSlideStart">
+      <Slide v-for="(politic, index) in politics" :key="index">
+        <div class="carousel__item w-100">
+          <div class="w-100 cards-content">
+            <transition 
+              mode="out-in" 
+              enter-active-class="animate__animated animate__flipInY" 
+              leave-active-class="animate__animated animate__flipOutY"
+            >
+              <VCard class="w-100 px-0 pb-0 pt-2 rounded-xl d-flex flex-column align-center justify-space-between position-relative poilitic-card__image-content" height="auto" v-if="!politic.show">
+                <div class="w-100 d-flex flex-column align-center h-300 "> 
+                  
+                  <VImg 
+                    class="rounded-lg"
+                    cover
+                    :width="250"
+                    height="200"
+                    :src="politic.normal_photo"
+                  />
+                </div>
+                <div class="w-100 mt-0 h-40 px-2 bg-white description mt-5 " >
+                  <div class="politic-button description-politic pt-md-4 pt-5 d-flex flex-column align-center justify-space-between h-100" >
+                    <div class=" w-100 px-0" style="height: 150px;">
+                      <div>
+                        <div class="text-center ">
+                          <h5 class="text-h5 ">{{ politic.name }}</h5>
+                        </div>
+                      </div>
+                      <VRow class="pa-0 ma-0">
+                        <VCol cols="7" md="8" class="px-2 pt-0"> 
+                          <div class="mt-3 ">
+                            <div class="text-subtitle-2 d-flex justify-start align-center">
+                              <b class="text-start">▪ Cargo: {{ politic.office }}</b>
+                            </div>
+                            <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
+                              <b> ▪ Nacionalidad:</b>
+                              <img :src="`https://flagsapi.com/${politic.nationality}/shiny/24.png`" class="ms-1">
+                            </div>
+                            
+                          </div>
+                        </VCol>
+                        <VCol cols="5" md="4" class="px-1 pt-0"> 
+                          <div class="mt-3">
+                            <div class="text-subtitle-2 d-flex justify-start align-center">
+                              <b class="text-start"> ▪ Edad: {{ politic.age }} años</b>
+                            </div>
+                            <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
+                              <b class="text-start"> ▪ Desde: {{ politic.since }}</b>
+                            </div>
+                          </div>
+                        </VCol>
+                      </VRow>
+                    </div>
+                    <div class="mt-2 w-100 bg-primary ">
+                      <div class=" more_info_btn">
+                        <v-btn variant="text" class="w-100 px-0" @click="getPoliticByID(politic.id)" >
+                          Mas información
+                        </v-btn>
                       </div>
                     </div>
-                    <VRow class="pa-0 ma-0">
-                      <VCol cols="7" md="8" class="px-2 pt-0"> 
-                        <div class="mt-3 ">
-                          <div class="text-subtitle-2 d-flex justify-start align-center">
-                            <b class="text-start">▪ Cargo: {{ politic.office }}</b>
-                          </div>
-                          <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
-                            <b> ▪ Nacionalidad:</b>
-                            <img :src="`https://flagsapi.com/${politic.nationality}/shiny/24.png`" class="ms-1">
-                          </div>
-                          
-                        </div>
-                      </VCol>
-                      <VCol cols="5" md="4" class="px-1 pt-0"> 
-                        <div class="mt-3">
-                          <div class="text-subtitle-2 d-flex justify-start align-center">
-                            <b class="text-start"> ▪ Edad: {{ politic.age }} años</b>
-                          </div>
-                          <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
-                            <b class="text-start"> ▪ Desde: {{ politic.since }}</b>
-                          </div>
-                        </div>
-                      </VCol>
-                    </VRow>
                   </div>
-                  <div class="mt-2 w-100 bg-primary ">
-                    <div class=" more_info_btn">
-                      <v-btn variant="text" class="w-100 px-0" @click="getPoliticByID(politic.id)" >
-                        Mas información
+                </div>
+              </VCard>
+              <VCard class=" w-100 px-0 pb-0 pt-0 rounded-xl poilitic-card__image-content description " height="540" v-else>
+                <div class="w-100 mt-0 h-100 px-2  description ">
+                  <div class="politic-button description-politic  d-flex flex-column align-center justify-space-between h-100"   >
+                    <div class="w-100 back-section_card">
+                      <div class="pa-2 pt-4 w-100 d-flex"  @click="unSelectPolictic(politic.id)">
+                        <v-icon icon="$back" class="mx-2 " />
+                        <span>
+                          Volver
+                        </span>
+                      </div>
+                    </div>
+                    <div class="w-100 d-flex flex-column align-center h-300 mt-8 "> 
+                      <VImg 
+                        class="rounded-lg"
+                        cover
+                        :width="280"
+                        height="155"
+                        :src="politic.normal_photo"
+                      />
+                    </div>
+                    <div class=" w-100 px-0">
+                      <div>
+                        <div class="text-center mt-2">
+                          <h5 class="text-h6 ">{{ politic.name }}</h5>
+                        </div>
+                      </div>
+                      <VRow class="pa-0 ma-0" >
+                          <VCol cols="12" class="px-2 pt-0"> 
+                            <div class="w-100 ">
+                              <h2 class="text-subtitle-1 text-center mt-1" v-if="politic.crimes.length > 0">Delitos</h2>
+                            </div>
+                            <div class="mt-3" v-if="politic.crimes.length > 0">
+                              <div class="text-subtitle-1 d-flex align-center mt-2" v-for="(crime, index) in politic.crimes" :key="index">
+                                <b> ▪ 
+                                  <span class="text-decoration-underline"> 
+                                    {{crime.title}}
+                                  </span>
+                                </b>
+                              </div>
+                            </div>
+                            <div v-else >
+                              <h3 class="text-center text-h6 my-2">
+                                No tiene delitos registrado
+                              </h3>
+                            </div>
+                          </VCol>
+                      </VRow>
+                    </div>
+                    <div class="mt-2 w-100  d-flex justify-space-between px-8 pb-5">
+                      <v-btn variant="tonal"  class="bg-error px-4 vote-buttons" >
+                        No carcel
+                      </v-btn>
+                      <v-btn variant="tonal"  class="bg-success px-4 me-3 vote-buttons" >
+                        A la carcel
                       </v-btn>
                     </div>
                   </div>
                 </div>
-              </div>
-            </VCard>
-            <VCard class=" w-100 px-0 pb-0 pt-0 ms-12  poilitic-card__image-content description elevation-24" height="540" v-else>
-              <div class="w-100 mt-0 h-100 px-2  description ">
-                <div class="politic-button description-politic  d-flex flex-column align-center justify-space-between h-100"   >
-                  <div class="w-100 back-section_card">
-                    <div class="pa-2 pt-4 w-100 d-flex"  @click="unSelectPolictic(politic.id)">
-                      <v-icon icon="$back" class="mx-2 " />
-                      <span>
-                        Volver
-                      </span>
-                    </div>
-                  </div>
-                  <div class="w-100 d-flex flex-column align-center h-300 mt-8 "> 
-                    <VImg 
-                      class="rounded-lg"
-                      cover
-                      :width="250"
-                      height="155"
-                      :src="politic.normal_photo"
-                    />
-                  </div>
-                  <div class=" w-100 px-0">
-                    <div>
-                      <div class="text-center mt-2">
-                        <h5 class="text-h6 ">{{ politic.name }}</h5>
-                      </div>
-                    </div>
-                    <VRow class="pa-0 ma-0" >
-                        <VCol cols="12" class="px-2 pt-0"> 
-                          <div class="w-100 ">
-                            <h2 class="text-subtitle-1 text-center mt-1" v-if="politic.crimes.length > 0">Delitos</h2>
-                          </div>
-                          <div class="mt-3" v-if="politic.crimes.length > 0">
-                            <div class="text-subtitle-1 d-flex align-center mt-2" v-for="(crime, index) in politic.crimes" :key="index">
-                              <b> ▪ 
-                                <span class="text-decoration-underline"> 
-                                  {{crime.title}}
-                                </span>
-                              </b>
-                            </div>
-                          </div>
-                          <div v-else >
-                            <h3 class="text-center text-h6 my-2">
-                              No tiene delitos registrado
-                            </h3>
-                          </div>
-                        </VCol>
-                    </VRow>
-                  </div>
-                  <div class="mt-2 w-100  d-flex justify-space-between px-8 pb-5">
-                    <v-btn variant="tonal"  class="bg-error px-4 vote-buttons" >
-                      No carcel
-                    </v-btn>
-                    <v-btn variant="tonal"  class="bg-success px-4 me-3 vote-buttons" >
-                      A la carcel
-                    </v-btn>
-                  </div>
-                </div>
-              </div>
-            </VCard>
-          </transition>
+              </VCard>
+            </transition>
+          </div>
         </div>
-      </div>
-    </Slide>
-
-    ...
-  </Carousel>
-  <VRow class="pa-0 ma-0 mt-5 ">
-    <VCol cols="12" md="3"  >
-      
-    </VCol>
-  </VRow>
+      </Slide>
+    </Carousel>
+  </div>
 </template>
 <script >
 import { defineComponent } from 'vue'
@@ -145,6 +140,7 @@ export default defineComponent({
   data: () => {
     return{
       politics: [],
+      view: window.screen.width < 480 ? 1.27 : 4.2
     }
   },
   components: {
@@ -160,6 +156,14 @@ export default defineComponent({
         this.politics = data.data
       })
     },
+    handleSlideStart(data) {
+      setTimeout(() => {
+        
+        const element = document.querySelector('.carousel__slide--active');
+  
+        console.log(element)
+      }, 600);
+    },
     async shoModal(idPolitic, modal = ""){
       await this.getPoliticByID(idPolitic).then(() =>{
         if(modal == 'delete') this.dialogDelete = true
@@ -170,7 +174,6 @@ export default defineComponent({
       
       this.selectedPolitic = this.politics.find((politic) => politic.id == idPolitic);
       this.selectedPolitic.show = true
-      console.log(this.selectedPolitic)
 
     },
     unSelectPolictic(id){
@@ -189,26 +192,62 @@ li.carousel__slide.carousel__slide--visible:not(.carousel__slide--active){
   opacity: 0.5;
 }
 li.carousel__slide--prev{
-  transform: rotateY(-0deg) scale(0.8);
+  transform: rotateY(-0deg) scale(0.8) translateY(20px)!important;
+  filter: blur(5px);
 }
 li.carousel__slide{
-  transform: rotateY(-0deg) scale(0.8);
-}
-li.carousel__slide.carousel__slide--visible.carousel__slide--active{
-  transform: rotateY(0deg) scale(1.01);
+  transform: rotateY(-0deg) scale(0.6) translateY(-50px);
+  filter: blur(5px);
 }
 li.carousel__slide--active ~ .carousel__slide{
-  transform: rotateY(0deg) scale(0.8);
+  transform: rotateY(0deg) scale(0.6) translateY(-50px);
+  filter: blur(5px);
 }
-.fp-overflow, .carousel, .carousel__viewport, .carousel__track{
-  height: 100%;
+li.carousel__slide--next{
+  transform: rotateY(0deg) scale(0.8) translateY(20px)!important;
 }
+li.carousel__slide.carousel__slide--visible.carousel__slide--active{
+  transform: rotateY(0deg) scale(1);
+  filter: blur(0px);
+
+}
+
+li.carousel__slide.carousel__slide--visible.carousel__slide--active .cards-content{
+  background: none;
+  border-radius: 28%;
+  animation: floating 3s infinite;
+  
+}
+li.carousel__slide.carousel__slide--visible.carousel__slide--active .v-card {
+  box-shadow: 0 20px 20px 0px rgba(0,0,0,0.4);
+}
+.carousel__viewport{
+  overflow: visible;
+}
+.fp-is-overflow>.fp-overflow{
+  overflow-y: visible;
+}
+@keyframes floating {
+  0% {
+		
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}  
+}
+
+
 .carousel__slide {
   padding: 5px;
 }
 
 .carousel__viewport {
   perspective: 2000px;
+  cursor: grab;
 }
 
 .carousel__track {
@@ -219,29 +258,7 @@ li.carousel__slide--active ~ .carousel__slide{
   transition: 0.5s;
 }
 
-.carousel__slide {
-  opacity: 0.9;
-  transform: rotateY(-20deg) scale(0.9);
-}
 
-.carousel__slide--active ~ .carousel__slide {
-  transform: rotateY(20deg) scale(0.9);
-}
-
-.carousel__slide--prev {
-  opacity: 1;
-  transform: rotateY(-10deg) scale(0.95);
-}
-
-.carousel__slide--next {
-  opacity: 1;
-  transform: rotateY(10deg) scale(0.95);
-}
-
-.carousel__slide--active {
-  opacity: 1;
-  transform: rotateY(0) scale(1.1);
-}
 </style>
 
 <style lang="scss" scoped>

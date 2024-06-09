@@ -16,11 +16,18 @@ const router = createRouter({
   routes: [
     {
       path:'/',
-      redirect:'/dashboard'
+      component: () => import('@/pages/clientHomePage.vue'),
+      meta: {
+        title: 'Bienvenido'
+      },
+    },
+    {
+      path:'/admin',
+      redirect:'/politics'
     },
     { 
-      path: '/',
-      name: 'Home',
+      path: '/admin',
+      name: 'HomeDash',
       component: skeletonAdmin ,
       children: [
         {
@@ -36,7 +43,7 @@ const router = createRouter({
         },
         {
           name: 'politics',
-          path: 'politics',
+          path: '/politics',
           component: politicPage,
           meta: {
             // middleware: [
@@ -47,7 +54,7 @@ const router = createRouter({
         },
         {
           name: 'view',
-          path: 'view',
+          path: '/view',
           component: viewPage,
           meta: {
             // middleware: [
@@ -69,10 +76,7 @@ const router = createRouter({
     {
       path: "/client",
       name: "Client",
-      component: () => import('@/pages/clientHomePage.vue'),
-      meta: {
-        title: 'Bienvenido'
-      },
+      
     }
     // {
     //   path: '/404',
