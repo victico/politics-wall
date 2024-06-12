@@ -4,8 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CrimeController;
 use App\Http\Controllers\Api\PoliticController;
-
-
+use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\UserController;
 
 // Route::middleware('jwt.verify')->post('/checkToken', [AuthController::class, 'checkToken']);
 // Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
@@ -17,7 +17,16 @@ use App\Http\Controllers\Api\PoliticController;
 //     Route::get('/all-client', [UserController::class, 'getAllclient']);
 //     Route::get('/get-by-id/{id}',[UserController::class, 'getUserById']);
 // });
-Route::prefix('politic')->name('politic.')->group(function () {
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/create-user', [UserController::class, 'store']);
+
+
+Route::prefix('public')->name('politic.')->group(function () {
+    Route::get('/politic', [PoliticController::class, 'index']);
+
+});
+Route::middleware('jwt.verify')->prefix('politic')->name('politic.')->group(function () {
     Route::get('/', [PoliticController::class, 'index']);
     Route::post('/', [PoliticController::class, 'store']);
     Route::get('/{id}', [PoliticController::class, 'get']);
@@ -25,7 +34,7 @@ Route::prefix('politic')->name('politic.')->group(function () {
     Route::post('/delete/{id}', [PoliticController::class, 'destroy']);
 
 });
-Route::prefix('crime')->name('crime.')->group(function () {
+Route::middleware('jwt.verify')->prefix('crime')->name('crime.')->group(function () {
     Route::post('/', [CrimeController::class, 'store']);
     Route::get('/{id}', [CrimeController::class, 'show']);
     Route::post('/{id}', [CrimeController::class, 'update']);

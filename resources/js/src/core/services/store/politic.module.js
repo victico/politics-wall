@@ -2,7 +2,8 @@ import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
 
 // action types
-export const GET_POLITICS= "GET_POLITICS";
+export const GET_POLITICS = "GET_POLITICS";
+export const GET_POLITICS_PUBLIC = "GET_POLITICS_PUBLIC";
 export const GET_POLITIC_BY_ID = "GET_POLITIC_BY_ID";
 export const STORE_POLITIC = "STORE_POLITIC";
 export const UPDATE_POLITIC = "UPDATE_POLITIC";
@@ -13,6 +14,23 @@ const actions = {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
         ApiService.get("api/politic/"+query)
+        .then(( { data } ) => {
+            // console.log(data)
+            resolve(data);
+            
+        })
+        .catch(( { response } ) => {
+          console.log(response )
+          reject('Ocurrió un error desconocido al intentar obtener las ordenes');
+        });
+      // }
+    });
+  },
+  [GET_POLITICS_PUBLIC](context,query =''){
+    return new Promise((resolve, reject) => {
+      // if (JwtService.getToken()) {
+        ApiService.setHeader();
+        ApiService.get("api/public/politic"+query)
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);

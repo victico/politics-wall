@@ -20,6 +20,8 @@
         "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0",
         "sass": "^1.77.1",
+        "unplugin-auto-import": "^0.17.6",
+        "unplugin-vue-components": "^0.27.0",
         "vite": "^5.0",
         "vue-concise-slider": "^4.2.5",
         "vuetify": "3.6.6"

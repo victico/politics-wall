@@ -131,7 +131,7 @@
 </template>
 <script >
 import { defineComponent } from 'vue'
-import { GET_POLITICS } from '../../core/services/store/politic.module';
+import { GET_POLITICS_PUBLIC } from '../../core/services/store/politic.module';
 import { Carousel, Pagination, Slide } from 'vue3-carousel'
 
 import 'vue3-carousel/dist/carousel.css'
@@ -151,7 +151,7 @@ export default defineComponent({
   methods: {
     getPolitics(){
       this.$store
-      .dispatch(GET_POLITICS)
+      .dispatch(GET_POLITICS_PUBLIC)
       .then((data) =>{
         this.politics = data.data
       })
@@ -224,8 +224,8 @@ li.carousel__slide.carousel__slide--visible.carousel__slide--active .v-card {
 .carousel__viewport{
   overflow: visible;
 }
-.fp-is-overflow>.fp-overflow{
-  overflow-y: visible;
+#politic-section > .fp-overflow{
+  overflow-y: visible!important;
 }
 @keyframes floating {
   0% {
