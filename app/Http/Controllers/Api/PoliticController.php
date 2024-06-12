@@ -39,11 +39,11 @@ class PoliticController extends Controller
         $jailImgPath = '';
 
         if ($request->photo) {
-            $imgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name ));
+            $imgPath = 'public/images/politics/' . trim(str_replace(' ', '_', $request->name )).'_'.rand().'.'. $request->File('photo')->extension();
             $request->file('photo')->move('images/politics/', $imgPath);
         }
         if ($request->jail_photo) {
-            $jailImgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name )) .'_jail';
+            $jailImgPath = 'public/images/politics/' . trim(str_replace(' ', '_', $request->name )) .'_jail'.'_'.rand().'.'. $request->File('jail_photo')->extension();
             $request->file('jail_photo')->move('images/politics/', $jailImgPath);
         }
 
@@ -89,11 +89,11 @@ class PoliticController extends Controller
         $jailImgPath = $politic->jail_photo;
 
         if ($request->hasFile('photo_update')) {
-            $imgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name ));
+            $imgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name )).'_'.rand().'.'. $request->File('photo_update')->extension();
             $request->file('photo_update')->move('images/politics/', $imgPath);
         }
         if ($request->hasFile('jail_photo_update')) {
-            $jailImgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name )) .'_jail';
+            $jailImgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name )) .'_jail'.'_'.rand().'.'. $request->File('jail_photo_update')->extension();
             $request->file('jail_photo_update')->move('images/politics/', $jailImgPath);
         }
 

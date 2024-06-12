@@ -15,24 +15,8 @@ use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
-    public function getAllclient(Request $request){
-        return $this->returnSuccess(200, User::where('rol_id', 3)->get());
-    }
-    public function getUserTableByRol(Request $request){
 
-        $users = $request->path() == 'api/get-chefs'
-            ?  User::query()->where('rol_id', 2) 
-            : User::query()->where('rol_id', 3);
-
-        if(!empty(request('order_name')))  $users->orderBy('name', request('order_name'));
-
-        return DataTables::of($users)->filter(function ($query) {
-            if (!empty(request('filter_name'))) {
-              $query->where('name','like','%'.request('filter_name').'%');
-            }
-          })->toJson();
-    }
-    public function createUser(Request $request){
+    public function store(Request $request){
         $validated = $this->validateFieldsFromInput($request->all()) ;
 
         if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
@@ -41,9 +25,7 @@ class UserController extends Controller
             $newUser = User::create([
                 'name'          => $request->name,
                 'email'         => $request->email,
-                'password'      => Hash::make($request->password),
-                'rol_id'        => $request->rol_id,
-                'user_address'  => $request->user_address,
+                'password'      => bcrypt($request->password),
             ]);
         } catch (Exception $th) {
             return $this->returnSuccess(400, $th->getMessage() );
@@ -110,12 +92,11 @@ class UserController extends Controller
         return $this->returnSuccess(200, $usersByRol);
     }
     private function validateFieldsFromInput($inputs, $type = 'new'){
-        if($type != 'new'){
+        // if($type != 'new'){
             $rules=[
                 'name'          => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
                 'email'         => ['required', 'email',],
                 'password'      => ['min:8'],
-                'user_address'  => ['required'],
             ];
             $messages = [
                 'name.required'         => 'El nombre es requerido.',
@@ -131,31 +112,31 @@ class UserController extends Controller
     
             return $validator->all() ;
 
-        }
+        // }
 
 
-        $rules=[
-            'name'          => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
-            'email'         => ['required', 'email', 'unique:users'],
-            'password'      => ['required', 'min:8'],
-            'rol_id'        => ['required'],
-            'user_address'  => ['required'],
-        ];
-        $messages = [
-            'name.required'         => 'El nombre es requerido.',
-            'email.required'        => 'El email es requerido.',
-            'user_address.required' => 'La dirección es requerida.',
-            'email.unique'          => 'Email ya registrado.',
-            'password.required'     => 'La contraseña es requerido.',
-            'rol_id.required'       => 'El rol es requerido.',
-            'password.min'          => 'La contraseña debe tener un minimo de 8 caracteres',
-            'email.email'           => 'El Email no es valido'
-        ];
+        // $rules=[
+        //     'name'          => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
+        //     'email'         => ['required', 'email', 'unique:users'],
+        //     'password'      => ['required', 'min:8'],
+        //     'rol_id'        => ['required'],
+        //     'user_address'  => ['required'],
+        // ];
+        // $messages = [
+        //     'name.required'         => 'El nombre es requerido.',
+        //     'email.required'        => 'El email es requerido.',
+        //     'user_address.required' => 'La dirección es requerida.',
+        //     'email.unique'          => 'Email ya registrado.',
+        //     'password.required'     => 'La contraseña es requerido.',
+        //     'rol_id.required'       => 'El rol es requerido.',
+        //     'password.min'          => 'La contraseña debe tener un minimo de 8 caracteres',
+        //     'email.email'           => 'El Email no es valido'
+        // ];
 
 
-         $validator = Validator::make($inputs, $rules, $messages)->errors();
+        //  $validator = Validator::make($inputs, $rules, $messages)->errors();
 
-        return $validator->all() ;
+        // return $validator->all() ;
     }
 
 }

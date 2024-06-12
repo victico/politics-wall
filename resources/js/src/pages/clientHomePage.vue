@@ -3,18 +3,18 @@
     <nav style="" class="nav-bar-homepage" >
       <div class="h-100 d-flex flex-md-row flex-column w-100 align-center px-5">
         <div class="h-100 px-5 py-2 w-100 "> 
-          <h1 class="text-h2 text-center" style="color:red!important">
+          <h1 class="text-h2 text-center text-md-start" style="color:red!important">
             El Muro
           </h1>
         </div>
         <div class="w-100 mb-3 mb-md-0">
           <div class="d-flex w-100 justify-center justify-md-end ">
-            <RouterLink to="/">
+            <a href="#page1">
               <div class="text-white mx-5">Muro</div>
-            </RouterLink>
-            <RouterLink to="/client">
+            </a>
+            <a href="#page2">
               <div class="text-white mx-5">Patrocinantes</div>
-            </RouterLink>
+            </a>
             <RouterLink to="/admin">
               <div class="text-white mx-5">Admin</div>
             </RouterLink>
