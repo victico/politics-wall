@@ -21,28 +21,27 @@ class AuthController extends Controller
 				'password'=>'required'
 		]);
 		} catch (Exception $e) {
-			return response()->json([ 'data'=>['code'=>200,'access_token' => $e]], 200);
+			return $this->returnFail(505,['message'=> 'Error en los datos.']);
 		}
 		
 		if($validator->fails()){
-				return response()->json($validator->errors(),442);
+			return $this->returnFail(505,['message'=> 'Error en los datos.']);
 		}
-
 		try{
-
 			$token = JWTAuth::attempt($validator->validate());
 		}catch (Exception $e) {
-			return $e->getMessage();
+			return $this->returnFail(505,['message'=> $e->getMessage()]);
 		}
 		if(!$token){
-				return response()->json(['data' => ['ll' => [$validator->validate()] ,'code' => 500, 'messagge'=> 'Estas credenciales no coinciden con nuestros registros.']],403);
+			return $this->returnFail(404,['message'=> 'Estas credenciales no coinciden con nuestros registros.']);
+			
 		}
-		return response()->json([ 'data'=>['code'=>200,'access_token' => $token]], 200);
+		return $this->returnSuccess(200,['access_token' => $token]);
 	}
 	public function logout(Request $request)
 	{
 		auth()->logout();
-		return response()->json([ 'data'=>['code'=>200]], 200);
+		return $this->returnSuccess(200,[]);
 
 	}
 	public function checkToken(Request $request)

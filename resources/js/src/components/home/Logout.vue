@@ -9,16 +9,23 @@
 
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
-
+import { LOGOUT } from '@/core/services/store/auth.module'
 export default defineComponent({
   setup() {
     
   },
   methods: {
     logout(){
-      this.$router.push('/')
+      this.$store.dispatch(LOGOUT)
+      .then((data) => {
+
+        setTimeout(() => {
+          
+          this.$router.push('/')
+        }, 1000);
+      })
     }
   }
 })

@@ -52,10 +52,18 @@ router.beforeEach(async (to, from, next) => {
     next,
     store
   }
-  return middleware[0]({
-    ...context,
-    next: middlewarePipeline(context, middleware, 0)
-  })
+
+
+  try{
+
+    return middleware[0]({
+      ...context,
+      next: middlewarePipeline(context, middleware, 1)
+    })
+  }
+  catch(e){
+      alert('nooooo')
+  }
 });
 
 app.use(VueAxios, axios);

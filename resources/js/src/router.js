@@ -35,9 +35,9 @@ const router = createRouter({
           path: 'dashboard',
           component: () => import('@/pages/dashboardPage.vue'),
           meta: {
-            // middleware: [
-            //   auth
-            // ],
+            middleware: [
+              auth
+            ],
             title : 'Dashboard'
           },
         },
@@ -46,9 +46,9 @@ const router = createRouter({
           path: '/politics',
           component: politicPage,
           meta: {
-            // middleware: [
-            //   auth
-            // ],
+            middleware: [
+              auth
+            ],
             title : 'Dashboard'
           },
         },
@@ -57,9 +57,9 @@ const router = createRouter({
           path: '/view',
           component: viewPage,
           meta: {
-            // middleware: [
-            //   auth
-            // ],
+            middleware: [
+              auth
+            ],
             title : 'Cartas'
           },
         }
@@ -70,7 +70,10 @@ const router = createRouter({
       name: "Login",
       component: () => import('@/pages/loginPage.vue'),
       meta: {
-        title: 'Bienvenido'
+        title: 'Bienvenido',
+        middleware: [
+          guest
+        ]
       },
     },
     {

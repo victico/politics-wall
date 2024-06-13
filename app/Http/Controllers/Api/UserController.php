@@ -15,7 +15,15 @@ use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
+    public function index(Request $request){
+        try {
+            $user = User::find($request->user()->id);
+        } catch (Exception $th) {
+            $this->returnSuccess(400, $th->getMessage() );
+        }
+		return  $this->returnSuccess(200,  [ 'user' => $user ] );
 
+    }
     public function store(Request $request){
         $validated = $this->validateFieldsFromInput($request->all()) ;
 

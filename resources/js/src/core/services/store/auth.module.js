@@ -52,23 +52,20 @@ const actions = {
           if (JwtService.getToken()) {
             ApiService.setHeader();
             ApiService.get("api/user")
-              .then(({ data }) => {
-                // console.log(data)
-                context.commit(SET_AUTH, data.data.user);
-                context.commit(SET_IS_ADMIN, data.data.user);
-                state.user = data.data.user;
-                // console.log(data)
-                resolve(data.data);
+              .then((dataUser) => {
+                console.log(dataUser)
+                state.user = dataUser.data.user;
+                resolve(dataUser.data);
               })
               .catch(( response ) => {
                 console.log(response)
-                context.commit(SET_ERROR, response.data);
+                context.commit(SET_ERROR, response);
               });
           }
         })
         .catch(( { response } ) => {
-          console.log(response)
-          resolve(response.data.data)
+          // console.log(response)
+          resolve(response.data)
         });
     });
   },
@@ -170,10 +167,10 @@ const mutations = {
     state.user = {};
     state.errors = {};
     window.localStorage.removeItem("id_token");
-    window.localStorage.removeItem("is_admin");
-    window.localStorage.removeItem("user_unique_id");
-
     JwtService.destroyToken();
+    // window.localStorage.removeItem("is_admin");
+    // window.localStorage.removeItem("user_unique_id");
+
   }
 };
 
