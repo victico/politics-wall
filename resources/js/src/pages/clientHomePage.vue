@@ -18,9 +18,6 @@
             <RouterLink to="/admin">
               <div class="text-white mx-5">Admin</div>
             </RouterLink>
-            <RouterLink to="/login">
-              <div class="text-white mx-5">Login</div>
-            </RouterLink>
           </div>
         </div>
       </div>
@@ -83,6 +80,9 @@ export default defineComponent({
 })
 </script>
 <style scoped lang="scss">
+.text-white{
+  color: white!important;
+}
 #politic-section {
   background: #202020
 }

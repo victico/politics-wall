@@ -3,13 +3,13 @@ import {createRouter, createWebHistory} from "vue-router";
 
 import guest from './middlewares/guest'
 import auth from './middlewares/auth'
-import isAdmin from './middlewares/isAdmin'
-import middlewarePipeline from './middlewares/middlewarePipeline'
 
 // components
 import politicPage from '@/pages/politicsPage.vue';
 import viewPage from '@/pages/viewPage.vue';
 import skeletonAdmin from '@/layouts/EskeletonAdmin.vue'
+
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -29,15 +29,13 @@ const router = createRouter({
       path: '/admin',
       name: 'HomeDash',
       component: skeletonAdmin ,
+      beforeEnter: auth,
       children: [
         {
           name: 'dashboard',
           path: 'dashboard',
           component: () => import('@/pages/dashboardPage.vue'),
           meta: {
-            middleware: [
-              auth
-            ],
             title : 'Dashboard'
           },
         },
@@ -46,9 +44,6 @@ const router = createRouter({
           path: '/politics',
           component: politicPage,
           meta: {
-            middleware: [
-              auth
-            ],
             title : 'Dashboard'
           },
         },
@@ -57,9 +52,6 @@ const router = createRouter({
           path: '/view',
           component: viewPage,
           meta: {
-            middleware: [
-              auth
-            ],
             title : 'Cartas'
           },
         }
@@ -71,10 +63,8 @@ const router = createRouter({
       component: () => import('@/pages/loginPage.vue'),
       meta: {
         title: 'Bienvenido',
-        middleware: [
-          guest
-        ]
       },
+      beforeEnter: guest
     },
     {
       path: "/client",

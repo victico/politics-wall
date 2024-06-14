@@ -22,4 +22,7 @@ const { global } = useTheme()
 .animate__animated {/* referring directly to the animation's @keyframe declaration */
   animation-duration: 0.2s; /* don't forget to set a duration! */
 }
+/* *{
+  font-family: Figtree, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color emoji;
+} */
 </style>

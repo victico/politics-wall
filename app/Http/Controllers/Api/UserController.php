@@ -111,7 +111,7 @@ class UserController extends Controller
                 'name.regex'            => 'Nombre no valido',
                 'email.required'        => 'El email es requerido.',
                 'email.email'           => 'El Email no es valido',
-                'user_address.required' => 'La dirección es requerida.',
+                'password.required'     => 'La contraseña es requerida',
                 'password.min'          => 'La contraseña debe tener un minimo de 8 caracteres'
             ];
     
