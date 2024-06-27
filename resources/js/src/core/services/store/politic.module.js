@@ -64,7 +64,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.post("api/politic/", data)
+        ApiService.post("api/politic", data)
         .then(( { data } ) => {
             console.log(data)
             resolve(data);

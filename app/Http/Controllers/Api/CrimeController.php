@@ -31,14 +31,7 @@ class CrimeController extends Controller
      */
     public function store(Request $request)
     {
-        $newCrime = Crime::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'date' => $request->date,
-            'references' => $request->references,
-            'user_id' => $request->user_id,
-        ]);
-        return $this->returnSuccess(200, Politic::with(['crimes'])->find($newCrime->user_id));
+        return'hola';
     }
 
     /**

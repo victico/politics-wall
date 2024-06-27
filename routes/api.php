@@ -38,7 +38,7 @@ Route::middleware('jwt.verify')->prefix('politic')->name('politic.')->group(func
 Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
 });
-Route::middleware('jwt.verify')->prefix('crime')->name('crime.')->group(function () {
+Route::prefix('crime')->name('crime.')->group(function () {
     Route::post('/', [CrimeController::class, 'store']);
     Route::get('/{id}', [CrimeController::class, 'show']);
     Route::post('/{id}', [CrimeController::class, 'update']);

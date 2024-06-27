@@ -28,7 +28,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.post("api/crime/", data)
+        ApiService.post("api/crime", data)
         .then(( { data } ) => {
             console.log(data)
             resolve(data);

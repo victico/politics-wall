@@ -36,15 +36,9 @@ class PoliticController extends Controller
     {
         //.
         $imgPath = '';
-        $jailImgPath = '';
-
         if ($request->photo) {
             $imgPath = 'public/images/politics/' . trim(str_replace(' ', '_', $request->name )).'_'.rand().'.'. $request->File('photo')->extension();
-            $request->file('photo')->move('images/politics/', $imgPath);
-        }
-        if ($request->jail_photo) {
-            $jailImgPath = 'public/images/politics/' . trim(str_replace(' ', '_', $request->name )) .'_jail'.'_'.rand().'.'. $request->File('jail_photo')->extension();
-            $request->file('jail_photo')->move('images/politics/', $jailImgPath);
+            $request->file('photo')->move('public/images/politics/', $imgPath);
         }
 
         $newPolitic = Politic::create([
@@ -56,8 +50,6 @@ class PoliticController extends Controller
             'vote_jail' => 0,
             'vote_no_jail' => 0,
             'normal_photo' => $imgPath,
-            'jail_photo' => $jailImgPath,
-
         ]);
         return $this->returnSuccess(200,[$newPolitic]);
     }
@@ -86,15 +78,10 @@ class PoliticController extends Controller
         //
         $politic = Politic::find($id);
         $imgPath = $politic->normal_photo;
-        $jailImgPath = $politic->jail_photo;
 
         if ($request->hasFile('photo_update')) {
             $imgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name )).'_'.rand().'.'. $request->File('photo_update')->extension();
             $request->file('photo_update')->move('images/politics/', $imgPath);
-        }
-        if ($request->hasFile('jail_photo_update')) {
-            $jailImgPath = 'images/politics/' . trim(str_replace(' ', '_', $request->name )) .'_jail'.'_'.rand().'.'. $request->File('jail_photo_update')->extension();
-            $request->file('jail_photo_update')->move('images/politics/', $jailImgPath);
         }
 
         $politic->name = $request->name;
@@ -103,7 +90,6 @@ class PoliticController extends Controller
         $politic->nationality = $request->nationality;
         $politic->since = $request->since;
         $politic->normal_photo = $imgPath;
-        $politic->jail_photo = $jailImgPath;
         
         $politic->save();
         return $this->returnSuccess(200, $politic);
