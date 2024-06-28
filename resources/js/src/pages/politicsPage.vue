@@ -2,15 +2,17 @@
   <div>
     <div class="d-flex w-100 justify-center">
       <v-card
-        class="py-2 text-center px-4 politics w-100-50"
+        class="py-4 text-center px-4 politics w-100"
         elevation="12"
         rounded="lg"
         title="Listado de politicos"
       >
-      <div>
-        <v-btn prepend-icon="$plus" variant="tonal" @click="dialogCreate = true">
-          Agregar Politico
-        </v-btn>
+      <div class="d-flex justify-end px-4">
+        <div>
+          <v-btn prepend-icon="$plus" variant="tonal" @click="dialogCreate = true">
+            Agregar Politico
+          </v-btn>
+        </div>
       </div>
       </v-card>
     </div>
@@ -61,8 +63,8 @@
                   <VRow class="pa-0 ma-0 h-25 mb-2">
                     <VCol cols="12"  class="d-flex justify-end pt-2 pb-0 align-center">
                       <v-btn icon="$edit" size="small"  color="white" class="bg-primary mx-2 politics-actions" @click="showModal(politic.id, 'update')" />
-                      <v-btn icon="$listCrime" size="small"  color="white" class="bg-terciary mx-2 politics-actions" @click="showModal(politic.id, 'crimes')"/>
-                      <v-btn icon="$delete" size="small"  color="white" class="bg-error mx-2 politics-actions" @click="showModal(politic.id, 'delete')"/>
+                      <v-btn icon="$listCrime" size="small"  color="terciary" class="bg-terciary mx-2 politics-actions" @click="showModal(politic.id, 'crimes')"/>
+                      <v-btn icon="$delete" size="small"  color="error" class="bg-error mx-2 politics-actions" @click="showModal(politic.id, 'delete')"/>
                     </VCol>
                   </VRow>
                 </div>
@@ -102,7 +104,7 @@
                   </div>
                   <div class="d-flex justify-end w-25">
                     <v-btn icon="$edit" size="x-small"  color="white" class="bg-primary mx-2 politics-actions" @click="selectCrime(crime.id, 'update')" />
-                    <v-btn icon="$delete" size="x-small"  color="white" class="bg-error mx-2 politics-actions" @click="selectCrime(crime.id, 'delete')"/>
+                    <v-btn icon="$delete" size="x-small"  color="error" class="bg-error mx-2 politics-actions" @click="selectCrime(crime.id, 'delete')"/>
                   </div>
                 </div>
               </VCol>
@@ -442,7 +444,10 @@ export default defineComponent({
       this.$store
       .dispatch(GET_POLITICS)
       .then((data) =>{
+        if(!data.code) throw new Error('server error')
         this.politics = data.data
+      }).catch(() => {
+        this.emitter.emit('logoutSession')
       })
     },
     async showModal(idPolitic, modal = ""){

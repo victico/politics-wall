@@ -13,7 +13,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/politic/"+query)
+        ApiService.get("api/politic"+query)
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);

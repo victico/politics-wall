@@ -1,0 +1,56 @@
+// Form control
+// *******************************************************************************
+
+// form input placeholder animation
+.form-control {
+  &::placeholder,
+  &:focus::placeholder {
+    transition: all 0.2s ease;
+  }
+}
+.form-convert{
+  padding: 0;
+  border: transparent;
+  background: transparent;
+  font-size: 30px;
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+  height: 50px;
+  min-height: 0px;
+  overflow: hidden;
+  &::placeholder{
+    color: white;
+    opacity: 0.3;
+    transition: all 0.5s ease-in-out;
+  }
+  &:focus::placeholder {
+    transform: translateX(4px);
+    color:white
+  }
+  &:active{
+    border: none;
+    background: transparent;
+  }
+  &:focus, &:focus-visible{
+    border: none;
+    background: transparent;
+    outline: 0px;
+  }
+}
+
+// ltr only
+@include ltr-only {
+  .form-control {
+    &:focus::placeholder {
+      transform: translateX(4px);
+    }
+  }
+}
+// rtl only
+@include rtl-only {
+  .form-control {
+    &:focus::placeholder {
+      transform: translateX(-4px);
+    }
+  }
+}

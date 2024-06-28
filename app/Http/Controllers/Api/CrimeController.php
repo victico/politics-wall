@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\Crime;
 use App\Models\Politic;
 use Illuminate\Http\Request;
@@ -31,9 +32,21 @@ class CrimeController extends Controller
      */
     public function store(Request $request)
     {
-        return'hola';
-    }
+        try {
+            $newCrime = Crime::create([
+                'title'         => $request->title,
+                'description'   => $request->description,
+                'date'          => $request->date,
+                'references'    => $request->references,
+                'user_id'       => $request->user_id,
 
+            ]);
+        } catch (Exception $th) {
+            return $this->returnSuccess(400, $th->getMessage() );
+        }
+
+        return $this->returnSuccess(200, $newCrime);
+    }
     /**
      * Display the specified resource.
      */

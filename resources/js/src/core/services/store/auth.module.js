@@ -15,7 +15,7 @@ export const RESET_PASSWORD_EMAIL = 'resetPasswordEmail';
 export const VALIDATE_USER_EXIST = 'validate_user_exist';
 export const VALIDATE_EMAIL = 'validate_email';
 export const CHECK_TOKEN = 'CHECK_TOKEN';
-
+export const GET_USER ='GET_USER';
 // mutation types
 export const PURGE_AUTH = "logOut";
 export const SET_TOKEN = "setToken";
@@ -53,7 +53,7 @@ const actions = {
             ApiService.setHeader();
             ApiService.get("api/user")
               .then((dataUser) => {
-                console.log(dataUser)
+                // console.log(dataUser)
                 state.user = dataUser.data.user;
                 resolve(dataUser.data);
               })
@@ -88,6 +88,19 @@ const actions = {
         ApiService.post("api/checkToken")
           .then((data) => {
             resolve(data);
+          }).catch(( data ) => {
+            resolve(data);
+          });
+      }
+    });
+  },
+  [GET_USER](context) {
+    return new Promise(resolve => {
+      if (JwtService.getToken()) {
+        ApiService.setHeader();
+        ApiService.post("api/get_current_user")
+          .then(({data}) => {
+            resolve(data.data);
           }).catch(( data ) => {
             resolve(data);
           });

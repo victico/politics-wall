@@ -23,7 +23,7 @@ const router = createRouter({
     },
     {
       path:'/admin',
-      redirect:'/politics'
+      redirect:'/dashboard'
     },
     { 
       path: '/admin',
@@ -33,7 +33,7 @@ const router = createRouter({
       children: [
         {
           name: 'dashboard',
-          path: 'dashboard',
+          path: '/dashboard',
           component: () => import('@/pages/dashboardPage.vue'),
           meta: {
             title : 'Dashboard'

@@ -47,6 +47,7 @@
                   name="password"
                   placeholder="Contraseña"
                   v-model="user.password"
+                  type="password"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" class="mt-2 d-flex justify-end">
@@ -75,7 +76,9 @@
 </style>
 <style lang="scss" >
 
-
+  .fv-plugins-icon{
+    transform: translateY(-50%);
+  }
   .v-alert__content{
 
     color: white!important;
@@ -121,7 +124,7 @@ export default defineComponent({
       this.disabledButton('Cargando...')
       this.$store.dispatch(LOGIN, this.user)
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         if(data.code !== 200){
           this.activeButton()
           this.showDisplay('error', data.error.message)
@@ -146,7 +149,7 @@ export default defineComponent({
                 message: "El nombre de usuario es necesario"
               },
               regexp: {
-                regexp: /^[A-Za-z0-9À-ÿ .*-+,/&@$_ñ_ ]+$/i,
+                regexp: /^[A-Za-z0-9À-ÿ.*-+,/@$_ñ]+$/i,
                 message: 'No debe contener los siguientes caracteres: "[]{}!¡¿?=()|;',
               },
             }
@@ -157,7 +160,7 @@ export default defineComponent({
                 message: "La contraseña es necesaria"
               },
               regexp: {
-                regexp: /^[A-Za-z0-9À-ÿ .*-+/&@,$_ñ_ ]+$/i,
+                regexp: /^[A-Za-z0-9À-ÿ.*-+/@,$_ñ]+$/i,
                 message: 'No debe contener los siguientes caracteres: "[]{}!¡¿?=()|;',
               },
             }
