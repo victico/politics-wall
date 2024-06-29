@@ -25,7 +25,7 @@ Route::middleware('jwt.verify')->post('/get_current_user', [AuthController::clas
 // Route::post('/create-user', [UserController::class, 'store']);
 
 Route::prefix('public')->name('politic.')->group(function () {
-    Route::get('/politic', [PoliticController::class, 'index']);
+    Route::get('/politic', [PoliticController::class, 'indexPublic']);
 
 });
 Route::middleware('jwt.verify')->prefix('politic')->name('politic.')->group(function () {

@@ -7,8 +7,8 @@
         rounded="lg"
         title="Listado de politicos"
       >
-      <div class="d-flex justify-space-between px-4 align-center">
-        <div class="w-25">
+      <div class="d-flex justify-space-between px-4 align-center flex-column flex-md-row">
+        <div class="input_search d-flex align-center">
           <v-text-field 
             clearable 
             label="Buscar" 
@@ -16,11 +16,14 @@
             v-model="search"
             variant="outlined" 
             clear-icon="$close"
-            @keyup="searchPolitic()" 
             @click:clear="searchPolitic()"
+            @change="searchPolitic()"
           />
+          <v-btn class="ms-4" variant="tonal" @click="searchPolitic()">
+            Buscar
+          </v-btn>
         </div>
-        <div>
+        <div class="mt-5 mt-md-0">
           <v-btn prepend-icon="$plus" variant="tonal" @click="dialogCreate = true">
             Agregar Politico
           </v-btn>
@@ -108,13 +111,20 @@
             No hay mas politicos
           </div>
         </template>
+        <template v-slot:load-more="{ props }">
+          <v-btn
+            size="large"
+            variant="tonal"
+            v-bind="props"
+            :disabled="loadContinuos"
+          >Cargar más</v-btn>
+        </template>
       </v-infinite-scroll>
     </div>
-    <createPoliticModal :dialog="dialogCreate" @hideModal="hideModal" @refresh="updateList" />
+    <createPoliticModal :dialog="dialogCreate" @hideModal="hideModal" @refresh="addNewPolitic" />
     <div v-if=" Object.values(selectedPolitic).length > 1">
       <updatePoliticModal :dialog="dialogUpdate" @hideModal="hideModal" @refresh="updateList" :politic="selectedPolitic" />
-      <deletePoliticModal :dialog="dialogDelete" @hideModal="hideModal" @refresh="updateList" :politic="selectedPolitic" />
-
+      <deletePoliticModal :dialog="dialogDelete" @hideModal="hideModal" @refresh="deletePolitic" :politic="selectedPolitic" />
       <v-dialog
         v-model="dialogCrimes"
         class="mxmd-50"
@@ -428,7 +438,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      
     </div>
   </div>
 </template>
@@ -472,7 +481,7 @@ export default defineComponent({
       search:'',
       currentPage:0,
       loading:false,
-      loadContinuos:"ok"
+      loadContinuos:false
     }
   },
   components: {
@@ -486,9 +495,9 @@ export default defineComponent({
       debounce(this.getPolitics,500)('noload');
     },
     load({ done }) {
+      this.getPolitics()
       setTimeout(() => {
-        this.getPolitics()
-        done(this.loadContinuos)
+        done('ok')
       }, 1000)
     },
     getPolitics(type="load"){
@@ -519,7 +528,7 @@ export default defineComponent({
       })
     },
     hideModal(modal){
-      if(modal == 'create') this.dialogCreate = false
+      if(modal == 'create') this.dialogCreate = false 
       if(modal == 'delete') this.dialogDelete = false
       if(modal == 'update') this.dialogUpdate = false
       if(modal == 'crimes') this.dialogCrimes = false
@@ -639,26 +648,23 @@ export default defineComponent({
       }, 400);
     },
     paginationAction(data, type){
-      console.log(data.data.current_page == data.data.last_page  ?  'empty' : 'ok')
       this.currentPage = data.data.current_page
-      this.loadContinuos = data.data.current_page == data.data.last_page  ?  'empty' : 'ok'
+      this.loadContinuos = data.data.current_page == data.data.last_page 
+    },
+    addNewPolitic(politic){
+      this.politics.push(politic)
     },
     updateList(data){
-      console.log(data)
-      let cewbolla = this.politics.find((politic) => politic.id == this.selectedPolitic.id)
-      cewbolla = this.selectedPolitic
-
-      console.log(this.politics)
-      // for(let i = 0; i < this.banks.length; i++){
-      //   if(this.banks[i].id == data.data.id){
-      //       this.banks[i] = data.data;
-
-      //       // close modal
-      //       this.closeModal('modal-update-bank')
-      //       this.showMainAlert('success', 'Banco actualizado correctamente!')
-      //       return;
-      //   }
-      // }
+      for(let i = 0; i < this.politics.length; i++){
+        if(this.politics[i].id == data.id){
+            this.politics[i] = data;
+            return;
+        }
+      }
+    },
+    deletePolitic(data){ 
+      const index = this.politics.findIndex((politic) => politic.id == data.id)
+      this.politics.splice(index,1)
     }
   },
   mounted(){
@@ -742,6 +748,9 @@ export default defineComponent({
 }
 </style>
 <style lang="scss" scoped>
+  .input_search {
+    width: 40%
+  } 
   .animate__animated{
     animation-duration: 0.8s;
   }
@@ -836,5 +845,8 @@ export default defineComponent({
     .w-100-50{
       width: 100%;
     }
+    .input_search {
+      width: 100%
+    } 
   }
 </style>

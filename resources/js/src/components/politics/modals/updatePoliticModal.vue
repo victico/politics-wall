@@ -153,7 +153,7 @@ export default defineComponent({
       this.$store
       .dispatch(UPDATE_POLITIC, { id: this.selectedPolitic.id, data:data } )
       .then((data) =>{
-        this.$emit("refresh", data)
+        this.$emit("refresh", data.data)
         this.closeModal();
       })
       

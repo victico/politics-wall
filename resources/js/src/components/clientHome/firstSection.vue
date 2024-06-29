@@ -20,7 +20,7 @@
                     :src="politic.normal_photo"
                   />
                 </div>
-                <div class="w-100 mt-0 h-40 px-2 bg-white description mt-5 " >
+                <div class="w-100 mt-0 h-40 px-2 bg-white description mt-7 " >
                   <div class="politic-button description-politic pt-md-4 pt-5 d-flex flex-column align-center justify-space-between h-100" >
                     <div class=" w-100 px-0" style="height: 150px;">
                       <div>
@@ -75,7 +75,7 @@
                         </span>
                       </div>
                     </div>
-                    <div class="w-100 d-flex flex-column align-center h-300 mt-8 "> 
+                    <div class="w-100 d-flex flex-column align-center h-300 mt-5 "> 
                       <VImg 
                         class="rounded-lg"
                         cover
@@ -93,10 +93,10 @@
                       <VRow class="pa-0 ma-0" >
                           <VCol cols="12" class="px-2 pt-0"> 
                             <div class="w-100 ">
-                              <h2 class="text-subtitle-1 text-center mt-1" v-if="politic.crimes.length > 0">Anticuchos</h2>
+                              <div class="text-subtitle-1 text-center mt-0" v-if="politic.crimes.length > 0">Anticuchos</div>
                             </div>
                             <div class="mt-3" v-if="politic.crimes.length > 0">
-                              <div class="text-subtitle-1 d-flex align-center mt-2" v-for="(crime, index) in politic.crimes" :key="index">
+                              <div class="text-subtitle-1 d-flex align-center mt-1 ms-2" v-for="(crime, index) in politic.crimes" :key="index">
                                 <b> ▪ 
                                   <span class="text-decoration-underline"> 
                                     {{crime.title}}
@@ -112,13 +112,18 @@
                           </VCol>
                       </VRow>
                     </div>
-                    <div class="mt-2 w-100  d-flex justify-center justify-md-space-between px-md-8 px-2 pb-5">
-                      <v-btn variant="tonal"  class="bg-error px-4 mx-1 vote-buttons" >
-                        No carcel
+                    <div class="mt-2 w-100  d-flex justify-center justify-md-space-between px-md-8 px-2 pb-5 buttonsArea">
+                      <v-btn variant="tonal"  class="bg-error px-4 mx-1 vote-buttons" @click="unSelectPolictic(politic.id)" >
+                        Absolver
                       </v-btn>
-                      <v-btn variant="tonal"  class="bg-success px-4 mx-1 vote-buttons" >
+                      <v-btn variant="tonal"  class="bg-success px-4 mx-1 vote-buttons" @click="sendCarcel($event)">
                         A la carcel
                       </v-btn>
+                    </div>
+                    <div class="wastedImg_content">
+                      <div style="position: absolute; top: 0; left:0; right: 0; bottom: 0; "  class="wastedImg" >
+                        <img :src="wastedImg" alt=""   style="transform: rotate(-35deg)">
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -134,14 +139,18 @@
 import { defineComponent } from 'vue'
 import { GET_POLITICS_PUBLIC } from '../../core/services/store/politic.module';
 import { Carousel, Pagination, Slide } from 'vue3-carousel'
-
+import jailSound from "@/assets/audio/jailSound2.mp3";
+import wastedImg from "@/assets/media/utils/wasted.png";
 import 'vue3-carousel/dist/carousel.css'
+import closest from '../../assets/plugins/formvalidation/src/js/utils/closest';
 
 export default defineComponent({
   data: () => {
     return{
       politics: [],
-      view: window.screen.width < 480 ? 1.27 : 4.2
+      view: window.screen.width < 480 ? 1.27 : 4.2,
+      sound: new Audio(jailSound),
+      wastedImg,
     }
   },
   components: {
@@ -182,6 +191,13 @@ export default defineComponent({
       politic.show = false
 
     },
+    sendCarcel(e){
+
+      const element = e.target.closest('.buttonsArea').nextElementSibling  
+      console.log()
+      element.querySelector('.wastedImg').style.display = 'block'
+      this.sound.play()
+    }
   },
   mounted() {
     this.getPolitics();
@@ -228,6 +244,13 @@ li.carousel__slide.carousel__slide--visible.carousel__slide--active .v-card {
 #politic-section > .fp-overflow{
   overflow-y: visible!important;
 }
+.wastedImg{
+  display: none;
+}
+.wastedActive{
+  display: block!important;
+  animation: wasted 2s forwards;
+}
 @keyframes floating {
   0% {
 		
@@ -238,6 +261,19 @@ li.carousel__slide.carousel__slide--visible.carousel__slide--active .v-card {
 	}
 	100% {
 		transform: translatey(0px);
+	}  
+}
+@keyframes wasted {
+  0% {
+		opacity: 0;
+		transform: translatez(1000px);
+	}
+	50% {
+    transform: translatez(500px);
+	}
+	100% {
+    opacity: 1;
+		transform: translatez(0px);
 	}  
 }
 
@@ -287,6 +323,7 @@ li.carousel__slide.carousel__slide--visible.carousel__slide--active .v-card {
     margin:0px -8px;
   }
   .poilitic-card__image-content{
+    position: relative;
     width: 80%;
     max-height: 580px;
     background: rgb(173,177,173);

@@ -195,8 +195,8 @@ export default defineComponent({
 
       this.$store
       .dispatch(STORE_POLITIC, data)
-      .then((data) =>{
-        this.$emit("refresh", data)
+      .then((data) =>{ 
+        this.$emit("refresh", data.data)
         this.showSnack('success', 'Politico creado con exito')
         this.closeModal();
       }).catch((e) =>{

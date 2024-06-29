@@ -20,12 +20,17 @@ class PoliticController extends Controller
         if(isset($request->status)){
             $allPolitics->where('status', $request->status);
         }
-
-
-
-        return $this->returnSuccess(200, $allPolitics->paginate(2));
+        return $this->returnSuccess(200, $allPolitics->paginate(25));
     }
-
+    public function indexPublic(Request $request)
+    {
+        //
+        $allPolitics = Politic::query()->with(['crimes']);
+        if(isset($request->status)){
+            $allPolitics->where('status', $request->status);
+        }
+        return $this->returnSuccess(200, $allPolitics->get() );
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -60,11 +65,9 @@ class PoliticController extends Controller
                 'normal_photo' => $imgPath,
             ]);
         } catch (Exception $th) {
-            //throw $th;
-        return $this->returnFail(404, $th->getMessage());
-
+            return $this->returnFail(404, $th->getMessage());
         }
-        return $this->returnSuccess(200,[$newPolitic]);
+        return $this->returnSuccess(200, $newPolitic);
     }
 
     /**
