@@ -1,15 +1,18 @@
 <template>
+  <div>
+
     <v-dialog
         v-model="dialogCreate"
-        max-width="50%"
+        class="mxmd-50"
       >
         <v-card
+          
           prepend-icon="$account"
           title="Agregar Politico"
         >
           <v-card-text class="mt-5">
             <v-row dense>
-              <VCol cols="12" md="6" class="px-0 "> 
+              <VCol cols="12"  class="px-0 "> 
                   <div class="img-content mx-auto">
                     <label for="photo">
                       <VImg
@@ -24,36 +27,13 @@
                         <VIcon color="white" size="x-large" icon="$photo"/>
                       </div>
                     </label>
-                    <div class="w-100 text-subtitle-2 text-center">
+                    <div class="w-100 text-subtitle-2 text-center politic__photo--description">
                       Foto
                     </div>
                     <div   class="form-group text-center ma-0 mt-0 pa-0">
                       <input type="file"  id="photo" ref="photo" name="photo" data-type="new" class="d-none" @change="onFileChange" >
                     </div>
                   </div>
-              </VCol>
-              <VCol cols="12" md="6" class="px-0 "> 
-                <div class="img-content mx-auto">
-                  <label for="jail_photo">
-                    <VImg
-                      width="180"
-                      height="180"
-                      class="rounded"
-                      :src="newPolitic.jail_photo"
-                      style="border-radius:10%!important"
-                      id="newProduct-img-content"
-                    />
-                    <div class="overlay-img">
-                      <VIcon color="white" size="x-large" icon="$photo"/>
-                    </div>
-                  </label>
-                  <div class="w-100 text-subtitle-1 text-center">
-                    Foto en la carcel
-                  </div>
-                  <div   class="form-group text-center ma-0 mt-0 pa-0">
-                    <input type="file"  id="jail_photo" ref="jailPhoto" name="jail_photo" data-type="new" class="d-none" @change="onFileChange" >
-                  </div>
-                </div>
               </VCol>
               <v-col
                 cols="12"
@@ -137,7 +117,31 @@
           </v-card-actions>
         </v-card>
     </v-dialog>
+    <v-snackbar
+      v-model="snackbarShow"
+      :color="snackbarType"
+      :timeout="3000"
+    >
+      <div class="text-white font-weight-bold text-center">
+        {{ snackbarMsg }}
+      </div>
+      <template v-slot:actions>
+        <v-btn
+          variant="text"
+          @click="snackbarShow = false"
+          color="white"
+        >
+          <span class="text-white">Cerrar</span>
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
 </template>
+<style lang="scss" scoped>
+  .politic__photo--description{
+    transform: translateY(-20px);
+  }
+</style>
 <script>
 import { defineComponent } from 'vue'
 import nationality from '@/core/plugins/nationalityJson'
@@ -151,6 +155,9 @@ export default defineComponent({
     return {
       dialogCreate: false,
       nationality,
+      snackbarShow:false,
+      snackbarType:'',
+      snackbarMsg:'',
       newPolitic:{
         name:'',
         office:'',
@@ -158,19 +165,13 @@ export default defineComponent({
         nationality:'PE',
         since:'',
         photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png',
-        jail_photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
-
       },
     }
   },
   methods:{
     onFileChange(e) {
-      const element = e.target;
-
-      element.id == 'jail_photo' 
-      ? this.newPolitic.jail_photo = URL.createObjectURL(element.files[0])
-      : this.newPolitic.photo = URL.createObjectURL(element.files[0]) 
-      
+      const element = e.target
+      this.newPolitic.photo = URL.createObjectURL(element.files[0]) 
     },
     resetForm(){
       this.newPolitic = {
@@ -180,7 +181,6 @@ export default defineComponent({
         nationality:'PE',
         since:'',
         photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png',
-        jail_photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
 
       }
     },
@@ -192,18 +192,25 @@ export default defineComponent({
       data.append('nationality', this.newPolitic.nationality)
       data.append('since', this.newPolitic.since)
       data.append('photo', this.$refs.photo.files[0])
-      data.append('jail_photo', this.$refs.jailPhoto.files[0])
 
       this.$store
       .dispatch(STORE_POLITIC, data)
       .then((data) =>{
-         this.$emit("refresh")
+        this.$emit("refresh", data)
+        this.showSnack('success', 'Politico creado con exito')
         this.closeModal();
+      }).catch((e) =>{
+        this.showSnack('error', e)
       })
     },
     closeModal(){
       this.resetForm()
       this.$emit("hideModal", 'create')
+    },
+    showSnack(type, text){
+      this.snackbarType = type;
+      this.snackbarMsg  = text;
+      this.snackbarShow = true;
     }
   },
   mounted(){

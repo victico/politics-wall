@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Politic;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PoliticController extends Controller
 {
@@ -14,11 +16,14 @@ class PoliticController extends Controller
     public function index(Request $request)
     {
         //
-        $allPolitics = Politic::query()->with(['crimes']);
+        $allPolitics = Politic::query()->with(['crimes'])->where('name', 'like', '%'.$request->name.'%');
         if(isset($request->status)){
             $allPolitics->where('status', $request->status);
         }
-        return $this->returnSuccess(200, $allPolitics->get() );
+
+
+
+        return $this->returnSuccess(200, $allPolitics->paginate(2));
     }
 
     /**
@@ -34,23 +39,31 @@ class PoliticController extends Controller
      */
     public function store(Request $request)
     {
-        //.
+        $validated = $this->validateFieldsFromInput($request->all()) ;
+        if (count($validated) > 0) return $this->returnFail(400, $validated[0]);
+
         $imgPath = '';
         if ($request->photo) {
             $imgPath = 'public/images/politics/' . trim(str_replace(' ', '_', $request->name )).'_'.rand().'.'. $request->File('photo')->extension();
             $request->file('photo')->move('public/images/politics/', $imgPath);
         }
+        try {
+            //code...
+            $newPolitic = Politic::create([
+                'name' => $request->name,
+                'office' => $request->office,
+                'age' => $request->age,
+                'nationality' => $request->nationality,
+                'since' => $request->since ?? '---',
+                'vote_jail' => 0,
+                'vote_no_jail' => 0,
+                'normal_photo' => $imgPath,
+            ]);
+        } catch (Exception $th) {
+            //throw $th;
+        return $this->returnFail(404, $th->getMessage());
 
-        $newPolitic = Politic::create([
-            'name' => $request->name,
-            'office' => $request->office,
-            'age' => $request->age,
-            'nationality' => $request->nationality,
-            'since' => $request->since,
-            'vote_jail' => 0,
-            'vote_no_jail' => 0,
-            'normal_photo' => $imgPath,
-        ]);
+        }
         return $this->returnSuccess(200,[$newPolitic]);
     }
 
@@ -106,4 +119,38 @@ class PoliticController extends Controller
 
         return $this->returnSuccess(200, $politic);
     }
+    private function validateFieldsFromInput($inputs){
+
+
+        $rules=[
+            'name'          => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
+            'office'        => ['required', 'regex:/^[a-zA-Z-À-ÿ&$ .]+$/i' ],
+            'age'           => ['required', 'integer', 'regex:/^[0-9]+$/i'],
+            'nationality'   => ['required', 'regex:/^[a-zA-Z-À-ÿ&$ .]+$/i'],
+            'since'         => ['integer', 'regex:/^[0-9]+$/i'],
+            'photo'         => ['required', 'file'],
+
+        ];
+        $messages = [
+            'name.required'         => 'El nombre es requerido.',
+            'name.regex'            => 'Nombre no valido.',
+            'office.required'       => 'El cargo es requerido.',
+            'office.regex'          => 'Cargo no valido.',
+            'age.required'          => 'La edad es requerida.',
+            'age.integer'           => 'Edad no valida.',
+            'age.regex'             => 'Edad no valida.',
+            'nationality.required'  => 'El nacionalidad es requerida.',
+            'nationality.regex'     => 'Nacionalidad no valido.',
+            'since.regex'           => 'Ingresar un año valido.',
+            'since.integer'         => 'Ingresar un año valido.',
+            'photo.required'        => 'La foto es requerida.',
+            'photo.file'            => 'La foto es requerida.'
+        ];
+
+
+         $validator = Validator::make($inputs, $rules, $messages)->errors();
+
+        return $validator->all() ;
+
+}
 }

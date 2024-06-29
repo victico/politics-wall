@@ -56,7 +56,7 @@ export default defineComponent({
       this.$store
       .dispatch(DELETE_POLITIC, this.selectedPolitic.id)
       .then((data) =>{
-        this.$emit("refresh")
+        this.$emit("refresh", data)
         this.closeModal();
       })
     },

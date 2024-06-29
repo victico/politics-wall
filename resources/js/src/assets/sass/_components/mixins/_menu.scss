@@ -12,9 +12,9 @@
     );
   }
 
-  $menu-active-bg: #f19023;
+  $menu-active-bg: #fd0100;
   $menu-active-bg-rtl: linear-gradient(72.47deg, rgba($active-bg, 0.7) 22.16%, $active-bg 76.47%);
-  $horizontal-active-bg: #f19023;
+  $horizontal-active-bg: #fd0100;
 
   #{$parent} {
     background-color: map-get($colors, bg) !important;

@@ -45,7 +45,7 @@ class CrimeController extends Controller
             return $this->returnSuccess(400, $th->getMessage() );
         }
 
-        return $this->returnSuccess(200, $newCrime);
+        return $this->returnSuccess(200, Politic::with(['crimes'])->find($newCrime->user_id));
     }
     /**
      * Display the specified resource.

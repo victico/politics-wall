@@ -9,11 +9,11 @@ export const STORE_POLITIC = "STORE_POLITIC";
 export const UPDATE_POLITIC = "UPDATE_POLITIC";
 export const DELETE_POLITIC = "DELETE_POLITIC"
 const actions = {
-  [GET_POLITICS](context,query =''){
+  [GET_POLITICS](context, data){
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/politic"+query)
+        ApiService.get("api/politic?page="+data.pageNumber+"&name="+data.search+"&")
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);
@@ -72,7 +72,7 @@ const actions = {
         })
         .catch(( { response } ) => {
             console.log(response )
-            reject('Ocurrió un error desconocido al intentar obtener las ordenes');
+            reject( response.data.error ?? 'Ocurrió un error al crear el politico');
         });
       // }
     });

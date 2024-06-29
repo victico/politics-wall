@@ -7,7 +7,19 @@
         rounded="lg"
         title="Listado de politicos"
       >
-      <div class="d-flex justify-end px-4">
+      <div class="d-flex justify-space-between px-4 align-center">
+        <div class="w-25">
+          <v-text-field 
+            clearable 
+            label="Buscar" 
+            placeholder="Buscar..." 
+            v-model="search"
+            variant="outlined" 
+            clear-icon="$close"
+            @keyup="searchPolitic()" 
+            @click:clear="searchPolitic()"
+          />
+        </div>
         <div>
           <v-btn prepend-icon="$plus" variant="tonal" @click="dialogCreate = true">
             Agregar Politico
@@ -16,75 +28,101 @@
       </div>
       </v-card>
     </div>
-    <VRow class="pa-0 ma-0 mt-5">
-      <VCol cols="12" md="3"  v-for="(politic, index) in politics" :key="index">
-        <VCard class=" px-0 pb-0 pt-2 d-flex flex-column align-center justify-space-between position-relative poilitic-card__image-content elevation-24" height="auto" v-if="!politic.show">
-            <div class="w-100 d-flex flex-column align-center h-300 "> 
-              <VImg 
-                class="rounded-lg"
-                cover
-                :width="250"
-                height="100"
-                :src="politic.normal_photo"
-              />
-            </div>
-            <div class="w-100 mt-0 h-40 px-2 bg-white description mt-5 " >
-              <div class="politic-button description-politic pt-md-4 pt-5 d-flex flex-column align-center justify-space-between h-100" >
-                <div class=" w-100 px-0 mb-0 d-flex flex-column justify-space-between" style="height: 200px;">
-                  <div class="h-25">
-                    <div class="text-center ">
-                      <h5 class="text-h5 ">{{ politic.name }}</h5>
+    <div>
+      <v-infinite-scroll
+        height="100%"
+        mode="manual"
+        @load="load"
+      >
+        <VRow class="pa-0 ma-0 mt-5" v-if="loading">
+          <template v-if="politics.length > 0">
+
+            <VCol cols="12" md="4"  v-for="(politic, index) in politics" :key="index" >
+              <VCard class=" px-0 pb-0 pt-2 d-flex flex-column align-center justify-space-between position-relative poilitic-card__image-content elevation-24" height="auto" v-if="!politic.show">
+                  <div class="w-100 d-flex flex-column align-center h-300 "> 
+                    <VImg 
+                      class="rounded-lg"
+                      cover
+                      :width="250"
+                      height="100"
+                      :src="politic.normal_photo"
+                    />
+                  </div>
+                  <div class="w-100 mt-0 h-40 px-2 bg-white description mt-5 " >
+                    <div class="politic-button description-politic pt-md-4 pt-5 d-flex flex-column align-center justify-space-between h-100" >
+                      <div class=" w-100 px-0 mb-0 d-flex flex-column justify-space-between" style="height: 200px;">
+                        <div class="h-25">
+                          <div class="text-center ">
+                            <h5 class="text-h5 mb-1">{{ politic.name }}</h5>
+                            <div class="text-h7">
+                              {{ politic.office }}
+                            </div>
+                            
+                          </div>
+                        </div>
+                        <VRow class="pa-0 ma-0 h-50 pt-2" style="">
+                          <VCol cols="7" md="7" class="px-2 pt-0"> 
+                            <div class="mt-3 ">
+                              <div class="text-subtitle-2 ">
+                                <b> ▪ Edad: {{ politic.age }} años</b>
+                              </div>
+                              <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
+                                <b> ▪ Nacionalidad:</b>
+                                <img :src="`https://flagsapi.com/${politic.nationality}/shiny/24.png`" class="ms-1">
+                              </div>
+                              
+                            </div>
+                          </VCol>
+                          <VCol cols="5" md="5" class="px-1 pt-0"> 
+                            <div class="mt-3">
+                              <div class="text-subtitle-2  mt-2">
+                                <b> ▪ Desde: {{ politic.since }}</b>
+                              </div>
+                            </div>
+                          </VCol>
+                        </VRow>
+                        <VRow class="pa-0 ma-0 h-25 mb-2">
+                          <VCol cols="12"  class="d-flex justify-end pt-2 pb-0 align-center">
+                            <v-btn icon="$edit" size="small"  color="white" class="bg-primary mx-2 politics-actions" @click="showModal(politic.id, 'update')" />
+                            <v-btn icon="$listCrime" size="small"  color="terciary" class="bg-terciary mx-2 politics-actions" @click="showModal(politic.id, 'crimes')"/>
+                            <v-btn icon="$delete" size="small"  color="error" class="bg-error mx-2 politics-actions" @click="showModal(politic.id, 'delete')"/>
+                          </VCol>
+                        </VRow>
+                      </div>
                     </div>
                   </div>
-                  <VRow class="pa-0 ma-0 h-50" style="">
-                    <VCol cols="7" md="7" class="px-2 pt-0"> 
-                      <div class="mt-3 ">
-                        <div class="text-subtitle-2 ">
-                          <b>▪ Cargo: {{ politic.office }}</b>
-                        </div>
-                        <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
-                          <b> ▪ Nacionalidad:</b>
-                          <img :src="`https://flagsapi.com/${politic.nationality}/shiny/24.png`" class="ms-1">
-                        </div>
-                        
-                      </div>
-                    </VCol>
-                    <VCol cols="5" md="5" class="px-1 pt-0"> 
-                      <div class="mt-3">
-                        <div class="text-subtitle-2 ">
-                          <b> ▪ Edad: {{ politic.age }} años</b>
-                        </div>
-                        <div class="text-subtitle-2  mt-2">
-                          <b> ▪ Desde: {{ politic.since }}</b>
-                        </div>
-                      </div>
-                    </VCol>
-                  </VRow>
-                  <VRow class="pa-0 ma-0 h-25 mb-2">
-                    <VCol cols="12"  class="d-flex justify-end pt-2 pb-0 align-center">
-                      <v-btn icon="$edit" size="small"  color="white" class="bg-primary mx-2 politics-actions" @click="showModal(politic.id, 'update')" />
-                      <v-btn icon="$listCrime" size="small"  color="terciary" class="bg-terciary mx-2 politics-actions" @click="showModal(politic.id, 'crimes')"/>
-                      <v-btn icon="$delete" size="small"  color="error" class="bg-error mx-2 politics-actions" @click="showModal(politic.id, 'delete')"/>
-                    </VCol>
-                  </VRow>
-                </div>
-              </div>
-            </div>
-          </VCard>
-      </VCol>
-    </VRow>
-    <createPoliticModal :dialog="dialogCreate" @hideModal="hideModal" @refresh="getPolitics" />
+                </VCard>
+            </VCol>
+          </template>
+          <VCol v-else cols="12" class="text-center">
+            <h4 class="text-h4">No hay politicos creados</h4>
+          </VCol>
+        </VRow>
+        <VRow class="pa-0 ma-0 mt-5" v-else>
+          <VCol cols="12" md="3"  v-for="n in 6" :key="n">
+            <v-skeleton-loader class="w-100" type="card"></v-skeleton-loader>
+          </VCol>
+        </VRow>
+        <template v-slot:empty>
+          <div class="bg-error w-50 text-center pa-2 rounded-sm" >
+            No hay mas politicos
+          </div>
+        </template>
+      </v-infinite-scroll>
+    </div>
+    <createPoliticModal :dialog="dialogCreate" @hideModal="hideModal" @refresh="updateList" />
     <div v-if=" Object.values(selectedPolitic).length > 1">
-      <updatePoliticModal :dialog="dialogUpdate" @hideModal="hideModal" @refresh="getPolitics" :politic="selectedPolitic" />
-      <deletePoliticModal :dialog="dialogDelete" @hideModal="hideModal" @refresh="getPolitics" :politic="selectedPolitic" />
+      <updatePoliticModal :dialog="dialogUpdate" @hideModal="hideModal" @refresh="updateList" :politic="selectedPolitic" />
+      <deletePoliticModal :dialog="dialogDelete" @hideModal="hideModal" @refresh="updateList" :politic="selectedPolitic" />
 
       <v-dialog
         v-model="dialogCrimes"
-        max-width="50%"
+        class="mxmd-50"
       >
         <v-card
           prepend-icon="$listCrime"
-          title="Listado de delitos"
+          title='Listado de "anticuchos"'
+          style="position: relative"
         >
           <v-card-text class="mt-5">
             <div class="w-100 d-flex justify-end">
@@ -111,7 +149,7 @@
               <VCol cols="12" class="px-2 mt-8" v-else> 
                 <div class="">
                   <div class="text-h4 d-flex align-center w-100 justify-center mt-0">
-                    No se han cargado delitos
+                    No se han cargado anticuchos
                   </div>
                 </div>
               </VCol>
@@ -134,11 +172,12 @@
       </v-dialog>
       <v-dialog
         v-model="dialogCrimesCreate"
-        max-width="50%"
+        class="mxmd-50"
       >
         <v-card
           prepend-icon="$listCrime"
-          title="Creacion de delitos"
+          id="date-create-crimes-form"
+          title="Creacion de anticuchos"
         >
           <v-card-text class="mt-5">
             <v-row dense>
@@ -216,11 +255,12 @@
       </v-dialog>
       <v-dialog
         v-model="dialogCrimesUpdate"
-        max-width="50%"
+        class="mxmd-50"
       >
         <v-card
           prepend-icon="$listCrime"
-          title="Modificación de delitos"
+          id="date-update-crimes-form"
+          title="Modificación de anticuchos"
         >
           <v-card-text class="mt-5">
             <v-row dense>
@@ -298,7 +338,7 @@
       </v-dialog>
       <v-dialog
         v-model="dialogCrimesDelete"
-        max-width="50%"
+        class="mxmd-50"
       >
         <v-card
           prepend-icon="$listCrime"
@@ -334,11 +374,11 @@
       </v-dialog>
       <v-dialog
         v-model="dialogCrimesView"
-        max-width="50%"
+        class="mxmd-50"
       >
         <v-card
           prepend-icon="$listCrime"
-          title="Detalles del delitos"
+          title="Detalles del anticuchos"
         >
           <v-card-text class="mt-5 pb-0">
             <v-row dense>
@@ -399,11 +439,8 @@ import { DELETE_CRIME, STORE_CRIME, UPDATE_CRIME } from '@/core/services/store/c
 import createPoliticModal from '@/components/politics/modals/createPoliticModal.vue'
 import updatePoliticModal from '@/components/politics/modals/updatePoliticModal.vue'
 import deletePoliticModal from '@/components/politics/modals/deletePoliticModal.vue'
-
-
-// import * as bootstrap from 'bootstrap'
+import debounce from 'debounce';
 import nationality from '@/core/plugins/nationalityJson'
-
 import moment from 'moment';
 import flatpickr from "flatpickr";
 import 'flatpickr/dist/themes/confetti.css';
@@ -432,6 +469,10 @@ export default defineComponent({
       selectedCrime: {},
       selectedPolitic: {},
       moment,
+      search:'',
+      currentPage:0,
+      loading:false,
+      loadContinuos:"ok"
     }
   },
   components: {
@@ -440,12 +481,32 @@ export default defineComponent({
     deletePoliticModal,
   },
   methods:{
-    getPolitics(){
+    searchPolitic(){
+      this.loading = false
+      debounce(this.getPolitics,500)('noload');
+    },
+    load({ done }) {
+      setTimeout(() => {
+        this.getPolitics()
+        done(this.loadContinuos)
+      }, 1000)
+    },
+    getPolitics(type="load"){
+      const data = {
+        search: this.search ?? '',
+        pageNumber: type !== 'load'? 1 : this.currentPage + 1 
+      }
+
       this.$store
-      .dispatch(GET_POLITICS)
+      .dispatch(GET_POLITICS, data)
       .then((data) =>{
         if(!data.code) throw new Error('server error')
-        this.politics = data.data
+
+        if(type !== 'load')this.politics = data.data.data
+        else this.politics.push(...data.data.data)
+      
+        this.loading = true
+        this.paginationAction(data, type)
       }).catch(() => {
         this.emitter.emit('logoutSession')
       })
@@ -468,14 +529,14 @@ export default defineComponent({
         this.dialogCrimesCreate = true;
         setTimeout(() => {
           this.initFlatpickr('date-create-crimes')
-        },200)
+        },300)
       }
       if(modal == 'delete') this.dialogCrimesDelete = true
       if(modal == 'update') {
         this.dialogCrimesUpdate = true;
         setTimeout(() => {
           this.initFlatpickr('date-update-crimes');
-        },200)
+        },300)
       }
       if(modal == 'view') this.dialogCrimesView = true
      
@@ -493,10 +554,8 @@ export default defineComponent({
         this.$store
           .dispatch(GET_POLITIC_BY_ID, idPolitic)
           .then((response) => {
-            // console.log(response)
             this.selectedPolitic = Object.assign({}, response.data);
             setTimeout(() => {
-              
               resolve(response.data);
             }, 500);
           })
@@ -528,7 +587,6 @@ export default defineComponent({
       this.$store
       .dispatch(STORE_CRIME, data)
       .then((response) =>{
-        this.getPolitics();
         this.selectedPolitic = Object.assign({}, response.data);
         this.resetForm();
         this.hideInternalModal('createCrimes')
@@ -538,7 +596,7 @@ export default defineComponent({
       this.$store
       .dispatch(DELETE_CRIME, this.selectedCrime.id)
       .then((response) => {
-        this.getPolitics();
+        
         this.selectedPolitic = Object.assign({}, response.data);
         this.hideInternalModal('delete')
       })
@@ -553,7 +611,7 @@ export default defineComponent({
       this.$store
       .dispatch(UPDATE_CRIME, {id:this.selectedCrime.id, data:data})
       .then((response) =>{
-        this.getPolitics();
+        
         this.selectedPolitic = Object.assign({}, response.data);
         // this.resetForm('newCrime');
         this.hideInternalModal('update')
@@ -565,13 +623,12 @@ export default defineComponent({
         maxDate: "today",
         locale: Spanish,
         disableMobile:true,
+        appendTo:document.getElementById(id+'-form'),
         onClose: function (selectedDate) {
           document.querySelector('#date-input-val-'+id).value = moment(selectedDate[0]).format('YYYY-MM-DD')
         }
       });
       if(id == 'date-update-crimes'){
-        console.log(id)
-        console.log(this.selectedCrime.date)
         this.inputDate.setDate(moment(this.selectedCrime.date).format('DD-MM-YYYY'),true);
       }
     },
@@ -580,6 +637,28 @@ export default defineComponent({
       setTimeout(() => {
         this.showInternalModal(modal)
       }, 400);
+    },
+    paginationAction(data, type){
+      console.log(data.data.current_page == data.data.last_page  ?  'empty' : 'ok')
+      this.currentPage = data.data.current_page
+      this.loadContinuos = data.data.current_page == data.data.last_page  ?  'empty' : 'ok'
+    },
+    updateList(data){
+      console.log(data)
+      let cewbolla = this.politics.find((politic) => politic.id == this.selectedPolitic.id)
+      cewbolla = this.selectedPolitic
+
+      console.log(this.politics)
+      // for(let i = 0; i < this.banks.length; i++){
+      //   if(this.banks[i].id == data.data.id){
+      //       this.banks[i] = data.data;
+
+      //       // close modal
+      //       this.closeModal('modal-update-bank')
+      //       this.showMainAlert('success', 'Banco actualizado correctamente!')
+      //       return;
+      //   }
+      // }
     }
   },
   mounted(){
@@ -590,6 +669,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.text-h7{
+  font-size: 17px;
+  color:#83888d;
+}
+.flatpickr-calendar.animate.arrowTop.arrowLeft.open{
+  top: 21%!important;
+  left: 50%!important;
+}
 .politics {
   .v-card-item{
     padding-top: 0px;
@@ -638,9 +725,19 @@ export default defineComponent({
   align-items: center;
   transition: all 0.2s ease-in;
 }
+.mxmd-50 {
+    max-width: 50%;
+  }
 @media screen and (max-width: 780px){
   .w-100-50{
     width: 100%;
+  }
+  .mxmd-50 {
+    max-width: 100%;
+  }
+  .flatpickr-calendar.animate.arrowTop.arrowLeft.open{
+    top: 30%!important;
+    left: 5%!important;
   }
 }
 </style>
@@ -667,7 +764,7 @@ export default defineComponent({
   .poilitic-card__image-content{
     max-height: 600px;
     background: rgb(173,177,173);
-    background: radial-gradient(circle, rgb(211, 211, 211) 20%, rgb(238, 240, 238) 33%, #c2c3ec 100%);
+    background: radial-gradient(circle, rgb(211, 211, 211) 20%, rgb(238, 240, 238) 33%, #8d8a8a 100%);
   }
   .description-politic{
     box-shadow: 0px 0px 11px 0px #00000057;
@@ -733,6 +830,8 @@ export default defineComponent({
     align-items: center;
     transition: all 0.2s ease-in;
   }
+
+  
   @media screen and (max-width: 780px){
     .w-100-50{
       width: 100%;

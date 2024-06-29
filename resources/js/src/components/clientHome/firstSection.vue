@@ -25,14 +25,17 @@
                     <div class=" w-100 px-0" style="height: 150px;">
                       <div>
                         <div class="text-center ">
-                          <h5 class="text-h5 ">{{ politic.name }}</h5>
+                          <h5 class="text-h5 mb-1">{{ politic.name }}</h5>
+                          <div class="text-h7">
+                            {{ politic.office }}
+                          </div>
                         </div>
                       </div>
                       <VRow class="pa-0 ma-0">
                         <VCol cols="7" md="8" class="px-2 pt-0"> 
                           <div class="mt-3 ">
                             <div class="text-subtitle-2 d-flex justify-start align-center">
-                              <b class="text-start">▪ Cargo: {{ politic.office }}</b>
+                              <b class="text-start"> ▪ Edad: {{ politic.age }} años</b>
                             </div>
                             <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
                               <b> ▪ Nacionalidad:</b>
@@ -43,9 +46,7 @@
                         </VCol>
                         <VCol cols="5" md="4" class="px-1 pt-0"> 
                           <div class="mt-3">
-                            <div class="text-subtitle-2 d-flex justify-start align-center">
-                              <b class="text-start"> ▪ Edad: {{ politic.age }} años</b>
-                            </div>
+                            
                             <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
                               <b class="text-start"> ▪ Desde: {{ politic.since }}</b>
                             </div>
@@ -86,13 +87,13 @@
                     <div class=" w-100 px-0">
                       <div>
                         <div class="text-center mt-2">
-                          <h5 class="text-h6 ">{{ politic.name }}</h5>
+                          <h5 class="7 ">{{ politic.name }}</h5>
                         </div>
                       </div>
                       <VRow class="pa-0 ma-0" >
                           <VCol cols="12" class="px-2 pt-0"> 
                             <div class="w-100 ">
-                              <h2 class="text-subtitle-1 text-center mt-1" v-if="politic.crimes.length > 0">Delitos</h2>
+                              <h2 class="text-subtitle-1 text-center mt-1" v-if="politic.crimes.length > 0">Anticuchos</h2>
                             </div>
                             <div class="mt-3" v-if="politic.crimes.length > 0">
                               <div class="text-subtitle-1 d-flex align-center mt-2" v-for="(crime, index) in politic.crimes" :key="index">
@@ -104,8 +105,8 @@
                               </div>
                             </div>
                             <div v-else >
-                              <h3 class="text-center text-h6 my-2">
-                                No tiene delitos registrado
+                              <h3 class="text-center 7 my-2">
+                                No tiene anticuchos registrado
                               </h3>
                             </div>
                           </VCol>
@@ -262,6 +263,10 @@ li.carousel__slide.carousel__slide--visible.carousel__slide--active .v-card {
 </style>
 
 <style lang="scss" scoped>
+  .text-h7{
+    font-size: 17px;
+    color:#83888d;
+  }
   .animate__animated{
     animation-duration: 0.8s;
   }
@@ -285,7 +290,7 @@ li.carousel__slide.carousel__slide--visible.carousel__slide--active .v-card {
     width: 80%;
     max-height: 580px;
     background: rgb(173,177,173);
-    background: radial-gradient(circle, rgb(211, 211, 211) 20%, rgb(238, 240, 238) 33%, #c2c3ec 100%);
+    background: radial-gradient(circle, rgb(211, 211, 211) 20%, rgb(238, 240, 238) 33%, #8d8a8a 100%);
   }
   .description-politic{
     box-shadow: 0px 0px 11px 0px #00000057;
