@@ -6,7 +6,7 @@ const theme = {
     light: {
       dark: false,
       colors: {
-        'primary': '#4647e3',
+        'primary': '#fd2a2a',
         'on-primary': '#fff',
         'unavailable': '#e1e1e1a6',
         'secondary': '#e1e3e1',

@@ -26,11 +26,11 @@ const actions = {
       // }
     });
   },
-  [GET_POLITICS_PUBLIC](context,query =''){
+  [GET_POLITICS_PUBLIC](context,page = 1){
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/public/politic"+query)
+        ApiService.get("api/public/politic?page="+page+"&")
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);

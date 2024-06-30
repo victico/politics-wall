@@ -26,10 +26,7 @@ class PoliticController extends Controller
     {
         //
         $allPolitics = Politic::query()->with(['crimes']);
-        if(isset($request->status)){
-            $allPolitics->where('status', $request->status);
-        }
-        return $this->returnSuccess(200, $allPolitics->get() );
+        return $this->returnSuccess(200, $allPolitics->paginate(25));
     }
     /**
      * Show the form for creating a new resource.
