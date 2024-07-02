@@ -1,5 +1,27 @@
 <template>
-  <div class="mt-14" style="height: calc(100vh - 56px);">
+  <div id="searchSection" class="mt-16 pt-16">
+    <VRow class="pt-8">
+      <VCol cols="6">
+        <div class="input_search d-flex align-center pe-16 ps-5 pt-2">
+          <v-text-field 
+            clearable 
+            label="Buscar" 
+            placeholder="Buscar..." 
+            v-model="search"
+            variant="outlined" 
+            clear-icon="$close"
+            @click:clear="searchPolitic()"
+            @change="searchPolitic()"
+            
+          />
+          <v-btn class="ms-4" color="white" @click="searchPolitic()">
+            Buscar
+          </v-btn>
+        </div>
+      </VCol>
+    </VRow>
+  </div>
+  <div class="pt-2" >
     <v-infinite-scroll
         height="100%"
         mode="manual"
@@ -7,21 +29,41 @@
         style="width: 100%;"
         @load="load"
       >
-      <div class="mt-16 pt-16 grid-gallery">
-        <div  class="px-0 grid-gallery__item position-relative" v-for="(politic, index) in politics" :key="index">
-          <img :src="politic.normal_photo" class="grid-gallery__image" alt="" style="width: 100%; ">
-          <div class="wastedImg_content"  >
-            <div style=""  class="wastedSecond" :class="{'wastedActive': politic.wasted}" >
-              <img :src="wastedImg" alt=""   style="transform: rotate(-35deg)">
+      <div v-if="politics.length > 0 && loading">
+        <div class=" grid-gallery px-2" >
+          <div  class="px-0 grid-gallery__item position-relative" v-for="(politic, index) in politics" :key="index">
+            <img :src="politic.normal_photo" class="grid-gallery__image" alt="" style="width: 100%; ">
+            <div class="wastedImg_content"  >
+              <div style=""  class="wastedSecond" :class="{'wastedActive': politic.wasted}" >
+                <img :src="wastedImg" alt=""   style="transform: rotate(-35deg)">
+              </div>
+            </div>
+            <div class="overlay_grid_img text-center" @click="shoModal(politic.id)">
+              <img src="https://cdn-icons-png.flaticon.com/256/738/738502.png"     height="50px" width="50px"  alt="">
+              <div class="w-100 text-white mt-2" >
+                Presiona aquí
+  
+              </div>
             </div>
           </div>
-          <div class="overlay_grid_img text-center" @click="shoModal(politic.id)">
-            <img src="https://cdn-icons-png.flaticon.com/256/738/738502.png"     height="50px" width="50px"  alt="">
-            <div class="w-100 text-white mt-2" >
-              Presiona aquí
-
-            </div>
-          </div>
+        </div>
+      </div>
+      <div  v-else-if="politics.length == 0 && loading">
+        <div class="w-100 text-center mt-2">
+          <h2 class="text-white">No hay politicos</h2>
+        </div>
+      </div>
+      <div v-else>
+        <div class="grid-gallery">
+          <v-skeleton-loader
+            v-for="n in 25"
+            :key="n"
+            :loading="!loading"
+            class="px-0 grid-gallery__item "
+            max-width="300"
+            type="image"
+            style="background: transparent;"
+          />
         </div>
       </div>
       <template v-slot:empty>
@@ -50,6 +92,7 @@ import { GET_POLITICS_PUBLIC } from '@/core/services/store/politic.module';
 import 'vue3-carousel/dist/carousel.css'
 import modalCardPoliticVue from '@/components/clientHome/modalCardPolitic.vue';
 import wastedImg from "@/assets/media/utils/wasted.png";
+import debounce from 'debounce';
 
 export default defineComponent({
   data: () => {
@@ -60,6 +103,8 @@ export default defineComponent({
       view: window.screen.width < 480 ? 1.27 : 4.2,
       selectedPolitic:null,
       dialog:false,
+      loading:false,
+      search:'',
       wastedImg 
     }
   },
@@ -67,55 +112,61 @@ export default defineComponent({
     modalCardPoliticVue
   },
   methods: {
-    load({ done }) {
-      this.getPolitics()
-      setTimeout(() => {
-        done('ok')
-      }, 1000)
-    },
-    getPolitics(){
-      const pageNumber = this.currentPage + 1 
-      
+    getPolitics(type="load"){
+      const data = {
+        search: this.search ?? '',
+        pageNumber: type !== 'load'? 1 : this.currentPage + 1 
+      }
+
       this.$store
-      .dispatch(GET_POLITICS_PUBLIC, pageNumber)
+      .dispatch(GET_POLITICS_PUBLIC, data)
       .then((data) =>{
         if(!data.code) throw new Error('server error')
 
-
-        this.politics.push(...data.data.data)
+        if(type !== 'load')this.politics = data.data.data
+        else this.politics.push(...data.data.data)
+      
+        this.loading = true
         this.paginationAction(data)
       }).catch(() => {
         this.emitter.emit('logoutSession')
       })
+    },    
+    getPoliticByID(idPolitic){
+      return new Promise((resolve, reject) =>{
+        this.selectedPolitic = this.politics.find((politic) => politic.id == idPolitic);
+        this.selectedPolitic.show = false
+        setTimeout(()=>{
+          resolve(this.selectedPolitic)
+        }, 800)
+      })
+
+    },
+    searchPolitic(){
+      this.loading = false
+      // debounce(this.getPolitics,500)('noload');
+      this.getPolitics('noload')
+    },
+    wastedPolitic(id){
+      let politic = this.politics.find((politic) => politic.id == id);
+      politic.wasted = true 
+    },
+    paginationAction(data){
+      this.currentPage = data.data.current_page
+      this.loadContinuos = data.data.current_page == data.data.last_page 
     },
     load({ done }) {
       this.getPolitics()
       setTimeout(() => {
         done('ok')
       }, 1000)
-    },
-    paginationAction(data){
-      this.currentPage = data.data.current_page
-      this.loadContinuos = data.data.current_page == data.data.last_page 
     },
     async shoModal(idPolitic){
       await this.getPoliticByID(idPolitic).then(() =>{
         this.dialog = true
       })
     },
-    getPoliticByID(idPolitic){
-      return new Promise((resolve, reject) =>{
-        this.selectedPolitic = this.politics.find((politic) => politic.id == idPolitic);
-        this.selectedPolitic.show = false
-        resolve(this.selectedPolitic)
-      })
-
-    },
-
-    wastedPolitic(id){
-      let politic = this.politics.find((politic) => politic.id == id);
-      politic.wasted = true 
-    },
+    
 
   },
   mounted() {

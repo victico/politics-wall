@@ -3,7 +3,7 @@
     <nav style="" class="nav-bar-homepage" >
       <div class="h-100 d-flex flex-md-row flex-column w-100 align-center px-5">
         <div class="h-100 px-5 py-2 w-100 d-flex justify-center justify-md-start"> 
-          <img :src="Logo" alt="" height="120">
+          <img :src="Logo" alt="" height="120" >
         </div>
         <div class="w-100 mb-3 mb-md-0">
           <div class="d-flex w-100 justify-center justify-md-end ">
@@ -25,7 +25,6 @@
       <div>
         <div id="politic-section" class="section">
           <firstSectionClient />
-  
         </div>
         <div id="sponsor-section" class="section ">
           <div class=" pa-5 text-center pt-12 mt-0" > 
@@ -55,6 +54,7 @@
 import { defineComponent } from 'vue'
 import firstSectionClient from '@/components/clientHome/firstSection.vue'
 import Logo from "@/assets/media/logos/logo.jpg"
+import color from '../assets/plugins/formvalidation/src/js/validators/color';
 
 export default defineComponent({
   components:{
@@ -75,9 +75,6 @@ export default defineComponent({
     }
   },
   methods: {
-    lito(){
-      console.log('0abejaaa')
-    }
   }
 })
 </script>
@@ -88,6 +85,9 @@ export default defineComponent({
 #politic-section {
   background: #474747;
   z-index: 3;
+}
+#searchSection{
+  background: #474747;
 }
 #sponsor-section {
   background: linear-gradient(180deg, #474747 10%, rgb(65, 32, 32) 60%, rgba(51,10,10,1) 100%);

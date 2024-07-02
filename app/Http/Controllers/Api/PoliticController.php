@@ -25,7 +25,7 @@ class PoliticController extends Controller
     public function indexPublic(Request $request)
     {
         //
-        $allPolitics = Politic::query()->with(['crimes']);
+        $allPolitics = Politic::query()->with(['crimes'])->where('name', 'like', '%'.$request->name.'%');
         return $this->returnSuccess(200, $allPolitics->paginate(25));
     }
     /**

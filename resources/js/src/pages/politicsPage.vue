@@ -66,9 +66,9 @@
                         <VRow class="pa-0 ma-0 h-50 pt-2" style="">
                           <VCol cols="7" md="7" class="px-2 pt-0"> 
                             <div class="mt-3 ">
-                              <div class="text-subtitle-2 ">
+                              <!-- <div class="text-subtitle-2 ">
                                 <b> ▪ Edad: {{ politic.age }} años</b>
-                              </div>
+                              </div> -->
                               <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
                                 <b> ▪ Nacionalidad:</b>
                                 <img :src="`https://flagsapi.com/${politic.nationality}/shiny/24.png`" class="ms-1">
@@ -515,7 +515,7 @@ export default defineComponent({
         else this.politics.push(...data.data.data)
       
         this.loading = true
-        this.paginationAction(data, type)
+        this.paginationAction(data)
       }).catch(() => {
         this.emitter.emit('logoutSession')
       })
@@ -647,7 +647,7 @@ export default defineComponent({
         this.showInternalModal(modal)
       }, 400);
     },
-    paginationAction(data, type){
+    paginationAction(data){
       this.currentPage = data.data.current_page
       this.loadContinuos = data.data.current_page == data.data.last_page 
     },
