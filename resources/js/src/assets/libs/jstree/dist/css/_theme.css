@@ -1,0 +1,105 @@
+.jstree-default {
+  background: transparent;
+}
+
+.jstree-default > .jstree-container-ul .jstree-loading > .jstree-ocl,
+.jstree-default-small > .jstree-container-ul .jstree-loading > .jstree-ocl,
+.jstree-default-large > .jstree-container-ul .jstree-loading > .jstree-ocl {
+  background-image: url('./themes/default/throbber.gif');
+}
+
+.jstree-default .jstree-node,
+.jstree-default .jstree-icon,
+.jstree-default .jstree-file,
+.jstree-default .jstree-folder,
+#jstree-dnd.jstree-default .jstree-ok,
+#jstree-dnd.jstree-default .jstree-er,
+.jstree-default-small .jstree-node,
+.jstree-default-small .jstree-icon,
+.jstree-default-small .jstree-file,
+.jstree-default-small .jstree-folder,
+#jstree-dnd.jstree-default-small .jstree-ok,
+#jstree-dnd.jstree-default-small .jstree-er,
+.jstree-default-large .jstree-node,
+.jstree-default-large .jstree-icon,
+.jstree-default-large .jstree-file,
+.jstree-default-large .jstree-folder,
+#jstree-dnd.jstree-default-large .jstree-ok,
+#jstree-dnd.jstree-default-large .jstree-er {
+  background-image: url('./themes/default/32px.png');
+}
+
+@media (max-width: 767.98px) {
+  #jstree-dnd.jstree-dnd-responsive > .jstree-ok,
+#jstree-dnd.jstree-dnd-responsive > .jstree-er,
+.jstree-default-responsive .jstree-icon,
+.jstree-default-responsive .jstree-node,
+.jstree-default-responsive .jstree-icon,
+.jstree-default-responsive .jstree-node > .jstree-ocl,
+.jstree-default-responsive .jstree-themeicon,
+.jstree-default-responsive .jstree-checkbox,
+.jstree-default-responsive .jstree-file,
+.jstree-default-responsive .jstree-folder {
+    background-image: url('./themes/default/40px.png');
+  }
+}
+.jstree-default .jstree-last,
+.jstree-default > .jstree-no-dots .jstree-node,
+.jstree-default > .jstree-no-dots .jstree-leaf > .jstree-ocl,
+.jstree-default .jstree-disabled,
+.jstree-default .jstree-themeicon-custom:not(.jstree-file):not(.jstree-folder) {
+  background: transparent !important;
+}
+
+.jstree-default-dark {
+  background: transparent;
+}
+
+.jstree-default-dark > .jstree-container-ul .jstree-loading > .jstree-ocl,
+.jstree-default-dark-small > .jstree-container-ul .jstree-loading > .jstree-ocl,
+.jstree-default-dark-large > .jstree-container-ul .jstree-loading > .jstree-ocl {
+  background-image: url('./themes/default-dark/throbber.gif');
+}
+
+.jstree-default-dark .jstree-node,
+.jstree-default-dark .jstree-icon,
+.jstree-default-dark .jstree-file,
+.jstree-default-dark .jstree-folder,
+#jstree-dnd.jstree-default-dark .jstree-ok,
+#jstree-dnd.jstree-default-dark .jstree-er,
+.jstree-default-dark-small .jstree-node,
+.jstree-default-dark-small .jstree-icon,
+.jstree-default-dark-small .jstree-file,
+.jstree-default-dark-small .jstree-folder,
+#jstree-dnd.jstree-default-dark-small .jstree-ok,
+#jstree-dnd.jstree-default-dark-small .jstree-er,
+.jstree-default-dark-large .jstree-node,
+.jstree-default-dark-large .jstree-icon,
+.jstree-default-dark-large .jstree-file,
+.jstree-default-dark-large .jstree-folder,
+#jstree-dnd.jstree-default-dark-large .jstree-ok,
+#jstree-dnd.jstree-default-dark-large .jstree-er {
+  background-image: url('./themes/default-dark/32px.png');
+}
+
+@media (max-width: 767.98px) {
+  #jstree-dnd.jstree-dnd-responsive > .jstree-ok,
+#jstree-dnd.jstree-dnd-responsive > .jstree-er,
+.jstree-default-dark-responsive .jstree-icon,
+.jstree-default-dark-responsive .jstree-node,
+.jstree-default-dark-responsive .jstree-icon,
+.jstree-default-dark-responsive .jstree-node > .jstree-ocl,
+.jstree-default-dark-responsive .jstree-themeicon,
+.jstree-default-dark-responsive .jstree-checkbox,
+.jstree-default-dark-responsive .jstree-file,
+.jstree-default-dark-responsive .jstree-folder {
+    background-image: url('./themes/default-dark/40px.png');
+  }
+}
+.jstree-default-dark .jstree-last,
+.jstree-default-dark > .jstree-no-dots .jstree-node,
+.jstree-default-dark > .jstree-no-dots .jstree-leaf > .jstree-ocl,
+.jstree-default-dark .jstree-disabled,
+.jstree-default-dark .jstree-themeicon-custom:not(.jstree-file):not(.jstree-folder) {
+  background: transparent !important;
+}

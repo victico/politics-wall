@@ -1,0 +1,77 @@
+/* Suggestions items */
+.tagify__dropdown.users-list {
+  font-size: 1rem;
+}
+.tagify__dropdown.users-list .tagify__dropdown__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 1em;
+  grid-template-areas: "avatar name" "avatar email";
+}
+.tagify__dropdown.users-list .tagify__dropdown__item__avatar-wrap {
+  grid-area: avatar;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: 0.1s ease-out;
+}
+.tagify__dropdown.users-list img {
+  width: 100%;
+  vertical-align: top;
+}
+.tagify__dropdown.users-list strong {
+  grid-area: name;
+  width: 100%;
+  align-self: center;
+  font-weight: 500;
+}
+.tagify__dropdown.users-list span {
+  grid-area: email;
+  width: 100%;
+  font-size: 0.9em;
+  opacity: 0.6;
+}
+
+/* Tags items */
+.tagify__tag {
+  white-space: nowrap;
+}
+.tagify__tag .tagify__tag__avatar-wrap {
+  width: 22px;
+  height: 22px;
+  white-space: normal;
+  border-radius: 50%;
+  margin-right: 5px;
+  transition: 0.12s ease-out;
+  vertical-align: middle;
+}
+.tagify__tag img {
+  width: 100%;
+  vertical-align: top;
+}
+
+[dir=rtl] .tagify__tag .tagify__tag__avatar-wrap {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+.light-style .tagify__dropdown.users-list .tagify__dropdown__item__avatar-wrap {
+  background: #f8f7fa;
+}
+.light-style .tagify__tag .tagify__tag__avatar-wrap {
+  background: #f8f7fa;
+}
+.light-style .tagify__dropdown.users-list .addAll {
+  border-bottom: 1px solid #dbdade;
+}
+
+.dark-style .tagify__dropdown.users-list .tagify__dropdown__item__avatar-wrap {
+  background: #25293c;
+}
+.dark-style .tagify__tag .tagify__tag__avatar-wrap {
+  background: #25293c;
+}
+.dark-style .tagify__dropdown.users-list .addAll {
+  border-bottom: 1px solid #434968;
+}

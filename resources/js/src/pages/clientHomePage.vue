@@ -2,61 +2,59 @@
   <div>
     <nav style="" class="nav-bar-homepage" >
       <div class="h-100 d-flex flex-md-row flex-column w-100 align-center px-5">
-        <div class="h-100 px-5 py-2 w-100 "> 
-          <h1 class="text-h2 text-center text-md-start" style="color:red!important">
-            El Muro
-          </h1>
+        <div class="h-100 px-5 py-2 w-100 d-flex justify-center justify-md-start"> 
+          <img :src="Logo" alt="" height="120" >
         </div>
         <div class="w-100 mb-3 mb-md-0">
           <div class="d-flex w-100 justify-center justify-md-end ">
             <a href="#page1">
-              <div class="text-white mx-5">Muro</div>
+              <div class="text-white font-weight-bold mx-5">Muro</div>
             </a>
             <a href="#page2">
-              <div class="text-white mx-5">Patrocinantes</div>
+              <div class="text-white font-weight-bold mx-5">Patrocinantes</div>
             </a>
             <RouterLink to="/admin">
-              <div class="text-white mx-5">Admin</div>
-            </RouterLink>
-            <RouterLink to="/login">
-              <div class="text-white mx-5">Login</div>
+              <div class="text-white font-weight-bold mx-5">Admin</div>
             </RouterLink>
           </div>
         </div>
       </div>
     </nav>
-
-    <full-page ref="fullpage" @onLeave="lito()" :options="options" id="fullpage" >
-      <div id="politic-section" class="section">
-        <firstSectionClient />
-
-      </div>
-      <div id="sponsor-section" class="section ">
-        <div class=" pa-5 text-center mt-0 pt-0" > 
-          <h1 class="text-h3" style="color:red!important">
-            Patrocinantes
-          </h1>
+ 
+    <!-- <full-page ref="fullpage" @onLeave="lito()" :options="options" id="fullpage" > -->
+      <div>
+        <div id="politic-section" class="section">
+          <firstSectionClient />
         </div>
-        <div class="mt-16">
-          <div class="d-flex w-100 justify-center px-1 px-md-10">
-            <div v-for="i in 3" :key="i" class="d-flex justify-center align-center mx-3 mx-md-10" style=" height: 100px; width: 100px; border-radius: 50%; " >
-              <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" width="90px" height="90px" >
+        <div id="sponsor-section" class="section ">
+          <div class=" pa-5 text-center pt-12 mt-0" > 
+            <h1 class="text-h3" style="color:red!important">
+              Patrocinantes
+            </h1>
+          </div>
+          <div class="mt-16">
+            <div class="d-flex w-100 justify-center px-1 px-md-10">
+              <div v-for="i in 3" :key="i" class="d-flex justify-center align-center mx-3 mx-md-10" style=" height: 100px; width: 100px; border-radius: 50%; " >
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" width="90px" height="90px" >
+              </div>
+            </div>
+            <div class="d-flex w-100 justify-center px-1 px-md-10 mt-8">
+              <div v-for="i in 3" :key="i" class="d-flex justify-center align-center mx-3 mx-md-10" style=" height: 100px; width: 100px; border-radius: 50%; " >
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" width="90px" height="90px" >
+              </div>
             </div>
           </div>
-          <div class="d-flex w-100 justify-center px-1 px-md-10 mt-8">
-            <div v-for="i in 3" :key="i" class="d-flex justify-center align-center mx-3 mx-md-10" style=" height: 100px; width: 100px; border-radius: 50%; " >
-              <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" width="90px" height="90px" >
-            </div>
-          </div>
         </div>
       </div>
 
-    </full-page>
+    <!-- </full-page> -->
   </div>
 </template>
 <script>
 import { defineComponent } from 'vue'
 import firstSectionClient from '@/components/clientHome/firstSection.vue'
+import Logo from "@/assets/media/logos/logo.jpg"
+import color from '../assets/plugins/formvalidation/src/js/validators/color';
 
 export default defineComponent({
   components:{
@@ -64,6 +62,7 @@ export default defineComponent({
   },
   data: () => {
     return {
+      Logo,
       options: {
         navigation:true,
         v2compatible: false,
@@ -76,18 +75,22 @@ export default defineComponent({
     }
   },
   methods: {
-    lito(){
-      console.log('0abejaaa')
-    }
   }
 })
 </script>
 <style scoped lang="scss">
+.text-white{
+  color: white!important;
+}
 #politic-section {
-  background: #202020
+  background: #474747;
+  z-index: 3;
+}
+#searchSection{
+  background: #474747;
 }
 #sponsor-section {
-  background: linear-gradient(180deg, #202020 20%, rgba(27,6,6,1) 70%, rgba(51,10,10,1) 120%);
+  background: linear-gradient(180deg, #474747 10%, rgb(65, 32, 32) 60%, rgba(51,10,10,1) 100%);
 
   & img{
     filter: contrast(0.1);
@@ -104,7 +107,11 @@ export default defineComponent({
 }
 @import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
 .nav-bar-homepage{
-  width: 100%; height: max-content; background: rgb(12, 11, 8); position: fixed; z-index: 100;
+  width: 100%; 
+  height: max-content; 
+  background: #fd2a2a; 
+  position: fixed; 
+  z-index: 2;
   
 }
 .text-h2, .text-h3, .text-h4{
@@ -114,6 +121,7 @@ export default defineComponent({
   font-style: normal;
   font-variation-settings:
     "MORF" 15,
+
     "SHLN" 50;
 }
 </style>

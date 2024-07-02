@@ -25,23 +25,7 @@ const getters = {
     },
 };
 const actions = {
-    [GET_USER](context) {
-        return new Promise((resolve, reject) => {
-            if (JwtService.getToken()) {
-                ApiService.setHeader();
-                ApiService.get("api/user")
-                    .then(( { data } ) => {
-
-                        context.commit(SET_USER, data.data.user);
-                        resolve(data.data);
- 
-                    })
-                    .catch(( { response } ) => {
-                        reject('Ocurrió un error desconocido al intentar guardar el usuario.');
-                    });
-            }
-        });
-    },
+   
     [GET_ALL_USER](context) {
         return new Promise((resolve, reject) => {
             if (JwtService.getToken()) {

@@ -9,7 +9,7 @@
         >
           <v-card-text class="mt-5">
             <v-row dense>
-              <VCol cols="12" md="6" class="px-0 "> 
+              <VCol cols="12" class="px-0 "> 
                   <div class="img-content mx-auto">
                     <label for="photo_update">
                       <VImg
@@ -31,29 +31,6 @@
                       <input type="file"  id="photo_update" ref="photoUpdate" name="photoUpdate" data-type="update" class="d-none" @change="onFileChange" >
                     </div>
                   </div>
-              </VCol>
-              <VCol cols="12" md="6" class="px-0 "> 
-                <div class="img-content mx-auto">
-                  <label for="jail_photo_update">
-                    <VImg
-                      width="180"
-                      height="180"
-                      class="rounded"
-                      :src="selectedPolitic.jail_photo"
-                      style="border-radius:10%!important"
-                      id="newProduct-img-content"
-                    />
-                    <div class="overlay-img">
-                      <VIcon color="white" size="x-large" icon="$photo"/>
-                    </div>
-                  </label>
-                  <div class="w-100 text-subtitle-1 text-center">
-                    Foto en la carcel
-                  </div>
-                  <div   class="form-group text-center ma-0 mt-0 pa-0">
-                    <input type="file"  id="jail_photo_update" ref="jailPhotoUpdate" name="jail_photo" data-type="update" class="d-none"  @change="onFileChange" >
-                  </div>
-                </div>
               </VCol>
               <v-col
                 cols="12"
@@ -158,12 +135,8 @@ export default defineComponent({
   methods:{
     onFileChange(e) {
       const element = e.target;
-
-      element.id == 'jail_photo_update' 
-      ? this.selectedPolitic.jail_photo = URL.createObjectURL(element.files[0])
-      : this.selectedPolitic.normal_photo = URL.createObjectURL(element.files[0]) 
+      this.selectedPolitic.normal_photo = URL.createObjectURL(element.files[0]) 
       return
-
       
     },
     closeModal(){
@@ -177,11 +150,10 @@ export default defineComponent({
       data.append('nationality', this.selectedPolitic.nationality)
       data.append('since', this.selectedPolitic.since)
       data.append('photo_update', this.$refs.photoUpdate !== null ? this.$refs.photoUpdate.files[0] : '')
-      data.append('jail_photo_update', this.$refs.jailPhotoUpdate !== null ? this.$refs.jailPhotoUpdate.files[0] : '')
       this.$store
       .dispatch(UPDATE_POLITIC, { id: this.selectedPolitic.id, data:data } )
       .then((data) =>{
-        this.$emit("refresh")
+        this.$emit("refresh", data.data)
         this.closeModal();
       })
       

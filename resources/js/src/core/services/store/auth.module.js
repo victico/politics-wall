@@ -15,7 +15,7 @@ export const RESET_PASSWORD_EMAIL = 'resetPasswordEmail';
 export const VALIDATE_USER_EXIST = 'validate_user_exist';
 export const VALIDATE_EMAIL = 'validate_email';
 export const CHECK_TOKEN = 'CHECK_TOKEN';
-
+export const GET_USER ='GET_USER';
 // mutation types
 export const PURGE_AUTH = "logOut";
 export const SET_TOKEN = "setToken";
@@ -52,23 +52,20 @@ const actions = {
           if (JwtService.getToken()) {
             ApiService.setHeader();
             ApiService.get("api/user")
-              .then(({ data }) => {
-                // console.log(data)
-                context.commit(SET_AUTH, data.data.user);
-                context.commit(SET_IS_ADMIN, data.data.user);
-                state.user = data.data.user;
-                // console.log(data)
-                resolve(data.data);
+              .then((dataUser) => {
+                // console.log(dataUser)
+                state.user = dataUser.data.user;
+                resolve(dataUser.data);
               })
               .catch(( response ) => {
                 console.log(response)
-                context.commit(SET_ERROR, response.data);
+                context.commit(SET_ERROR, response);
               });
           }
         })
         .catch(( { response } ) => {
-          console.log(response)
-          resolve(response.data.data)
+          // console.log(response)
+          resolve(response.data)
         });
     });
   },
@@ -91,6 +88,19 @@ const actions = {
         ApiService.post("api/checkToken")
           .then((data) => {
             resolve(data);
+          }).catch(( data ) => {
+            resolve(data);
+          });
+      }
+    });
+  },
+  [GET_USER](context) {
+    return new Promise(resolve => {
+      if (JwtService.getToken()) {
+        ApiService.setHeader();
+        ApiService.post("api/get_current_user")
+          .then(({data}) => {
+            resolve(data.data);
           }).catch(( data ) => {
             resolve(data);
           });
@@ -170,10 +180,10 @@ const mutations = {
     state.user = {};
     state.errors = {};
     window.localStorage.removeItem("id_token");
-    window.localStorage.removeItem("is_admin");
-    window.localStorage.removeItem("user_unique_id");
-
     JwtService.destroyToken();
+    // window.localStorage.removeItem("is_admin");
+    // window.localStorage.removeItem("user_unique_id");
+
   }
 };
 

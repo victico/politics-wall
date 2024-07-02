@@ -8,7 +8,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Authenticate
+class AuthenticateJWT
 {
     /**
      * Handle an incoming request.

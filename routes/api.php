@@ -19,11 +19,13 @@ use App\Http\Controllers\Api\UserController;
 // });
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/create-user', [UserController::class, 'store']);
+Route::middleware('jwt.verify')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware('jwt.verify')->post('/get_current_user', [AuthController::class, 'getUser']);
 
+// Route::post('/create-user', [UserController::class, 'store']);
 
 Route::prefix('public')->name('politic.')->group(function () {
-    Route::get('/politic', [PoliticController::class, 'index']);
+    Route::get('/politic', [PoliticController::class, 'indexPublic']);
 
 });
 Route::middleware('jwt.verify')->prefix('politic')->name('politic.')->group(function () {
@@ -33,6 +35,9 @@ Route::middleware('jwt.verify')->prefix('politic')->name('politic.')->group(func
     Route::post('/{id}', [PoliticController::class, 'update']);
     Route::post('/delete/{id}', [PoliticController::class, 'destroy']);
 
+});
+Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
+    Route::get('/', [UserController::class, 'index']);
 });
 Route::middleware('jwt.verify')->prefix('crime')->name('crime.')->group(function () {
     Route::post('/', [CrimeController::class, 'store']);
