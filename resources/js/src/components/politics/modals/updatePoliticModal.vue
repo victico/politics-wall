@@ -40,7 +40,7 @@
                   label="Nombre*"
                   required
                   v-model="selectedPolitic.name"
-                ></v-text-field>
+                />
               </v-col>
               <v-col
                 cols="12"
@@ -51,31 +51,31 @@
                   persistent-hint
                   required
                   v-model="selectedPolitic.office"
-                ></v-text-field>
+                />
               </v-col>
               <v-col
                 cols="12"
-                sm="4"
+                sm="6"
                 class="mt-5"
               >
                 <v-text-field
-                  label="Edad*"
+                  label="Partido politico*"
                   required
-                  v-model="selectedPolitic.age"
-                ></v-text-field>
+                  v-model="selectedPolitic.political_party"
+                />
               </v-col>
               <v-col
                 cols="12"
-                sm="4"
+                sm="6"
                 class="mt-5"
               >
                 <v-text-field
                   label="En el puesto desde*"
                   required
                   v-model="selectedPolitic.since"
-                ></v-text-field>
+                />
               </v-col>
-                <v-col
+              <!-- <v-col
                 cols="12"
                 sm="4"
                 class="mt-5"
@@ -88,7 +88,7 @@
                   variant="outlined"
                   v-model="selectedPolitic.nationality"
                 ></v-autocomplete>
-              </v-col>
+              </v-col> -->
             </v-row>
   
             <!-- <small class="text-caption text-medium-emphasis">*indicates required field</small> -->
@@ -146,8 +146,7 @@ export default defineComponent({
       const data = new FormData();
       data.append('name', this.selectedPolitic.name)
       data.append('office', this.selectedPolitic.office)
-      data.append('age', this.selectedPolitic.age)
-      data.append('nationality', this.selectedPolitic.nationality)
+      data.append('political_party', this.selectedPolitic.political_party)
       data.append('since', this.selectedPolitic.since)
       data.append('photo_update', this.$refs.photoUpdate !== null ? this.$refs.photoUpdate.files[0] : '')
       this.$store

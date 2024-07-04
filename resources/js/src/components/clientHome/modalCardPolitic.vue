@@ -39,19 +39,20 @@
                     </div>
                   </div>
                   <VRow class="pa-0 ma-0">
-                    <VCol cols="6" class="px-md-4 px-4 pt-0"> 
+                    <VCol cols="6" class=" ps-4 pt-0"> 
                       <div class="mt-3 ">
                         <!-- <div class="text-subtitle-2 d-flex justify-start align-center">
                           <b class="text-start"> ▪ Edad: {{ selectedPolitic.age }} años</b>
                         </div> -->
                         <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
-                          <b> ▪ Nacionalidad:</b>
-                          <img :src="`https://flagsapi.com/${selectedPolitic.nationality}/shiny/24.png`" class="ms-1">
+                          <b> ▪ Partido político: {{ selectedPolitic.political_party }}</b>
+                          
+                          <!-- <img :src="`https://flagsapi.com/${selectedPolitic.nationality}/shiny/24.png`" class="ms-1"> -->
                         </div>
                         
                       </div>
                     </VCol>
-                    <VCol cols="6" class="px-md-4 px-4  pt-0"> 
+                    <VCol cols="6" class="pe-4  pt-0"> 
                       <div class="mt-3">
                         
                         <div class="text-subtitle-2  d-flex justify-end align-center mt-2">

@@ -43,7 +43,7 @@
                   label="Nombre*"
                   required
                   v-model="newPolitic.name"
-                ></v-text-field>
+                />
               </v-col>
               <v-col
                 cols="12"
@@ -54,31 +54,31 @@
                   persistent-hint
                   required
                   v-model="newPolitic.office"
-                ></v-text-field>
+                />
               </v-col>
               <v-col
                 cols="12"
-                sm="4"
+                sm="6"
                 class="mt-5"
               >
                 <v-text-field
-                  label="Edad*"
+                  label="Partido político*"
                   required
-                  v-model="newPolitic.age"
-                ></v-text-field>
+                  v-model="newPolitic.political_party"
+                />
               </v-col>
               <v-col
                 cols="12"
-                sm="4"
+                sm="6"
                 class="mt-5"
               >
                 <v-text-field
                   label="En el puesto desde*"
                   required
                   v-model="newPolitic.since"
-                ></v-text-field>
+                />
               </v-col>
-              <v-col
+              <!-- <v-col
                 cols="12"
                 sm="4"
                 class="mt-5"
@@ -91,7 +91,7 @@
                   variant="outlined"
                   v-model="newPolitic.nationality"
                 ></v-autocomplete>
-              </v-col>
+              </v-col> -->
             </v-row>
   
             <!-- <small class="text-caption text-medium-emphasis">*indicates required field</small> -->
@@ -161,8 +161,7 @@ export default defineComponent({
       newPolitic:{
         name:'',
         office:'',
-        age:'',
-        nationality:'PE',
+        political_party:'',
         since:'',
         photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png',
       },
@@ -177,19 +176,16 @@ export default defineComponent({
       this.newPolitic = {
         name:'',
         office:'',
-        age:'',
-        nationality:'PE',
+        political_party:'',
         since:'',
         photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png',
-
       }
     },
     createPolitic(){
       const data = new FormData();
       data.append('name', this.newPolitic.name)
       data.append('office', this.newPolitic.office)
-      data.append('age', this.newPolitic.age)
-      data.append('nationality', this.newPolitic.nationality)
+      data.append('political_party', this.newPolitic.political_party)
       data.append('since', this.newPolitic.since)
       data.append('photo', this.$refs.photo.files[0])
 

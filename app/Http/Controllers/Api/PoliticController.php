@@ -52,14 +52,13 @@ class PoliticController extends Controller
         try {
             //code...
             $newPolitic = Politic::create([
-                'name' => $request->name,
-                'office' => $request->office,
-                'age' => $request->age,
-                'nationality' => $request->nationality,
-                'since' => $request->since ?? '---',
-                'vote_jail' => 0,
-                'vote_no_jail' => 0,
-                'normal_photo' => $imgPath,
+                'name'              => $request->name,
+                'office'            => $request->office,
+                'political_party'   => $request->political_party,
+                'since'             => $request->since ?? '---',
+                'vote_jail'         => 0,
+                'vote_no_jail'      => 0,
+                'normal_photo'      => $imgPath,
             ]);
         } catch (Exception $th) {
             return $this->returnFail(404, $th->getMessage());
@@ -99,8 +98,7 @@ class PoliticController extends Controller
 
         $politic->name = $request->name;
         $politic->office = $request->office;
-        $politic->age = $request->age;
-        $politic->nationality = $request->nationality;
+        $politic->political_party = $request->political_party;
         $politic->since = $request->since;
         $politic->normal_photo = $imgPath;
         
@@ -123,28 +121,31 @@ class PoliticController extends Controller
 
 
         $rules=[
-            'name'          => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
-            'office'        => ['required', 'regex:/^[a-zA-Z-À-ÿ&$ .]+$/i' ],
-            'age'           => ['required', 'integer', 'regex:/^[0-9]+$/i'],
-            'nationality'   => ['required', 'regex:/^[a-zA-Z-À-ÿ&$ .]+$/i'],
-            'since'         => ['integer', 'regex:/^[0-9]+$/i'],
-            'photo'         => ['required', 'file'],
+            'name'              => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
+            'office'            => ['required', 'regex:/^[0-9-a-zA-Z-À-ÿ&$ .]+$/i'],
+            'political_party'   => ['required', 'regex:/^[0-9-a-zA-Z-À-ÿ&$ .]+$/i'],
+            'since'             => ['required', 'regex:/^[0-9\- ]+$/i'],
+            'photo'             => ['required', 'file'],
+            // 'age'           => ['required', 'integer', 'regex:/^[0-9]+$/i'],
+            // 'nationality'   => ['required', 'regex:/^[a-zA-Z-À-ÿ&$ .]+$/i'],
 
         ];
         $messages = [
-            'name.required'         => 'El nombre es requerido.',
-            'name.regex'            => 'Nombre no valido.',
-            'office.required'       => 'El cargo es requerido.',
-            'office.regex'          => 'Cargo no valido.',
-            'age.required'          => 'La edad es requerida.',
-            'age.integer'           => 'Edad no valida.',
-            'age.regex'             => 'Edad no valida.',
-            'nationality.required'  => 'El nacionalidad es requerida.',
-            'nationality.regex'     => 'Nacionalidad no valido.',
-            'since.regex'           => 'Ingresar un año valido.',
-            'since.integer'         => 'Ingresar un año valido.',
-            'photo.required'        => 'La foto es requerida.',
-            'photo.file'            => 'La foto es requerida.'
+            'name.required'             => 'El nombre es requerido.',
+            'name.regex'                => 'Nombre no valido.',
+            'office.required'           => 'El cargo es requerido.',
+            'office.regex'              => 'Cargo no valido.',
+            'political_party.required'  => 'El partido político es requerida.',
+            'political_party.regex'     => 'Partido político no valido.',
+            'since.regex'               => 'Ingresar un año valido.',
+            'since.required'            => 'El año es requerido.',
+            'photo.required'            => 'La foto es requerida.',
+            'photo.file'                => 'La foto es requerida.'
+            // 'age.required'          => 'La edad es requerida.',
+            // 'age.integer'           => 'Edad no valida.',
+            // 'age.regex'             => 'Edad no valida.',
+            // 'nationality.required'  => 'El nacionalidad es requerida.',
+            // 'nationality.regex'     => 'Nacionalidad no valido.',
         ];
 
 

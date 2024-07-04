@@ -13,9 +13,8 @@ class Politic extends Model
     protected $fillable = [
         'name', 
         'office', 
-        'age', 
         'since', 
-        'nationality',
+        'political_party',
         'status', 
         'vote_jail', 
         'vote_no_jail', 

@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "@mdi/light-js": "^0.2.63",
+        "@popperjs/core": "^2.11.8",
         "@vitejs/plugin-vue": "^5.0.4",
         "bootstrap": "^5.3.3",
         "debounce": "^2.1.0",
