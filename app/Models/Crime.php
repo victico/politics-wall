@@ -13,7 +13,6 @@ class Crime extends Model
     protected $fillable = [
         'title', 
         'description', 
-        'date', 
         'references', 
         'user_id',
     ];

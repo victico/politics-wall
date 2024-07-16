@@ -64,7 +64,7 @@
                           </div>
                         </div>
                         <VRow class="pa-0 ma-0 h-50 pt-2" style="">
-                          <VCol cols="7" md="7" class="ps-4 pt-0"> 
+                          <VCol cols="7" class="ps-4 pe-0 pt-0"> 
                             <div class="mt-3 ">
                               <!-- <div class="text-subtitle-2 ">
                                 <b> ▪ Edad: {{ politic.age }} años</b>
@@ -76,7 +76,7 @@
                               
                             </div>
                           </VCol>
-                          <VCol cols="5" md="5" class="pe-4 pt-0"> 
+                          <VCol cols="5" class="pe-4 ps-0 pt-0"> 
                             <div class="mt-3">
                               <div class="text-subtitle-2  mt-2 text-end">
                                 <b> ▪ Desde: {{ politic.since }}</b>
@@ -193,7 +193,7 @@
             <v-row dense>
               <v-col
                 cols="12"
-                sm="6"
+                sm="12"
               >
                 <v-text-field
                   label="Titulo del delito*"
@@ -201,22 +201,6 @@
                   v-model="createCrime.title"
                 />
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                
-              >
-                <v-text-field
-                  placeholder="Fecha"
-                  label="Fecha"
-                  type="text"
-                  name="newCrimeDate"
-                  ref="newCrimeDate"
-                  id="date-create-crimes"
-                />
-                <input type="hidden" id="date-input-val-date-create-crimes" ref="dateCreateCrimes" >
-              </v-col>
-
               <v-col
                 cols="12"
                 class="mt-5"
@@ -242,17 +226,14 @@
               </v-col>
             </v-row>
           </v-card-text>
-  
           <v-divider></v-divider>
-  
           <v-card-actions>
             <v-spacer></v-spacer>
-  
             <v-btn
               text="Cerrar"
               variant="plain"
               @click="hideInternalModal('createCrimes')"
-            ></v-btn>
+            />
   
             <v-btn
               color="primary"
@@ -276,7 +257,7 @@
             <v-row dense>
               <v-col
                 cols="12"
-                sm="6"
+                sm="12"
               >
                 <v-text-field
                   label="Titulo del delito*"
@@ -284,22 +265,6 @@
                   v-model="selectedCrime.title"
                 />
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                
-              >
-                <v-text-field
-                  placeholder="Fecha"
-                  label="Fecha"
-                  type="text"
-                  name="UpdateCrimeDate"
-                  ref="UpdateCrimeDate"
-                  id="date-update-crimes"
-                />
-                <input type="hidden" id="date-input-val-date-update-crimes" ref="dateUpdateCrimes" >
-              </v-col>
-
               <v-col
                 cols="12"
                 class="mt-5"
@@ -324,12 +289,8 @@
                 />
               </v-col>
             </v-row>
-  
-            <!-- <small class="text-caption text-medium-emphasis">*indicates required field</small> -->
           </v-card-text>
-  
           <v-divider></v-divider>
-  
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
@@ -394,14 +355,6 @@
             <v-row dense>
               <v-col
                 cols="12"
-                class="mt-4"
-              >
-                <h1 class="text-right me-2">
-                 Fecha: {{ moment(selectedCrime.date).format('DD/MM/YYYY') }}
-                </h1>
-              </v-col>
-              <v-col
-                cols="12"
                 class="mt-0"
               >
                 <h1 class="text-h5 text-center">
@@ -443,7 +396,7 @@
 </template>
 <script>
 import { defineComponent } from 'vue'
-import { GET_POLITICS, GET_POLITIC_BY_ID, STORE_POLITIC, UPDATE_POLITIC, DELETE_POLITIC } from '@/core/services/store/politic.module'
+import { GET_POLITICS, GET_POLITIC_BY_ID } from '@/core/services/store/politic.module'
 import { DELETE_CRIME, STORE_CRIME, UPDATE_CRIME } from '@/core/services/store/crime.module'
 import createPoliticModal from '@/components/politics/modals/createPoliticModal.vue'
 import updatePoliticModal from '@/components/politics/modals/updatePoliticModal.vue'
@@ -460,7 +413,6 @@ export default defineComponent({
       createCrime:{
         title: '',
         description: '',
-        date: '',
         references: '',
       },
       dialogDelete: false,
@@ -537,14 +489,14 @@ export default defineComponent({
       if(modal == 'createCrimes') { 
         this.dialogCrimesCreate = true;
         setTimeout(() => {
-          this.initFlatpickr('date-create-crimes')
+          // this.initFlatpickr('date-create-crimes')
         },300)
       }
       if(modal == 'delete') this.dialogCrimesDelete = true
       if(modal == 'update') {
         this.dialogCrimesUpdate = true;
         setTimeout(() => {
-          this.initFlatpickr('date-update-crimes');
+          // this.initFlatpickr('date-update-crimes');
         },300)
       }
       if(modal == 'view') this.dialogCrimesView = true
@@ -576,11 +528,10 @@ export default defineComponent({
       });
     },
     resetForm(){
-      this.inputDate.clear();
+      // this.inputDate.clear();
       this.createCrime = {
         title: '',
         description: '',
-        date: '',
         references: '',
       };
       
@@ -589,7 +540,6 @@ export default defineComponent({
       const data = new FormData();
       data.append('title', this.createCrime.title)
       data.append('description', this.createCrime.description)
-      data.append('date', this.$refs.dateCreateCrimes.value)
       data.append('references', this.createCrime.references)
       data.append('user_id', this.selectedPolitic.id)
 

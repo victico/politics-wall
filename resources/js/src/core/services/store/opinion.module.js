@@ -2,20 +2,20 @@ import ApiService from "@/core/services/api.service";
 import JwtService from "@/core/services/jwt.service";
 
 // action types
-export const GET_POLITICS = "GET_POLITICS";
-export const GET_POLITICS_PUBLIC = "GET_POLITICS_PUBLIC";
-export const GET_POLITIC_BY_ID = "GET_POLITIC_BY_ID";
-export const STORE_POLITIC = "STORE_POLITIC";
-export const UPDATE_POLITIC = "UPDATE_POLITIC";
-export const DELETE_POLITIC = "DELETE_POLITIC"
-export const GET_POLITIC_BY_SEARCH = "GET_POLITIC_BY_SEARCH"
+export const GET_OPINION = "GET_OPINION";
+export const GET_OPINION_PUBLIC = "GET_OPINION_PUBLIC";
+export const GET_OPINION_BY_ID = "GET_OPINION_BY_ID";
+export const STORE_OPINION = "STORE_OPINION";
+export const UPDATE_OPINION = "UPDATE_OPINION";
+export const DELETE_OPINION = "DELETE_OPINION"
+export const GET_OPINION_BY_SEARCH = "GET_OPINION_BY_SEARCH"
 
 const actions = {
-  [GET_POLITICS](context, data){
+  [GET_OPINION](context, data){
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/politic?page="+data.pageNumber+"&name="+data.search+"&")
+        ApiService.get("api/opinion?page="+data.pageNumber+"&name="+data.search+"&")
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);
@@ -28,11 +28,11 @@ const actions = {
       // }
     });
   },
-  [GET_POLITICS_PUBLIC](context,data){
+  [GET_OPINION_PUBLIC](context,data){
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/public/politic?page="+data.pageNumber+"&name="+data.search+"&")
+        ApiService.get("api/public/opinion?page="+data.pageNumber+"&name="+data.search+"&")
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);
@@ -45,11 +45,11 @@ const actions = {
       // }
     });
   },
-  [GET_POLITIC_BY_ID](context,politicID){
+  [GET_OPINION_BY_ID](context,politicID){
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/politic/getPolitic/"+politicID)
+        ApiService.get("api/opinion/getPolitic/"+politicID)
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);
@@ -62,11 +62,11 @@ const actions = {
       // }
     });
   },
-  [GET_POLITIC_BY_SEARCH](context,search){
+  [GET_OPINION_BY_SEARCH](context,search){
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("/api/politic/q?search="+search)
+        ApiService.get("/api/opinion/q?search="+search)
         .then(( { data } ) => {
           resolve(data);
         })
@@ -77,11 +77,11 @@ const actions = {
       // }
     });
   },
-  [STORE_POLITIC](context, data){
+  [STORE_OPINION](context, data){
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.post("api/politic", data)
+        ApiService.post("api/opinion", data)
         .then(( { data } ) => {
             console.log(data)
             resolve(data);
@@ -95,10 +95,10 @@ const actions = {
     });
 
   },
-  [UPDATE_POLITIC](context, data){
+  [UPDATE_OPINION](context, data){
     return new Promise( (resolve, reject) => {
       ApiService.setHeader();
-      ApiService.post('api/politic/'+data.id, data.data)
+      ApiService.post('api/opinion/'+data.id, data.data)
       .then(( {data} ) =>{
         resolve(data);
       })
@@ -108,10 +108,10 @@ const actions = {
       });
     })
   },
-  [DELETE_POLITIC](context, politicID){
+  [DELETE_OPINION](context, politicID){
     return new Promise( (resolve, reject) => {
       ApiService.setHeader();
-      ApiService.post('api/politic/delete/'+politicID)
+      ApiService.post('api/opinion/delete/'+politicID)
       .then(( {data} ) =>{
         resolve(data);
       })

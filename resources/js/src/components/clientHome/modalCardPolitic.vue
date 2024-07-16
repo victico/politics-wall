@@ -39,7 +39,7 @@
                     </div>
                   </div>
                   <VRow class="pa-0 ma-0">
-                    <VCol cols="6" class=" ps-4 pt-0"> 
+                    <VCol cols="7" class=" ps-4 pe-0 pt-0"> 
                       <div class="mt-3 ">
                         <!-- <div class="text-subtitle-2 d-flex justify-start align-center">
                           <b class="text-start"> ▪ Edad: {{ selectedPolitic.age }} años</b>
@@ -52,7 +52,7 @@
                         
                       </div>
                     </VCol>
-                    <VCol cols="6" class="pe-4  pt-0"> 
+                    <VCol cols="5" class="pe-4 ps-0 pt-0"> 
                       <div class="mt-3">
                         
                         <div class="text-subtitle-2  d-flex justify-end align-center mt-2">

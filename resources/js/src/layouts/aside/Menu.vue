@@ -23,11 +23,20 @@
         </li>
       </router-link>
     </li>
+    <li class="menu-item mt-2" aria-haspopup="true" data-menu-toggle="hover">
+      <router-link to="/opinion" v-slot="{ href, navigate, isActive, isExactActive }">
+        <li class="menu-item" aria-haspopup="true" data-menu-toggle="hover" :class="[isActive && 'active', isExactActive && 'active']" >
+          <a  :href="href" class="menu-link " @click="navigate">
+            <i class="fa-solid fa-user"></i>
+            <div class="">&nbsp; &nbsp;Opiniones</div>
+          </a>
+        </li>
+      </router-link>
+    </li>
   </ul>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "KTMenu",
   data() {

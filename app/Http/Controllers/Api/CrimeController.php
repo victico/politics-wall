@@ -36,7 +36,6 @@ class CrimeController extends Controller
             $newCrime = Crime::create([
                 'title'         => $request->title,
                 'description'   => $request->description,
-                'date'          => $request->date,
                 'references'    => $request->references,
                 'user_id'       => $request->user_id,
 

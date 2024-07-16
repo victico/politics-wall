@@ -11,7 +11,7 @@
             title="Agregar politicos"
           >
             <template v-slot:append>
-              <v-btn icon="$plus" color="white" variant="tonal" size="small" @click="dialogCreate = true" />
+              <v-btn icon="$plus" color="white" variant="tonal" size="small" @click="dialogCreate = 'politic'" />
             </template>
           </v-card>
         </v-col>
@@ -24,14 +24,18 @@
             title="Agregar crimen"
           >
             <template v-slot:append>
-              <v-btn icon="$plus" color="white" variant="tonal" size="small" @click="showSnack('black', 'Función no permitida')" />
+              <!-- <v-btn icon="$plus" color="white" variant="tonal" size="small" @click="showSnack('black', 'Función no permitida')" /> -->
+              <v-btn icon="$plus" color="white" variant="tonal" size="small" @click="dialogCreate = 'crimes'"/>
+
             </template>
           </v-card>
         </v-col>
     
       </v-row>
     </v-card>
-    <createPoliticModal :dialog="dialogCreate" @hideModal="hideModal" />
+    <createPoliticModal :dialog="dialogCreate == 'politic'" @hideModal="hideModal" />
+    <createCrimeModal :dialog="dialogCreate == 'crimes'" @hideModal="hideModal" />
+
     <v-snackbar
       v-model="snackbarShow"
       :color="snackbarType"
@@ -63,6 +67,7 @@ import { defineComponent } from 'vue'
 import { GET_POLITICS } from '@/core/services/store/politic.module'
 import { STORE_CRIME } from '@/core/services/store/crime.module'
 import createPoliticModal from '@/components/politics/modals/createPoliticModal.vue'
+import createCrimeModal from '@/components/crimes/modals/createCrimeModal.vue'
 
 // import * as bootstrap from 'bootstrap'
 import nationality from '@/core/plugins/nationalityJson'
@@ -81,7 +86,6 @@ export default defineComponent({
         references: '',
       },
       dialogCreate: false,
-      dialogCrimesCreate: false,
       inputDate:'',
       nationality,
       snackbarShow:false,
@@ -94,6 +98,7 @@ export default defineComponent({
   },
   components: {
     createPoliticModal,
+    createCrimeModal,
   },
   methods:{
     getPolitics(){
@@ -118,54 +123,8 @@ export default defineComponent({
         if(modal == 'crimes') this.dialogCrimes = true
       })
     },
-    hideModal(modal){
-      if(modal == 'create') this.dialogCreate = false
-      if(modal == 'delete') this.dialogDelete = false
-      if(modal == 'update') this.dialogUpdate = false
-      if(modal == 'crimes') this.dialogCrimes = false
-    },
-    resetForm(){
-      this.inputDate.clear();
-      this.createCrime = {
-        title: '',
-        description: '',
-        date: '',
-        references: '',
-      };
-      
-    },
-    createCrimes(){
-      const data = new FormData();
-      data.append('title', this.createCrime.title)
-      data.append('description', this.createCrime.description)
-      data.append('date', this.$refs.dateCreateCrimes.value)
-      data.append('references', this.createCrime.references)
-      data.append('user_id', this.selectedPolitic.id)
-
-      this.$store
-      .dispatch(STORE_CRIME, data)
-      .then((response) =>{
-        this.getPolitics();
-        this.selectedPolitic = Object.assign({}, response.data);
-        this.resetForm();
-        this.hideInternalModal('createCrimes')
-      })
-    },
-    initFlatpickr(id){
-      this.inputDate = flatpickr(document.getElementById(id), {
-        dateFormat: 'd/m/Y',
-        maxDate: "today",
-        locale: Spanish,
-        disableMobile:true,
-        onClose: function (selectedDate) {
-          document.querySelector('#date-input-val-'+id).value = moment(selectedDate[0]).format('YYYY-MM-DD')
-        }
-      });
-      if(id == 'date-update-crimes'){
-        console.log(id)
-        console.log(this.selectedCrime.date)
-        this.inputDate.setDate(moment(this.selectedCrime.date).format('DD-MM-YYYY'),true);
-      }
+    hideModal(){
+      this.dialogCreate = '';
     },
     showSnack(type, text){
       this.snackbarType = type;

@@ -6,6 +6,7 @@ import auth from './middlewares/auth'
 
 // components
 import politicPage from '@/pages/politicsPage.vue';
+import opinionPage from '@/pages/opinionPage.vue';
 import viewPage from '@/pages/viewPage.vue';
 import skeletonAdmin from '@/layouts/EskeletonAdmin.vue'
 
@@ -45,6 +46,14 @@ const router = createRouter({
           component: politicPage,
           meta: {
             title : 'Dashboard'
+          },
+        },
+        {
+          name: 'opinion',
+          path: '/opinion',
+          component: opinionPage,
+          meta: {
+            title : 'Opiniones'
           },
         },
         {

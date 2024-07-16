@@ -9,14 +9,14 @@
     >
       <v-card-text class="mt-5 pb-0">
         <v-row dense>
-          <v-col
+          <!-- <v-col
             cols="12"
             class="mt-4"
           >
             <h4 class="text-right me-2">
               Fecha: {{ moment(selectedCrime.date).format('DD/MM/YYYY') }}
             </h4>
-          </v-col>
+          </v-col> -->
           <v-col
             cols="12"
             class="mt-0"
@@ -74,7 +74,6 @@
       closeModal(){
         this.$emit("hideModal")
       },
-
 
     },
     created(){

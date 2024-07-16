@@ -8,7 +8,7 @@ import htmlClass from "./htmlclass.module";
 import notification from "./notification.module";
 import politic from "./politic.module";
 import user from "./user.module";
-
+import opinion from "./opinion.module";
 const store = createStore({
   modules:{
     auth,
@@ -18,6 +18,7 @@ const store = createStore({
     notification,
     politic,
     user,
+    opinion,
   }
 })
 

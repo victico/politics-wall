@@ -28,6 +28,12 @@ class PoliticController extends Controller
         $allPolitics = Politic::query()->with(['crimes'])->where('name', 'like', '%'.$request->name.'%');
         return $this->returnSuccess(200, $allPolitics->paginate(25));
     }
+    public function getBySearch(Request $request)
+    {
+        //
+        $allPolitics = Politic::query()->with(['crimes'])->take(20)->get();
+        return $this->returnSuccess(200, $allPolitics);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -69,9 +75,10 @@ class PoliticController extends Controller
     /**
      * Display the specified resource.
      */
-    public function get(string $id)
+    public function gety(string $id)
     {
         return $this->returnSuccess(200, Politic::with(['crimes'])->find($id) );
+        // return 'hola';
     }
 
     /**
