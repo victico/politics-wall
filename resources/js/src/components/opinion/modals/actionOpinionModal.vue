@@ -88,14 +88,14 @@
             <v-btn
               text="Cerrar"
               variant="plain"
-              @click="closeModal(null)"
+              @click="closeModal()"
             ></v-btn>
   
             <v-btn
               color="primary"
-              text="Registrar"
+              :text="Object.values(opinion).length == 0 ? 'Registrar' : 'Guardar'"
               variant="tonal"
-              @click="storeOpinion()"
+              @click="sendAction()"
             ></v-btn>
           </v-card-actions>
         </v-card>
@@ -127,11 +127,12 @@
 </style>
 <script>
 import { defineComponent } from 'vue'
-import { STORE_OPINION } from '@/core/services/store/opinion.module'
+import { STORE_OPINION, UPDATE_OPINION } from '@/core/services/store/opinion.module'
 
 export default defineComponent({
   props:[
-    'dialog'
+    'dialog',
+    'opinion'
   ],
   data: () => {
     return {
@@ -153,14 +154,9 @@ export default defineComponent({
       const element = e.target
       this.createOpinion.photo = URL.createObjectURL(element.files[0]) 
     },
-    resetForm(){
-      this.createOpinion = {
-        institution:'',
-        title:'',
-        name:'',
-        opinion:'',
-        photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
-      }
+    sendAction(){
+      if(Object.values(this.opinion).length == 0) this.storeOpinion()
+      else this.updateOpinion()      
     },
     storeOpinion(){
       const data = new FormData();
@@ -180,9 +176,28 @@ export default defineComponent({
         this.showSnack('error', e)
       })
     },
-    closeModal(data){
-      this.resetForm()
-      this.$emit("hideModal", data)
+    updateOpinion(){
+      const data = new FormData();
+      data.append('institution', this.createOpinion.institution)
+      data.append('title', this.createOpinion.title)
+      data.append('author', this.createOpinion.author)
+      data.append('opinion', this.createOpinion.opinion)
+      data.append('photo', this.$refs.photo !== null ? this.$refs.photo.files[0] : '')
+
+
+      this.$store
+      .dispatch(UPDATE_OPINION, {id: this.opinion.id, data})
+      .then((data) =>{ 
+        this.$emit("refresh", data.data)
+        this.showSnack('success', 'Opinion actualizada con exito')
+        this.closeModal();
+      }).catch((e) =>{
+        this.showSnack('error', e)
+      })
+    },
+    closeModal(){
+      // this.resetForm()
+      this.$emit("hideModal")
     },
     showSnack(type, text){
       this.snackbarType = type;
@@ -197,7 +212,29 @@ export default defineComponent({
     dialog(newQuestion, oldQuestion) {
       // console.log('ooo')
       this.dialogCreate = newQuestion
+    },
+    opinion(newQuestion, oldQuestion) {
+      this.createOpinion = Object.values(newQuestion).length > 0 
+      ? Object.assign(newQuestion) 
+      : {
+        institution:'',
+        title:'',
+        name:'',
+        opinion:'',
+        photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
+      }
+
     }
   },
 })
 </script>
+<style lang="scss" scoped>
+.mxmd-50{
+  max-width:50%;
+}
+@media screen and (max-width: 780px){
+  .mxmd-50{
+    max-width:100%!important;
+  }
+}
+</style>

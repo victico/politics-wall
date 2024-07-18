@@ -50,7 +50,7 @@ Route::middleware('jwt.verify')->prefix('crime')->name('crime.')->group(function
 Route::middleware('jwt.verify')->prefix('opinion')->name('opinion.')->group(function () {
     Route::get('/', [OpinionController::class, 'getOpinions']);
     Route::post('/', [OpinionController::class, 'storeOpinion']);
-    Route::get('/getPolitic/{id}', [OpinionController::class, 'getById']);
+    Route::get('/getOpinion/{id}', [OpinionController::class, 'getOpinionById']);
     Route::post('/{id}', [OpinionController::class, 'updateOpinion']);
     Route::post('/delete/{id}', [OpinionController::class, 'destroy']);
 });

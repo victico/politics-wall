@@ -45,11 +45,11 @@ const actions = {
       // }
     });
   },
-  [GET_OPINION_BY_ID](context,politicID){
+  [GET_OPINION_BY_ID](context,opinionId){
     return new Promise((resolve, reject) => {
       // if (JwtService.getToken()) {
         ApiService.setHeader();
-        ApiService.get("api/opinion/getPolitic/"+politicID)
+        ApiService.get("api/opinion/getOpinion/"+opinionId)
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);
@@ -88,14 +88,14 @@ const actions = {
             
         })
         .catch(( { response } ) => {
-            console.log(response )
-            reject( response.data.error ?? 'Ocurrió un error al crear el politico');
+            reject( response.data.error ?? 'Ocurrió un error al crear la opinión');
         });
       // }
     });
 
   },
   [UPDATE_OPINION](context, data){
+    // console.log(data)
     return new Promise( (resolve, reject) => {
       ApiService.setHeader();
       ApiService.post('api/opinion/'+data.id, data.data)
@@ -104,14 +104,14 @@ const actions = {
       })
       .catch(( { response } ) => {
         console.log(response )
-        reject('Ocurrió un error desconocido al intentar obtener las ordenes');
+        reject('Ocurrió un error desconocido al intentar modificar la opinión');
       });
     })
   },
-  [DELETE_OPINION](context, politicID){
+  [DELETE_OPINION](context, opinionId){
     return new Promise( (resolve, reject) => {
       ApiService.setHeader();
-      ApiService.post('api/opinion/delete/'+politicID)
+      ApiService.post('api/opinion/delete/'+opinionId)
       .then(( {data} ) =>{
         resolve(data);
       })

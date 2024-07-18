@@ -7,8 +7,8 @@
         rounded="lg"
         title="Listado de opniones"
       >
-      <div class="d-flex justify-space-between px-4 align-center flex-column flex-md-row">
-        <div class="input_search d-flex align-center">
+      <div class="d-flex justify-end px-4 align-center flex-column flex-md-row">
+        <!-- <div class="input_search d-flex align-center">
           <v-text-field 
             clearable 
             label="Buscar" 
@@ -22,9 +22,9 @@
           <v-btn class="ms-4" variant="tonal" @click="searchPolitic()">
             Buscar
           </v-btn>
-        </div>
+        </div> -->
         <div class="mt-5 mt-md-0">
-          <v-btn prepend-icon="$plus" variant="tonal" @click="dialogShow = 'opinion'">
+          <v-btn prepend-icon="$plus" variant="tonal" @click="dialogShow = 'opinion'; selectedOpinion = {}">
             Agregar opinión
           </v-btn>
         </div>
@@ -39,8 +39,32 @@
       >
         <VRow class="pa-0 ma-0 mt-5" v-if="loading">
           <template v-if="opinions.length > 0">
-            <VCol cols="12" md="4"  v-for="(politic, index) in opinions" :key="index" >
-              
+            <VCol cols="6" md="4"  v-for="(opinion, index) in opinions" :key="index" >
+              <VCard class="pa-6 pb-4">
+                <div class="text-h6 text-black font-weight-bold pb-2 text-decoration-underline" @click="showModal(opinion.id, 'view')">
+                  "{{ opinion.title }}"
+                </div>
+                <div class="text-justify">
+                  {{ opinion.opinion.substring(0, 200) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
+                  
+                  <span class="text-decoration-underline">
+                    <!-- {{ opinion.opinion.length > 200 ? 'Ver mas' :'' }} -->
+                  </span>
+                </div>
+                <div class="mt-4 d-flex align-center">
+                  <div>
+                    <VImg :src="opinion.photo" height="60" width="60" class="rounded-circle opinion__img"/>
+                  </div>
+                  <div class="ms-2">
+                    <div class="text-body-1	"> {{ opinion.author }} </div>
+                    <div class="text-body-2	"> {{ opinion.institution }} </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-end w-100">
+                  <v-btn icon="$edit" size="small"  color="white" class="bg-primary me-2 politics-actions" @click="showModal(opinion.id, 'opinion')" />
+                  <v-btn icon="$delete" size="small"  color="error" class="bg-terciary ms-2 politics-actions" @click="showModal(opinion.id, 'delete')"/>
+                </div>
+              </VCard>
             </VCol>
           </template>
           <VCol v-else cols="12" class="text-center">
@@ -67,19 +91,28 @@
         </template>
       </v-infinite-scroll>
     </div>
-    <createOpinionModal :dialog="dialogShow == 'opinion'" @hideModal="hideModal" />
+    <actionOpinionModal :dialog="dialogShow == 'opinion'" :opinion="selectedOpinion" @hideModal="hideModal"  @refresh="refreshAction"/>
+    <deleteOpinionModal :dialog="dialogShow == 'delete'"  :opinion="selectedOpinion" @hideModal="hideModal"  @refresh="deleteOpinion"/>
+    <viewOpinionModal   :dialog="dialogShow == 'view'"    :opinion="selectedOpinion" @hideModal="hideModal" />
+
 
   </div>
 </template>
 <script>
 import { defineComponent } from 'vue'
-import { GET_OPINION } from '@/core/services/store/opinion.module'
+import { GET_OPINION, GET_OPINION_BY_ID } from '@/core/services/store/opinion.module'
 import debounce from 'debounce';
 import 'flatpickr/dist/themes/confetti.css';
-import createOpinionModal from '@/components/opinion/modals/createOpinionModal.vue';
+import actionOpinionModal from '@/components/opinion/modals/actionOpinionModal.vue';
+import deleteOpinionModal from '@/components/opinion/modals/deleteOpinionModal.vue';
+import viewOpinionModal from '@/components/opinion/modals/viewOpinionModal.vue';
+
+
 export default defineComponent({
   components: {
-    createOpinionModal,
+    actionOpinionModal,
+    deleteOpinionModal,
+    viewOpinionModal,
   },
   data: () => {
     return{
@@ -125,46 +158,18 @@ export default defineComponent({
         // this.emitter.emit('logoutSession')
       })
     },
-    async showModal(idPolitic, modal = ""){
-      await this.getPoliticByID(idPolitic).then(() =>{
-        if(modal == 'delete') this.dialogDelete = true
-        if(modal == 'update') this.dialogUpdate = true
-        if(modal == 'crimes') this.dialogCrimes = true
+    async showModal(opinionId, modal = ""){
+      await this.getPoliticByID(opinionId).then(() =>{
+        this.dialogShow = modal
       })
     },
-    hideModal(data){
-      if(data)
+    hideModal(){
       this.dialogShow = ''
     },
-    showInternalModal( modal = ""){
-      if(modal == 'createOpinion') { 
-        this.dialogCrimesCreate = true;
-        setTimeout(() => {
-          // this.initFlatpickr('date-create-crimes')
-        },300)
-      }
-      if(modal == 'delete') this.dialogCrimesDelete = true
-      if(modal == 'update') {
-        this.dialogCrimesUpdate = true;
-        setTimeout(() => {
-          // this.initFlatpickr('date-update-crimes');
-        },300)
-      }
-      if(modal == 'view') this.dialogCrimesView = true
-     
-      
-    },
-    hideInternalModal(modal){
-      if(modal == 'createOpinion') this.dialogCrimesCreate = false
-      if(modal == 'delete') this.dialogCrimesDelete = false
-      if(modal == 'update') this.dialogCrimesUpdate = false
-      if(modal == 'view') this.dialogCrimesView = false
-      this.dialogCrimes = true;
-    },
-    getPoliticByID(idPolitic){
+    getPoliticByID(opinionId){
       return new Promise( (resolve) => {
         this.$store
-          .dispatch(GET_POLITIC_BY_ID, idPolitic)
+          .dispatch(GET_OPINION_BY_ID, opinionId)
           .then((response) => {
             this.selectedOpinion = Object.assign({}, response.data);
             setTimeout(() => {
@@ -178,35 +183,30 @@ export default defineComponent({
           });
       });
     },
-    resetForm(){
-      this.createOpinion = {
-        institution:'',
-        title:'',
-        name:'',
-        opinion:'',
-        photo:''
-      }
-      
-    },
     paginationAction(data){
       this.currentPage = data.data.current_page
       this.loadContinuos = data.data.current_page == data.data.last_page 
     },
-    addNewPolitic(politic){
-      this.politics.push(politic)
+    addNewOpinion(opinion){
+      this.opinions.push(opinion)
     },
     updateList(data){
-      for(let i = 0; i < this.politics.length; i++){
-        if(this.politics[i].id == data.id){
-            this.politics[i] = data;
+      for(let i = 0; i < this.opinions.length; i++){
+        if(this.opinions[i].id == data.id){
+            this.opinions[i] = data;
             return;
         }
       }
     },
-    deletePolitic(data){ 
-      const index = this.politics.findIndex((politic) => politic.id == data.id)
-      this.politics.splice(index,1)
-    }
+    deleteOpinion(data){ 
+      const index = this.opinions.findIndex((politic) => politic.id == data.id)
+      this.opinions.splice(index,1)
+    },
+    refreshAction(data){
+      Object.values(this.selectedOpinion).length == 0 
+      ? this.addNewOpinion(data)
+      : this.updateList(data)
+    },
   },
   mounted(){
     this.getOpinions()
@@ -215,176 +215,21 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.text-h7{
-  font-size: 17px;
-  color:#83888d;
-}
-.flatpickr-calendar.animate.arrowTop.arrowLeft.open{
-  top: 21%!important;
-  left: 50%!important;
-}
-.politics {
-  .v-card-item{
-    padding-top: 0px;
-  }
-}
-.v-overlay__scrim{
-  opacity: .9!important;
-}
-.politics-actions {
-  &:hover{
-    opacity: 0.9;
-    transform: scale(1.1);
-  }
-  & path{
-    color: white!important;
-  }
-} 
-.w-100-50{
-  width: 50%;
-}
-.img-content{
-  position:relative;
-  width: auto;
-  max-width: fit-content;
-  border-radius: 10px;
-  &:hover > label > .overlay-img{
-    opacity: 1;
-    transform: scale(1);
-  }
-  & path{
-    color: white!important;
-  }
-}
-.overlay-img{
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: #3f3f3f70;
-  border-radius: 20px;
-  opacity: 0;
-  transform: scale(0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s ease-in;
-}
-.mxmd-50 {
-    max-width: 50%;
-  }
 @media screen and (max-width: 780px){
-  .w-100-50{
-    width: 100%;
-  }
-  .mxmd-50 {
-    max-width: 100%;
-  }
-  .flatpickr-calendar.animate.arrowTop.arrowLeft.open{
-    top: 30%!important;
-    left: 5%!important;
-  }
+
 }
 </style>
 <style lang="scss" scoped>
   .input_search {
-    width: 40%
+    width: 50%
   } 
-  .animate__animated{
-    animation-duration: 0.8s;
-  }
-  .back-section_card{
-    height: 25px;
-    cursor: pointer;
-  }
-  .h-300{
-    height: 300px;
-  }
-  .h-60{
-    height: 58.5%;
-  }
-  .h-40{
-    height: 40%;
-  }
-  .politic-button{
-    margin:0px -8px;
-  }
-  .poilitic-card__image-content{
-    max-height: 600px;
-    background: rgb(173,177,173);
-    background: radial-gradient(circle, rgb(211, 211, 211) 20%, rgb(238, 240, 238) 33%, #8d8a8a 100%);
-  }
-  .description-politic{
-    box-shadow: 0px 0px 11px 0px #00000057;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-  }
-  .description{
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-  }
-  .more_info_btn{
-    background: rgb(161 161 161);
-    transition: all 0.5s ease;
+  .opinion__img {
+    border: 3px solid #fd2a2a;
   }
   .text-decoration-underline{
     cursor: pointer;
   }
-  .politics {
-    .v-card-item{
-      padding-top: 0px;
-    }
-  }
-  .v-overlay__scrim{
-    opacity: .9!important;
-  }
-  .politics-actions {
-    &:hover{
-      opacity: 0.9;
-      transform: scale(1.1);
-    }
-    & path{
-      color: white!important;
-    }
-  } 
-  .w-100-50{
-    width: 50%;
-  }
-  .img-content{
-    position:relative;
-    width: auto;
-    max-width: fit-content;
-    border-radius: 10px;
-    &:hover > label > .overlay-img{
-      opacity: 1;
-      transform: scale(1);
-    }
-    & path{
-      color: white!important;
-    }
-  }
-  .overlay-img{
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: #3f3f3f70;
-    border-radius: 20px;
-    opacity: 0;
-    transform: scale(0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s ease-in;
-  }
-
-  
   @media screen and (max-width: 780px){
-    .w-100-50{
-      width: 100%;
-    }
     .input_search {
       width: 100%
     } 
