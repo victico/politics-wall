@@ -84,7 +84,7 @@ class OpinionController extends Controller
             'title'             => ['required', 'regex:/^[0-9-a-zA-Z-À-ÿ&,$ .]+$/i'],
             'institution'       => ['required', 'regex:/^[0-9-a-zA-Z-À-ÿ&$ .,]+$/i'],
             'author'            => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
-            'opinion'           => ['required', 'regex:/^[0-9-a-zA-Z-À-ÿ&,\"$ .]+$/i'],
+            'opinion'           => ['required', 'regex:/^[^$%&|<>#]*$/'],
             'photo'             => ['required', 'file'],
 
         ];
