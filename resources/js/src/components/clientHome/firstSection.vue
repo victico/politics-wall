@@ -1,88 +1,87 @@
 <template>
-  <div id="searchSection" class="mt-16 pt-16">
-    <VRow class="pt-8">
-      <VCol cols="6">
-        <div class="input_search d-flex align-center pe-16 ps-5 pt-2">
-          <v-text-field 
-            clearable 
-            label="Buscar" 
-            placeholder="Buscar..." 
-            v-model="search"
-            variant="outlined" 
-            clear-icon="$close"
-            @click:clear="searchPolitic()"
-            @change="searchPolitic()"
-            
-          />
-          <v-btn class="ms-4" color="white" @click="searchPolitic()">
-            Buscar
-          </v-btn>
-        </div>
-      </VCol>
-    </VRow>
-  </div>
-  <div class="pt-2" >
-    <v-infinite-scroll
-        height="100%"
-        mode="manual"
-        id="infiniteScrollClient"
-        style="width: 100%;"
-        @load="load"
-      >
-      <div v-if="politics.length > 0 && loading">
-        <div class=" grid-gallery px-2" >
-          <div  class="px-0 grid-gallery__item position-relative" v-for="(politic, index) in politics" :key="index">
-            <img :src="politic.normal_photo" class="grid-gallery__image" alt="" style="width: 100%; ">
-            <div class="wastedImg_content"  >
-              <div style=""  class="wastedSecond" :class="{'wastedActive': politic.wasted}" >
-                <img :src="wastedImg" alt=""   style="transform: rotate(-35deg)">
-              </div>
+  <div>
+    <section class="newsletter section">
+      <div class="container">
+        <div class="row ">
+          <div class="col-lg-12  col-12">
+            <!-- Start Newsletter Form -->
+            <div class="subscribe-form ">
+                <input name="EMAIL" placeholder="Buscar..." class="common-input"  required="" type="email" v-model="search" @change="searchPolitic()">
+                <button class="btn" @click="searchPolitic()">Buscar</button>
             </div>
-            <div class="overlay_grid_img text-center" @click="shoModal(politic.id)">
-              <img src="https://cdn-icons-png.flaticon.com/256/738/738502.png"     height="50px" width="50px"  alt="">
-              <div class="w-100 text-white mt-2" >
-                Presiona aquí
-  
+            <!-- End Newsletter Form -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="pt-2" >
+      <v-infinite-scroll
+          height="100%"
+          mode="manual"
+          id="infiniteScrollClient"
+          style="width: 100%;"
+          @load="load"
+        >
+        <div v-if="politics.length > 0 && loading">
+          <div class=" grid-gallery px-2" >
+            <div  class="px-0 grid-gallery__item position-relative" v-for="(politic, index) in politics" :key="index">
+              <img :src="politic.normal_photo" class="grid-gallery__image" alt="" style="width: 100%; ">
+              <div class="wastedImg_content"  >
+                <div style=""  class="wastedSecond" :class="{'wastedActive': politic.wasted}" >
+                  <img :src="wastedImg" alt=""   style="transform: rotate(-35deg)">
+                </div>
+              </div>
+              <div class="overlay_grid_img text-center" @click="shoModal(politic.id)">
+                <img src="https://cdn-icons-png.flaticon.com/256/738/738502.png"     height="50px" width="50px"  alt="">
+                <div class="w-100 text-white mt-2" >
+                  Presiona aquí
+    
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div  v-else-if="politics.length == 0 && loading">
-        <div class="w-100 text-center mt-2">
-          <h2 class="text-white">No hay politicos</h2>
+        <div  v-else-if="politics.length == 0 && loading">
+          <div class="w-100 text-center mt-2">
+            <h2>No hay politicos</h2>
+          </div>
         </div>
-      </div>
-      <div v-else>
-        <div class="grid-gallery">
-          <v-skeleton-loader
-            v-for="n in 25"
-            :key="n"
-            :loading="!loading"
-            class="px-0 grid-gallery__item "
-            max-width="300"
-            type="image"
-            style="background: transparent;"
-          />
+        <div v-else>
+          <div class="grid-gallery">
+            <v-skeleton-loader
+              v-for="n in 25"
+              :key="n"
+              :loading="!loading"
+              class="px-0 grid-gallery__item "
+              max-width="300"
+              type="image"
+              style="background: transparent;"
+            />
+          </div>
         </div>
+        <template v-slot:empty>
+          <div class="bg-error w-50 text-center pa-2 rounded-sm" >
+            No hay mas politicos
+          </div>
+        </template>
+        <template v-slot:load-more="{ props }">
+          <v-btn 
+            size="large"
+            variant="tonal"
+            class="mt-10 btn bg-primary "
+            v-bind="props"
+            :disabled="loadContinuos"
+          >
+            <span class="text-white">
+              Cargar más
+            </span> 
+          </v-btn>
+        </template>
+      </v-infinite-scroll>
+      <div v-if="selectedPolitic">
+        <modalCardPoliticVue :politic="selectedPolitic" :dialog="dialog" @hideModal="dialog = false" @wasted="wastedPolitic" />
       </div>
-      <template v-slot:empty>
-        <div class="bg-error w-50 text-center pa-2 rounded-sm" >
-          No hay mas politicos
-        </div>
-      </template>
-      <template v-slot:load-more="{ props }">
-        <v-btn 
-          size="large"
-          variant="tonal"
-          class="mt-10 bg-primary"
-          v-bind="props"
-          :disabled="loadContinuos"
-        >Cargar más</v-btn>
-      </template>
-    </v-infinite-scroll>
-    <div v-if="selectedPolitic">
-      <modalCardPoliticVue :politic="selectedPolitic" :dialog="dialog" @hideModal="dialog = false" @wasted="wastedPolitic" />
     </div>
   </div>
 </template>
@@ -92,7 +91,7 @@ import { GET_POLITICS_PUBLIC } from '@/core/services/store/politic.module';
 import 'vue3-carousel/dist/carousel.css'
 import modalCardPoliticVue from '@/components/clientHome/modalCardPolitic.vue';
 import wastedImg from "@/assets/media/utils/wasted.png";
-import debounce from 'debounce';
+// import debounce from 'debounce';
 
 export default defineComponent({
   data: () => {
@@ -126,7 +125,9 @@ export default defineComponent({
         if(type !== 'load')this.politics = data.data.data
         else this.politics.push(...data.data.data)
       
-        this.loading = true
+        setTimeout(() => {
+          this.loading = true
+        }, 1000);
         this.paginationAction(data)
       }).catch(() => {
         this.emitter.emit('logoutSession')

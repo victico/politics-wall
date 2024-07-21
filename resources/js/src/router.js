@@ -7,21 +7,43 @@ import auth from './middlewares/auth'
 // components
 import politicPage from '@/pages/politicsPage.vue';
 import opinionPage from '@/pages/opinionPage.vue';
-import viewPage from '@/pages/viewPage.vue';
+// import viewPage from '@/pages/viewPage.vue';
 import skeletonAdmin from '@/layouts/EskeletonAdmin.vue'
+import clientPageLayout from '@/layouts/clientPageLayout.vue'
 
-
+clientPageLayout
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path:'/',
-      component: () => import('@/pages/clientHomePage.vue'),
-      meta: {
-        title: 'Bienvenido'
-      },
+      redirect:'/home'
     },
+    { 
+      path: '/',
+      name: 'clientHome',
+      component: clientPageLayout,
+      children: [
+        {
+          name: 'home',
+          path: '/home',
+          component: () => import('@/pages/clientHomePage.vue'),
+          meta: {
+            title : 'Bienvenido'
+          },
+        },
+        {
+          name: 'opinion_c',
+          path: '/opinion_client',
+          component: () => import('@/pages/opinionClientPage.vue'),
+          meta: {
+            title : 'Opiniones'
+          },
+        },
+      ]
+    },
+
     {
       path:'/admin',
       redirect:'/dashboard'
@@ -56,14 +78,14 @@ const router = createRouter({
             title : 'Opiniones'
           },
         },
-        {
-          name: 'view',
-          path: '/view',
-          component: viewPage,
-          meta: {
-            title : 'Cartas'
-          },
-        }
+        // {
+        //   name: 'view',
+        //   path: '/view',
+        //   component: viewPage,
+        //   meta: {
+        //     title : 'Cartas'
+        //   },
+        // }
       ]
     },
     {
@@ -75,11 +97,6 @@ const router = createRouter({
       },
       beforeEnter: guest
     },
-    {
-      path: "/client",
-      name: "Client",
-      
-    }
     // {
     //   path: '/404',
     //   component: () => import('@/pages/[...all].vue'),

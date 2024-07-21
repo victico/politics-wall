@@ -402,7 +402,7 @@ import createPoliticModal from '@/components/politics/modals/createPoliticModal.
 import updatePoliticModal from '@/components/politics/modals/updatePoliticModal.vue'
 import deletePoliticModal from '@/components/politics/modals/deletePoliticModal.vue'
 import debounce from 'debounce';
-import nationality from '@/core/plugins/nationalityJson'
+// import nationality from '@/core/plugins/nationalityJson'
 import moment from 'moment';
 import flatpickr from "flatpickr";
 import 'flatpickr/dist/themes/confetti.css';
@@ -425,7 +425,7 @@ export default defineComponent({
       dialogCrimesUpdate: false,
       dialogCrimesView: false,
       inputDate:'',
-      nationality,
+      // nationality,
       politics: [],
       selectedCrime: {},
       selectedPolitic: {},

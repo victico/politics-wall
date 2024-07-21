@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Validator;
 class OpinionController extends Controller
 {
     //
+    public function indexPublic(Request $request)
+    {
+        //
+        // $allPolitics = Opinion::query()->with(['crimes'])->where('name', 'like', '%'.$request->name.'%');
+        $allPolitics = Opinion::query();
+        return $this->returnSuccess(200, $allPolitics->paginate(25));
+    }
     public function getOpinions(Request $request) {
         $opinions = Opinion::query();
 

@@ -65,12 +65,12 @@
 <script>
 import { defineComponent } from 'vue'
 import { GET_POLITICS } from '@/core/services/store/politic.module'
-import { STORE_CRIME } from '@/core/services/store/crime.module'
+// import { STORE_CRIME } from '@/core/services/store/crime.module'
 import createPoliticModal from '@/components/politics/modals/createPoliticModal.vue'
 import createCrimeModal from '@/components/crimes/modals/createCrimeModal.vue'
 
 // import * as bootstrap from 'bootstrap'
-import nationality from '@/core/plugins/nationalityJson'
+// import nationality from '@/core/plugins/nationalityJson'
 
 import moment from 'moment';
 import flatpickr from "flatpickr";
@@ -87,7 +87,7 @@ export default defineComponent({
       },
       dialogCreate: false,
       inputDate:'',
-      nationality,
+      // nationality,
       snackbarShow:false,
       snackbarType:'',
       snackbarMsg:'',

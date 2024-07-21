@@ -1,0 +1,176 @@
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:400,300,200,600");
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:700);
+body {
+  background-image: url("https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xpa1/t31.0-8/10505177_10152518613979438_8865492082820051170_o.jpg");
+  background-position: center top;
+  background-color: #5b0a0a;
+  -webkit-font-smoothing: antialiased;
+}
+
+.flip-container {
+  
+  margin-top: 40px;
+}
+
+.flip-container:hover .card,
+.flip-container.hover .card {
+  transform: rotateY(180deg);
+}
+
+.flip-container,
+.front,
+.back {
+  width: 320px;
+  height: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  position: relative;
+  transition: 0.6s;
+  transform-style: preserve-3d;
+}
+
+.front {
+  width: 320px;
+  height: 472px;
+  background-color: #bc2828;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  padding: 20px 0px 10px 0px;
+  color: #ffffff;
+  line-height: 1.5em;
+ 
+}
+
+.back {
+  width: 320px;
+  height: 472px;
+  background-color: #ccc;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  padding: 40px 20px 10px 20px;
+  color: #05122d;
+  font-family: "Titillium Web", sans-serif;
+}
+
+
+.contenido {
+    color: rgb(255, 255, 255);
+  }
+
+.logo-up {
+  font-size: 18px;
+  font-weight: 400;
+  margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+
+.logo-upback {
+    font-size: 18px;
+    font-weight: 400;
+    margin-left: 20px;
+      margin-bottom: 10px;
+  }
+
+
+  ul, li {
+  text-decoration: none
+  list-style: disc outside
+}
+ul  {
+  padding-left: 20px
+
+}
+
+.nombre{
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0 auto;
+  }
+  
+  .titulo{
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 5px;
+    color: #bc2828;
+  }
+
+
+button.primary {
+	background-color: #bc2828;
+	border: 1px solid #bc2828;
+	border-radius: 3px;
+	color: #fff;
+	font-family: Montserrat, sans-serif;
+	font-weight: 500;
+	padding: 10px 25px ;
+}
+
+button.primary.ghost {
+	background-color: transparent;
+	color: #bc2828;
+}
+
+h2 {
+  font-size: 27px
+  font-weight: 500
+  letter-spacing: -0.2px
+  margin-bottom: 10px
+}
+
+.fotomuro {
+    font-family: "Roboto Slab", sans-serif;
+    font-size: 54px;
+    text-transform: lowercase;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+.fotoback {
+    font-family: "Roboto Slab", sans-serif;
+    font-size: 54px;
+    text-transform: lowercase;
+    font-weight: 700;
+    margin-top: -35px;
+  
+}
+
+
+.logo-big {
+  font-family: "Roboto Slab", sans-serif;
+  font-size: 54px;
+  text-transform: lowercase;
+  font-weight: 700;
+  margin-top: 15px;
+}
+
+.card-content {
+  position: absolute;
+  bottom: 15px;
+}
+
+.card-content {
+  font-weight: 200;
+  margin-left: 20px;
+  line-height: 14px;
+}
+
+.front,
+.back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.front {
+  z-index: 2;
+}
+
+.back {
+  transform: rotateY(180deg);
+}

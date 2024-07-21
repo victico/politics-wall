@@ -47,7 +47,7 @@ const actions = {
   },
   [GET_POLITIC_BY_ID](context,politicID){
     return new Promise((resolve, reject) => {
-      // if (JwtService.getToken()) {
+      if (JwtService.getToken()) {
         ApiService.setHeader();
         ApiService.get("api/politic/getPolitic/"+politicID)
         .then(( { data } ) => {
@@ -59,7 +59,7 @@ const actions = {
             console.log(response )
             reject('Ocurrió un error desconocido al intentar obtener las ordenes');
         });
-      // }
+      }
     });
   },
   [GET_POLITIC_BY_SEARCH](context,search){
@@ -79,7 +79,7 @@ const actions = {
   },
   [STORE_POLITIC](context, data){
     return new Promise((resolve, reject) => {
-      // if (JwtService.getToken()) {
+      if (JwtService.getToken()) {
         ApiService.setHeader();
         ApiService.post("api/politic", data)
         .then(( { data } ) => {
@@ -91,7 +91,7 @@ const actions = {
             console.log(response )
             reject( response.data.error ?? 'Ocurrió un error al crear el politico');
         });
-      // }
+      }
     });
 
   },

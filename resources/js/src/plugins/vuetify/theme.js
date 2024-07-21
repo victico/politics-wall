@@ -8,6 +8,7 @@ const theme = {
       colors: {
         'primary': '#fd2a2a',
         'on-primary': '#fff',
+        'primary-black':'#bc2828',
         'unavailable': '#e1e1e1a6',
         'secondary': '#e1e3e1',
         'on-secondary': '#fff',
