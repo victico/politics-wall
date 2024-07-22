@@ -86,7 +86,7 @@
                         </VRow>
                         <VRow class="pa-0 ma-0 h-25 mb-2">
                           <VCol cols="12"  class="d-flex justify-end pt-2 pb-0 align-center">
-                            <v-btn icon="$edit" size="small"  color="white" class="bg-primary mx-2 politics-actions" @click="showModal(politic.id, 'update')" />
+                            <v-btn icon="$edit" size="small"  color="secondary" class="bg-primary mx-2 politics-actions" @click="showModal(politic.id, 'update')" />
                             <v-btn icon="$listCrime" size="small"  color="terciary" class="bg-terciary mx-2 politics-actions" @click="showModal(politic.id, 'crimes')"/>
                             <v-btn icon="$delete" size="small"  color="error" class="bg-error mx-2 politics-actions" @click="showModal(politic.id, 'delete')"/>
                           </VCol>
@@ -151,7 +151,7 @@
                     </b>
                   </div>
                   <div class="d-flex justify-end w-25">
-                    <v-btn icon="$edit" size="x-small"  color="white" class="bg-primary mx-2 politics-actions" @click="selectCrime(crime.id, 'update')" />
+                    <v-btn icon="$edit" size="x-small"  color="secondary" class="bg-primary mx-2 politics-actions" @click="selectCrime(crime.id, 'update')" />
                     <v-btn icon="$delete" size="x-small"  color="error" class="bg-error mx-2 politics-actions" @click="selectCrime(crime.id, 'delete')"/>
                   </div>
                 </div>

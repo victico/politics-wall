@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-light py-3 py-md-5">
+  <section class="bg-light-6 py-3 py-md-5 mb-5">
     <div class="container">
       <div class="row gy-5 gy-lg-0 align-items-center">
         <div class="col-12 col-lg-4">
@@ -13,13 +13,18 @@
               <div class="row gy-4">
                 <div class="col-12 col-md-6" v-for="(opinion, index) in opinions" :key="index">
                   <div class="card border-0 border-bottom border-primary shadow-sm">
-                    <div class="card-body p-4 p-xxl-5">
+                    <div class="card-body p-4">
                       <figure>
-                        <img class="img-fluid rounded rounded-circle mb-4 border border-5" loading="lazy" src="img/testimonial-img-1.jpg" alt="Luna Joh">
+                        <img class="img-fluid rounded rounded-circle mb-4 border border-5" loading="lazy" :src="opinion.photo" height="100" width="100" alt="Luna Joh">
                         <figcaption>
-                          <blockquote class="bsb-blockquote-icon mb-4">We were so impressed with the work they did for us. They were able to take our vision and turn it into a reality, and they did it all on time and within budget. We would highly recommend them to anyone looking for a reliable and professional partner.</blockquote>
-                          <h4 class="mb-2">Luna John</h4>
-                          <h5 class="fs-6 text-secondary mb-0">UX Designer</h5>
+                          <blockquote class="bsb-blockquote-icon mb-4">
+                            {{ opinion.opinion.substring(0, 400) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
+                              <span class="text-decoration-underline">
+                                <!-- {{ opinion.opinion.length > 200 ? 'Ver mas' :'' }} -->
+                              </span>
+                          </blockquote>
+                          <h4 class="mb-2">{{ opinion.author }}</h4>
+                          <h5 class="fs-6 text-secondary mb-0">{{ opinion.institution }}</h5>
                         </figcaption>
                       </figure>
                     </div>
@@ -117,3 +122,14 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+.img-fluid {
+    max-width: 100%;
+    height: 100px!important;
+    object-fit: cover!important;
+}
+.bsb-blockquote-icon{
+  line-height: 1.8!important
+}
+</style>

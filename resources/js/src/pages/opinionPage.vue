@@ -46,7 +46,6 @@
                 </div>
                 <div class="text-justify">
                   {{ opinion.opinion.substring(0, 200) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
-                  
                   <span class="text-decoration-underline">
                     <!-- {{ opinion.opinion.length > 200 ? 'Ver mas' :'' }} -->
                   </span>
@@ -61,7 +60,7 @@
                   </div>
                 </div>
                 <div class="d-flex justify-end w-100">
-                  <v-btn icon="$edit" size="small"  color="white" class="bg-primary me-2 politics-actions" @click="showModal(opinion.id, 'opinion')" />
+                  <v-btn icon="$edit" size="small"  color="secondary" class="bg-primary me-2 politics-actions" @click="showModal(opinion.id, 'opinion')" />
                   <v-btn icon="$delete" size="small"  color="error" class="bg-terciary ms-2 politics-actions" @click="showModal(opinion.id, 'delete')"/>
                 </div>
               </VCard>

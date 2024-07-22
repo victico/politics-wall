@@ -7,7 +7,7 @@
             <!-- Start Newsletter Form -->
             <div class="subscribe-form ">
                 <input name="EMAIL" placeholder="Buscar..." class="common-input"  required="" type="email" v-model="search" @change="searchPolitic()">
-                <button class="btn" @click="searchPolitic()">Buscar</button>
+                <button class="btn text-white" @click="searchPolitic()" >Buscar</button>
             </div>
             <!-- End Newsletter Form -->
           </div>
@@ -36,7 +36,6 @@
                 <img src="https://cdn-icons-png.flaticon.com/256/738/738502.png"     height="50px" width="50px"  alt="">
                 <div class="w-100 text-white mt-2" >
                   Presiona aquí
-    
                 </div>
               </div>
             </div>

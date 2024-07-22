@@ -50,7 +50,7 @@
 							<div class="col-lg-2 col-12">
 								<div class="get-quote">
 									<router-link to="/login" >
-										<a  class="btn text-white">ingreso</a>
+										<a  class="btn text-white py-4 px-9">ingreso</a>
 									</router-link>
 								</div>
 							</div>

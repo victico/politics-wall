@@ -9,9 +9,9 @@ import politicPage from '@/pages/politicsPage.vue';
 import opinionPage from '@/pages/opinionPage.vue';
 // import viewPage from '@/pages/viewPage.vue';
 import skeletonAdmin from '@/layouts/EskeletonAdmin.vue'
-import clientPageLayout from '@/layouts/clientPageLayout.vue'
+// import clientPageLayout from '@/layouts/clientPageLayout.vue'
 
-clientPageLayout
+// clientPageLayout
 
 const router = createRouter({
   history: createWebHistory(),
@@ -23,7 +23,7 @@ const router = createRouter({
     { 
       path: '/',
       name: 'clientHome',
-      component: clientPageLayout,
+      component: () => import('@/layouts/clientPageLayout.vue'),
       children: [
         {
           name: 'home',

@@ -51,13 +51,15 @@ export default defineComponent({
       breakpoints: {
       // 700px and up
       700: {
-        itemsToShow: 3.5,
-        snapAlign: 'center',
+        wrapAround:true,
+        itemsToShow: 5,
+        snapAlign: 'start',
+        autoplay:3500,
       },
       // 1024 and up
       1024: {
         wrapAround:true,
-        itemsToShow: 4,
+        itemsToShow: 5,
         snapAlign: 'start',
         autoplay:3500,
       },

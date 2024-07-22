@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/testimonials/testimonial-2/assets/css/testimonial-2.css">
 
         <title>Muro de politicos</title>
         <link rel="icon" type="image/png"href="https://website-424166ef.objetivolaguzman.com/favicon.png">

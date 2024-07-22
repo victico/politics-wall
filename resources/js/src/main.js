@@ -15,15 +15,7 @@ import { Helpers } from "./concept/helpers";
 import mitt from 'mitt';
 import vuetify from '@/plugins/vuetify';
 import './styles/styles.scss';
-import './assets/css/style.css';
-import './assets/css/bootstrap.min.css';
-import './assets/css/slicknav.min.css';
-import './assets/css/font-awesome.min.css';
-import './assets/css/normalize.css';
-import './assets/css/responsive.css';
-import './assets/css/owl-carousel.css';
-import './assets/css/magnific-popup.css';
-import './assets/css/animate.min.css';
+
 
 import $ from 'jquery'
 

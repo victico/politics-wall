@@ -29,7 +29,17 @@
 import { defineComponent } from 'vue'
 import headerClient from '@/components/clientHome/headerClient.vue'
 import footerClient from '@/components/clientHome/footerClient.vue'
+import '@/assets/css/style.css';
+import '@/assets/css/bootstrap.min.css';
+import '@/assets/css/slicknav.min.css';
+import '@/assets/css/font-awesome.min.css';
+import '@/assets/css/icofont.css';
 
+import '@/assets/css/normalize.css';
+import '@/assets/css/responsive.css';
+// import '@/assets/css/owl-carousel.css';
+import '@/assets/css/magnific-popup.css';
+import '@/assets/css/animate.min.css';
 
 export default defineComponent({
   components:{
