@@ -7,10 +7,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.flip-container {
-  
-  margin-top: 40px;
-}
+/* .flip-container {
+} */
 
 .flip-container:hover .card,
 .flip-container.hover .card {
@@ -20,8 +18,8 @@ body {
 .flip-container,
 .front,
 .back {
-  width: 320px;
-  height: 480px;
+  width: 340px;
+  height: 500px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -30,11 +28,11 @@ body {
   position: relative;
   transition: 0.6s;
   transform-style: preserve-3d;
+  background: transparent;
 }
 
 .front {
-  width: 320px;
-  height: 472px;
+  
   background-color: #bc2828;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
@@ -45,8 +43,7 @@ body {
 }
 
 .back {
-  width: 320px;
-  height: 472px;
+  
   background-color: #ccc;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
@@ -77,11 +74,11 @@ body {
 
 
   ul, li {
-  text-decoration: none
-  list-style: disc outside
+  text-decoration: none;
+  list-style: disc outside;
 }
 ul  {
-  padding-left: 20px
+  padding-left: 20px;
 
 }
 
@@ -116,10 +113,10 @@ button.primary.ghost {
 }
 
 h2 {
-  font-size: 27px
-  font-weight: 500
-  letter-spacing: -0.2px
-  margin-bottom: 10px
+  font-size: 27px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  margin-bottom: 10px;
 }
 
 .fotomuro {
@@ -127,7 +124,6 @@ h2 {
     font-size: 54px;
     text-transform: lowercase;
     font-weight: 700;
-    margin-top: 15px;
 }
 
 .fotoback {
@@ -135,8 +131,6 @@ h2 {
     font-size: 54px;
     text-transform: lowercase;
     font-weight: 700;
-    margin-top: -35px;
-  
 }
 
 
@@ -149,8 +143,9 @@ h2 {
 }
 
 .card-content {
-  position: absolute;
+  /* position: absolute; */
   bottom: 15px;
+  padding-bottom: 25px;
 }
 
 .card-content {

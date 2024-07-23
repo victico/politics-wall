@@ -1,142 +1,80 @@
 <template>
-  <div v-show="dialogCentral" class="modal_vic">
-    <div class="w-100">
-      <div class=" cards-content d-flex justify-center backSida" :class="{'activeReveal':runAnimation}">
-        <transition 
-          mode="out-in" 
-          enter-active-class="animate__animated animate__flipInY" 
-          leave-active-class="animate__animated animate__flipOutY"
-        >
-          <VCard class=" px-0 pb-0 pt-2 rounded-xl d-flex flex-column align-center justify-space-between position-relative poilitic-card__image-content"  height="550px" width="360px" v-if="!selectedPolitic.show">
-            <div class="w-100">
-              <v-btn icon="$close" variant="tonal" color="white" @click="closeModal()" style=" position: absolute; right: 5px; top: 5px" />
-            </div>
-            <div class="w-100 d-flex flex-column align-center  pt-8"> 
-              <div class="position-relative">
-                <VImg 
-                  class="rounded-lg"
-                  cover
-                  :width="250"
-                  height="250"
-                  :src="selectedPolitic.normal_photo"
-                />
-                <div class="wastedImg_content">
-                  <div style=""  class="wastedImgFirst" :class="{'wastedActive': selectedPolitic.wasted}" >
-                    <img :src="wastedImg" alt=""   style="transform: rotate(-35deg)">
-                  </div>
-                </div>
-              </div>  
-            </div>
-            <div class="w-100 mt-0  px-0 bg-white description mt-7 " >
-              <div class="politic-button description-politic pt-md-4 pt-5 d-flex flex-column align-center justify-space-between h-100" >
-                <div class=" w-100 px-0" style="height: 150px;">
-                  <div>
-                    <div class="text-center ">
-                      <h5 class="text-h5 mb-1">{{ selectedPolitic.name }}</h5>
-                      <div class="text-h7">
-                        {{ selectedPolitic.office }}
-                      </div>
+  <div v-show="dialogCentral" >
+    <div class="modal_vic" @click="closeModal()"></div>
+    <div class="carder">
+      <div class=" cards-content d-flex align-center flex-column justify-center backSida" :class="{'activeReveal':runAnimation}" style="position: relative;">
+        <!-- <div >
+          <v-btn icon="$close" variant="elevated" elevated color="white" @click="closeModal()" style="position: absolute; right: 37.8%; top: -3%; z-index: 2;" />
+        </div> -->
+        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+          <div class="card">
+            <div class="front">
+              <div class="logo-up text-white" style="height: 10%;">
+                <span style="text-transform: uppercase;" class="text-white">
+
+                  {{selectedPolitic.name}}<br>
+                </span>
+                <small class="text-white">{{selectedPolitic.office}}</small>
+              </div>
+              <div class="fotomuro py-2 mb-3" style="height: 74%;" >
+                <div style="height: 100%; position: relative; overflow: hidden;" >
+                  <img :src="selectedPolitic.normal_photo" style="height:100%; object-fit: cover; width: 100%;" alt="#">
+                  <div class="wastedImg_content">
+                    <div style=""  class="wastedImg" :class="selectedPolitic.barAnimationx" >
+                      <img :src="wastedImg" alt=""  class="barrotes">
                     </div>
-                  </div>
-                  <VRow class="pa-0 ma-0">
-                    <VCol cols="7" class=" ps-4 pe-0 pt-0"> 
-                      <div class="mt-3 ">
-                        <!-- <div class="text-subtitle-2 d-flex justify-start align-center">
-                          <b class="text-start"> ▪ Edad: {{ selectedPolitic.age }} años</b>
-                        </div> -->
-                        <div class="text-subtitle-2  d-flex justify-start align-center mt-2">
-                          <b> ▪ Partido político: {{ selectedPolitic.political_party }}</b>
-                          
-                          <!-- <img :src="`https://flagsapi.com/${selectedPolitic.nationality}/shiny/24.png`" class="ms-1"> -->
-                        </div>
-                        
-                      </div>
-                    </VCol>
-                    <VCol cols="5" class="pe-4 ps-0 pt-0"> 
-                      <div class="mt-3">
-                        
-                        <div class="text-subtitle-2  d-flex justify-end align-center mt-2">
-                          <b class="text-end"> ▪ Desde: {{ selectedPolitic.since }}</b>
-                        </div>
-                      </div>
-                    </VCol>
-                  </VRow>
-                </div>
-                <div class="mt-2 w-100 bg-primary ">
-                  <div class=" more_info_btn">
-                    <v-btn variant="text" class="w-100 px-0" @click="showCrimes(selectedPolitic.id)" >
-                      Mas información
-                    </v-btn>
                   </div>
                 </div>
               </div>
-            </div>
-          </VCard>
-          <VCard class="  px-0 pb-0 pt-0 rounded-xl poilitic-card__image-content description " height="550px" width="360px" v-else>
-            <div class="w-100 mt-0 h-100 px-2  description ">
-              <div class="politic-button description-politic  d-flex flex-column align-center justify-space-between h-100"   >
-                <div class="w-100 back-section_card">
-                  <div class="pa-2 pt-4 w-100 d-flex"  @click="hideCrimes()">
-                    <v-icon icon="$back" class="mx-2 " />
-                    <span>
-                      Volver
-                    </span>
-                  </div>
-                </div>
-                <div class="w-100 d-flex flex-column align-center h-300 mt-4 "> 
-                  <VImg 
-                    class="rounded-lg"
-                    cover
-                    :width="280"
-                    height="180"
-                    :src="selectedPolitic.normal_photo"
-                  />
-                </div>
-                <div class=" w-100 px-0">
-                  <div>
-                    <div class="text-center mt-2">
-                      <h5 class="7 ">{{ selectedPolitic.name }}</h5>
-                    </div>
-                  </div>
-                  <VRow class="pa-0 ma-0" >
-                      <VCol cols="12" class="px-2 pt-0"> 
-                        <div class="w-100 ">
-                          <div class="text-subtitle-1 text-center mt-0" v-if="selectedPolitic.crimes.length > 0">Anticuchos</div>
-                        </div>
-                        <div class="mt-3" v-if="selectedPolitic.crimes.length > 0">
-                          <div class="text-subtitle-1 d-flex align-center mt-1 ms-2" v-for="(crime, index) in selectedPolitic.crimes" :key="index">
-                            <b> ▪ 
-                              <span class="text-decoration-underline" @click="selectCrime(crime.id)"> 
-                                {{crime.title}}
-                              </span>
-                            </b>
-                          </div>
-                        </div>
-                        <div v-else >
-                          <h3 class="text-center 7 my-2">
-                            No tiene anticuchos registrado
-                          </h3>
-                        </div>
-                      </VCol>
-                  </VRow>
-                </div>
-                <div class="mt-2 w-100  d-flex justify-center justify-md-space-between px-md-8 px-2 pb-5 buttonsArea">
-                  <v-btn variant="tonal"  class="bg-error px-4 mx-1 vote-buttons" @click="hideCrimes()" >
-                    Absolver
-                  </v-btn>
-                  <v-btn variant="tonal"  class="bg-success px-4 mx-1 vote-buttons" @click="sendCarcel()">
-                    A la carcel
-                  </v-btn>
-                </div>
-                <div class="wastedImg_content">
-                  <div style=""  class="wastedImg" :class="{'wastedActive': selectedPolitic.wasted}" >
-                    <img :src="wastedImg" alt=""   style="transform: rotate(-35deg)">
-                  </div>
-                </div>
+              <div class="card-content  text-subtitle-1 text-white" style="font-size: 1rem;  height: 10%; color: white!important;">
+                Partido Político:  <p class="contenido text-subtitle-1 text-white" style="font-weight: 600; color: white!important; margin-top: -5px;">{{ selectedPolitic.political_party }}</p>
               </div>
             </div>
-          </VCard>
-        </transition>
+            <div class="back py-3 d-flex flex-column  justify-space-between align-center">
+              <div class="back-content" >
+                <div class="fotoback" style="position: relative; overflow: hidden;">
+                  <img :src="selectedPolitic.normal_photo"  style="height:100%; object-fit: cover; width: 100%;" alt="#">
+                  <div class="wastedImg_content">
+                    <div style=""  class="wastedImg" :class="selectedPolitic.barAnimationx" >
+                      <img :src="wastedImg" alt=""  class="barrotes" >
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <h2 class="nombre font-weight-medium">{{selectedPolitic.name}}</h2>
+                  <h4 class="titulo font-weight-medium" style="color: #bc2828!important;">Anticuchos</h4>
+                  <div class="mt-2">
+                    <ul v-if="selectedPolitic.crimes.length > 0" class="ps-0">
+                      <li 
+                       class="mt-1" 
+                       style="color: #05122d; cursor: pointer" 
+                       v-for="(crime, index) in selectedPolitic.crimes" 
+                       :key="index"
+                       @click="selectCrime(crime.id)"
+                      >
+                        {{crime.title}}
+                      </li>
+                    </ul>
+                    <div v-else>
+                      <h4 class="text-center pt-7 my-2 ">
+                        No tiene anticuchos registrado
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <br>
+              </div>
+              <div class="buttons mt-2">
+                <button class="primary me-4" @click="absolver()">
+                  Absolver
+                </button>
+                <button class="primary ghost" @click="sendCarcel()">
+                  A la carcel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div v-if="Object.values(selectedCrime).length > 1">
@@ -147,7 +85,9 @@
 <script>
   import { defineComponent } from 'vue'
   import jailSound from "@/assets/audio/jailSound2.mp3";
-  import wastedImg from "@/assets/media/utils/wasted.png";
+  import boo1 from "@/assets/audio/boo1.mp3";
+  import boo2 from "@/assets/audio/boo2.mp3";
+  import wastedImg from "@/assets/media/utils/reja.png";
   import crimesModal from '@/components/clientHome/modals/crimeModal.vue';
   export default defineComponent({
     props:[
@@ -159,6 +99,8 @@
         dialogCentral: false,
         selectedPolitic: {},
         sound: new Audio(jailSound),
+        booSound: new Audio(boo1),
+        booSound2: new Audio(boo2),
         wastedImg,
         dialogCrimes: false,
         selectedCrime:{},
@@ -173,23 +115,34 @@
         this.runAnimation = false
         setTimeout(() => {
           this.$emit("hideModal")
-        }, 1000);
+        }, 500);
       },
       showCrimes(idPolitic){
         this.selectedPolitic.show = true
       },
-      hideCrimes(){
-        this.selectedPolitic.show = false
+      absolver(){
+        // this.selectedPolitic.show = false
+        if(this.selectedPolitic.wasted){
+          this.booSound.play()
+          this.booSound2.play()
+          this.selectedPolitic.barAnimationx ='wastedLeave'
+        }
+        this.selectedPolitic.wasted = false
+        this.$emit("absolver", this.selectedPolitic.id)
+
       },
       hideCrimeModal(){
         this.dialogCrimes = false
       },
       sendCarcel(){
-        this.selectedPolitic.wasted = true
-        this.sound.play()
+        if(!this.selectedPolitic.wasted) {
+          this.sound.play()
+          this.selectedPolitic.barAnimationx ='wastedActive'
+        }
         this.$emit("wasted", this.selectedPolitic.id)
+        this.selectedPolitic.wasted = true
         setTimeout(()=>{
-          this.closeModal()
+          // this.closeModal()
         },1100)
       },
       selectCrime(id){
@@ -219,10 +172,28 @@
 </script>
 
 <style lang="scss" scoped>
-  .back-section_card{
-    height: 25px;
-    cursor: pointer!important;
-  }
+.back-content{
+  height: 90%;
+  box-sizing: border-box!important;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.carder {
+  position: fixed;
+  top: 15%;
+  z-index: 3;
+  left: calc( 50% - 168px );
+}
+.barrotes{
+  transform: rotate(0deg) translateY(-25px) translateX(0px);
+  max-width: none;
+  width: 105%;
+}
+.back-section_card{
+  height: 25px;
+  cursor: pointer!important;
+}
 .modal_vic{
   height: 100vh; 
   width: 100%; 

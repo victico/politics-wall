@@ -34,7 +34,7 @@ import '@/assets/css/bootstrap.min.css';
 import '@/assets/css/slicknav.min.css';
 import '@/assets/css/font-awesome.min.css';
 import '@/assets/css/icofont.css';
-
+import '@/assets/css/card.css';
 import '@/assets/css/normalize.css';
 import '@/assets/css/responsive.css';
 // import '@/assets/css/owl-carousel.css';

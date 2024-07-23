@@ -1,7 +1,7 @@
 <template>
   <div id="" class=" ">
     <div class="clients overlay">
-			<div class="container" style="overflow-x: hidden;">
+			<div class="container" style="overflow-x: hidden; width: 80%;">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-12">
 						<div class="clients-slider">

@@ -25,11 +25,11 @@
         >
         <div v-if="politics.length > 0 && loading">
           <div class=" grid-gallery px-2" >
-            <div  class="px-0 grid-gallery__item position-relative" v-for="(politic, index) in politics" :key="index">
+            <div  class="px-0 grid-gallery__item position-relative" v-for="(politic, index) in politics" :key="index" style="overflow: hidden;">
               <img :src="politic.normal_photo" class="grid-gallery__image" alt="" style="width: 100%; ">
-              <div class="wastedImg_content"  >
-                <div style=""  class="wastedSecond" :class="{'wastedActive': politic.wasted}" >
-                  <img :src="wastedImg" alt=""   style="transform: rotate(-35deg)">
+              <div class="wastedImg_content">
+                <div style=""  class="wastedImg" :class="politic.barAnimation" >
+                  <img :src="wastedImg" alt=""  class="barrotes">
                 </div>
               </div>
               <div class="overlay_grid_img text-center" @click="shoModal(politic.id)">
@@ -68,7 +68,7 @@
           <v-btn 
             size="large"
             variant="tonal"
-            class="mt-10 btn bg-primary "
+            class="mt-10 btn bg-primary my-12"
             v-bind="props"
             :disabled="loadContinuos"
           >
@@ -79,7 +79,7 @@
         </template>
       </v-infinite-scroll>
       <div v-if="selectedPolitic">
-        <modalCardPoliticVue :politic="selectedPolitic" :dialog="dialog" @hideModal="dialog = false" @wasted="wastedPolitic" />
+        <modalCardPoliticVue :politic="selectedPolitic" :dialog="dialog" @hideModal="dialog = false" @wasted="wastedPolitic" @absolver="absolver" />
       </div>
     </div>
   </div>
@@ -89,7 +89,7 @@ import { defineComponent } from 'vue'
 import { GET_POLITICS_PUBLIC } from '@/core/services/store/politic.module';
 import 'vue3-carousel/dist/carousel.css'
 import modalCardPoliticVue from '@/components/clientHome/modalCardPolitic.vue';
-import wastedImg from "@/assets/media/utils/wasted.png";
+import wastedImg from "@/assets/media/utils/reja.png";
 // import debounce from 'debounce';
 
 export default defineComponent({
@@ -103,6 +103,7 @@ export default defineComponent({
       dialog:false,
       loading:false,
       search:'',
+      barAnimation:'',
       wastedImg 
     }
   },
@@ -150,6 +151,13 @@ export default defineComponent({
     wastedPolitic(id){
       let politic = this.politics.find((politic) => politic.id == id);
       politic.wasted = true 
+      politic.barAnimation ='wastedActive'
+    },
+    absolver(id){
+      let politic = this.politics.find((politic) => politic.id == id);
+      politic.barAnimation ='wastedLeave'
+      politic.wasted = false 
+      
     },
     paginationAction(data){
       this.currentPage = data.data.current_page
@@ -234,33 +242,10 @@ export default defineComponent({
   &:hover  > .overlay_grid_img{
     opacity: 1;
   }
-}
-.grid-gallery__item:nth-child(11n+1) {
-  grid-column: span 1;
-}
-
-.grid-gallery__item:nth-child(11n+4) {
-  grid-column: span 2;
   grid-row: span 1;
-}
-
-.grid-gallery__item:nth-child(11n+6) {
-  grid-column: span 3;
-  grid-row: span 1;
-}
-
-.grid-gallery__item:nth-child(11n+7) {
   grid-column: span 1;
-  grid-row: span 2;
-}
 
-.grid-gallery__item:nth-child(11n+8) {
-  grid-column: span 2;
-  grid-row: span 2;
-}
 
-.grid-gallery__item:nth-child(11n+9) {
-  grid-row: span 3;
 }
 
 .grid-gallery__image {
@@ -276,24 +261,25 @@ export default defineComponent({
   overflow-y: visible!important;
 }
 .wastedImg, .wastedImgFirst{
+  opacity: 0;
   display: none;
-  position: absolute; top: 0%;  right: 0; bottom: 0; 
+  position: absolute; top: 0%;  right: 0; bottom: 0; left:0; 
+  transition: all 2s ease;
 }
 .wastedSecond{
   display: none;
-  position: absolute; top: -50%;  right: 0; bottom: 0; 
+  position: absolute; top: -50%;  right: 0; bottom: 0; left:0; 
   left: -40%;
   transform: scale(0.5)!important;
 }
-.wastedImg{
-  left: -19%;
-}
-.wastedImgFirst{
-  left: -45%;
+
+.wastedLeave{
+  display: block!important;
+  animation: wastedLeave 1s forwards;
 }
 .wastedActive{
   display: block!important;
-  animation: wasted 0.5s forwards;
+  animation: wasted 1s forwards;
 }
 @keyframes floating {
   0% {
@@ -309,12 +295,22 @@ export default defineComponent({
 }
 @keyframes wasted {
   0% {
-		
-		transform:scale(5.1);
+    opacity: 1;
+		transform:translateX(-370px);
 	}
 	100% {
-    
-		transform:scale(0.75);
+    opacity: 1;
+		transform:translateX(0px);
+	}  
+}
+@keyframes wastedLeave {
+  0% {
+    opacity: 1;
+		transform:translateX(0px);
+	}
+	100% {
+    opacity: 1;
+		transform:translateX(-370px);
 	}  
 }
 

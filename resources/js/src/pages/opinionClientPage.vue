@@ -10,13 +10,13 @@
         <div class="col-12 col-lg-8">
           <div class="row justify-content-xl-end">
             <div class="col-12 col-xl-11">
-              <div class="row gy-4">
+              <div class="row gy-4 mt-6">
                 <div class="col-12 col-md-6" v-for="(opinion, index) in opinions" :key="index">
                   <div class="card border-0 border-bottom border-primary shadow-sm">
                     <div class="card-body p-4">
                       <figure>
                         <img class="img-fluid rounded rounded-circle mb-4 border border-5" loading="lazy" :src="opinion.photo" height="100" width="100" alt="Luna Joh">
-                        <figcaption>
+                        <figcaption class="mt-5">
                           <blockquote class="bsb-blockquote-icon mb-4">
                             {{ opinion.opinion.substring(0, 400) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
                               <span class="text-decoration-underline">
@@ -24,7 +24,7 @@
                               </span>
                           </blockquote>
                           <h4 class="mb-2">{{ opinion.author }}</h4>
-                          <h5 class="fs-6 text-secondary mb-0">{{ opinion.institution }}</h5>
+                          <h5 class="fs-6 mb-0" style="color:#5d596c!important">{{ opinion.institution }}</h5>
                         </figcaption>
                       </figure>
                     </div>
