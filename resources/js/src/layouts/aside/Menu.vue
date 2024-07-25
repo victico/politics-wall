@@ -28,7 +28,7 @@
         <li class="menu-item" aria-haspopup="true" data-menu-toggle="hover" :class="[isActive && 'active', isExactActive && 'active']" >
           <a  :href="href" class="menu-link " @click="navigate">
             <i class="fa-solid fa-user"></i>
-            <div class="">&nbsp; &nbsp;Opiniones</div>
+            <div class="">&nbsp; &nbsp;Soluciones</div>
           </a>
         </li>
       </router-link>

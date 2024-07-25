@@ -1,8 +1,8 @@
 <template>
   <section class="bg-light-6 py-3 py-md-5 mb-5">
     <div class="container">
-      <div class="row gy-5 gy-lg-0 align-items-center">
-        <div class="col-12 col-lg-4">
+      <div class="row gy-5 gy-lg-0 align-items-top">
+        <div class="col-12 col-lg-4 pt-16 mt-16">
           <h2 class="display-5 mb-3 mb-xl-4">Los expertos opinan</h2>
           <p class="lead mb-4 mb-xl-5">Conoce las opiniones de destacados analistas y profesionales.</p>
          
@@ -13,8 +13,8 @@
               <div  v-if="opinions.length > 0  && loading ">
                 <v-infinite-scroll
                 height="100%"
+                style="overflow-x: hidden;"
                 mode="manual"
-                style="max-height: 800px; overflow-x:hidden"
                 @load="load"
                 >
                   <div class="row gy-4 mt-6">
@@ -26,8 +26,8 @@
                             <figcaption class="mt-5">
                               <blockquote class="bsb-blockquote-icon mb-4">
                                 {{ opinion.opinion.substring(0, 400) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
-                                  <span class="text-decoration-underline">
-                                    <!-- {{ opinion.opinion.length > 200 ? 'Ver mas' :'' }} -->
+                                  <span class="text-decoration-underline" @click="showModal(opinion.id)">
+                                    {{ opinion.opinion.length > 200 ? 'Ver opinion completa' :'' }}
                                   </span>
                               </blockquote>
                               <h4 class="mb-2">{{ opinion.author }}</h4>
@@ -54,7 +54,7 @@
                   </template>
                 </v-infinite-scroll>
               </div>
-              <div v-else class="row" style="overflow:hidden; max-height: 800px">
+              <div v-else class="row">
                 <div class="col-12 col-md-6 mt-6" v-for=" n in 10" :key="n">
                   <div class="card border-0 border-bottom border-primary shadow-sm">
                     <div class="card-body pa-4">
@@ -64,13 +64,9 @@
                           type="avatar"
                         />
                         <figcaption class="mt-5">
-                          <!-- <blockquote class="bsb-blockquote-icon mb-4"> -->
-                              <v-skeleton-loader type="paragraph"/>
-                              <v-skeleton-loader type="paragraph"/>
-
-                          <!-- </blockquote> -->
+                          <v-skeleton-loader type="paragraph"/>
+                          <v-skeleton-loader type="paragraph"/>
                           <v-skeleton-loader width="50%" type="text" style="transform: translatey(35%)"/>
-
                           <v-skeleton-loader width="70%" type="text"/>
                         </figcaption>
                       </figure>
@@ -132,7 +128,8 @@ export default defineComponent({
         this.emitter.emit('logoutSession')
       })
     },    
-    getPoliticByID(idPolitic){
+    getOpinionByID(idPolitic){
+      console.log(idPolitic)
       return new Promise((resolve, reject) =>{
         this.selectedOpinion = this.opinions.find((politic) => politic.id == idPolitic);
         setTimeout(()=>{
@@ -152,7 +149,7 @@ export default defineComponent({
       }, 1000)
     },
     async showModal(idPolitic){
-      await this.getPoliticByID(idPolitic).then(() =>{
+      await this.getOpinionByID(idPolitic).then(() =>{
         this.dialog = 'view'
       })
     },
@@ -169,10 +166,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.text-decoration-underline{
+  cursor: pointer;
+}
 .img-fluid {
-    max-width: 100%;
-    height: 100px!important;
-    object-fit: cover!important;
+  max-width: 100%;
+  height: 100px!important;
+  object-fit: cover!important;
 }
 .bsb-blockquote-icon{
   line-height: 1.8!important

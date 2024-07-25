@@ -5,7 +5,7 @@
         class="py-4 text-center px-4 politics w-100"
         elevation="12"
         rounded="lg"
-        title="Listado de opniones"
+        title="Listado de soluciones"
       >
       <div class="d-flex justify-end px-4 align-center flex-column flex-md-row">
         <!-- <div class="input_search d-flex align-center">
@@ -25,7 +25,7 @@
         </div> -->
         <div class="mt-5 mt-md-0">
           <v-btn prepend-icon="$plus" variant="tonal" @click="dialogShow = 'opinion'; selectedOpinion = {}">
-            Agregar opinión
+            Agregar solución
           </v-btn>
         </div>
       </div>

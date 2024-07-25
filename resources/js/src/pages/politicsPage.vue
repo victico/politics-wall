@@ -564,7 +564,7 @@ export default defineComponent({
       const data = new FormData();
       data.append('title', this.selectedCrime.title)
       data.append('description', this.selectedCrime.description)
-      data.append('date', this.$refs.dateUpdateCrimes.value)
+      // data.append('date', this.$refs.dateUpdateCrimes.value)
       data.append('references', this.selectedCrime.references)
 
       this.$store

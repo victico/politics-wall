@@ -7,7 +7,7 @@
       prepend-icon="$account"
       title="Ver opinión"
     >
-      <v-card-text class="mt-5">
+      <v-card-text class="mt-0">
         <v-row class="w-100">
           <VCol cols="12"  class="px-2 "> 
             <div class="">
@@ -84,7 +84,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .mxmd-50{
-  max-width:50%;
+  max-width:80%;
 }
 @media screen and (max-width: 780px){
   .mxmd-50{

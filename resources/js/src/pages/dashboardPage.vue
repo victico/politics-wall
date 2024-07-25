@@ -20,8 +20,8 @@
           <v-card
             class="mx-auto"
             prepend-icon="$listCrime"
-            subtitle="Selecciona al politico y agrega un crimen"
-            title="Agregar crimen"
+            subtitle="Selecciona al politico y agrega un delito"
+            title="Agregar delito"
           >
             <template v-slot:append>
               <!-- <v-btn icon="$plus" color="white" variant="tonal" size="small" @click="showSnack('black', 'Función no permitida')" /> -->

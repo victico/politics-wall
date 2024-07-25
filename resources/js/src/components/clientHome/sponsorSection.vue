@@ -44,7 +44,7 @@ export default defineComponent({
     return {
       logos: [sponsor1, sponsor2,  sponsor3, sponsor4, sponsor5,],
       settings: {
-        itemsToShow: 4,
+        itemsToShow: 1,
         snapAlign: 'center',
         autoplay:3500,
       },
@@ -52,7 +52,7 @@ export default defineComponent({
       // 700px and up
       700: {
         wrapAround:true,
-        itemsToShow: 5,
+        itemsToShow: 2,
         snapAlign: 'start',
         autoplay:3500,
       },

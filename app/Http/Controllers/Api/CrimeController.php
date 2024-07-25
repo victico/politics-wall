@@ -70,7 +70,7 @@ class CrimeController extends Controller
         $crime = Crime::find($id);
         $crime->title = $request->title;
         $crime->description = $request->description;
-        $crime->date = empty($request->date) ? $crime->date : $request->date;
+        // $crime->date = empty($request->date) ? $crime->date : $request->date;
         $crime->references = empty($request->references) ? $crime->references : $request->references;
         
         $crime->save();

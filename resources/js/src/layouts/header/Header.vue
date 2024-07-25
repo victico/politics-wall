@@ -35,7 +35,7 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
                 <router-link 
-                  :to="{ path: `/`}" 
+                  :to="{ path: `/config`}" 
                    
                   v-slot="{ href, navigate}"
                 >

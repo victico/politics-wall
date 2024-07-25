@@ -41,6 +41,8 @@ Route::middleware('jwt.verify')->prefix('politic')->name('politic.')->group(func
 });
 Route::middleware('jwt.verify')->prefix('user')->name('user.')->group(function () {
     Route::get('/', [UserController::class, 'index']);
+    Route::post('/change_password', [UserController::class, 'updatePassword']);
+
 });
 Route::middleware('jwt.verify')->prefix('crime')->name('crime.')->group(function () {
     Route::post('/', [CrimeController::class, 'store']);

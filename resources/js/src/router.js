@@ -7,6 +7,9 @@ import auth from './middlewares/auth'
 // components
 import politicPage from '@/pages/politicsPage.vue';
 import opinionPage from '@/pages/opinionPage.vue';
+import configPage from '@/pages/configPage.vue';
+
+
 // import viewPage from '@/pages/viewPage.vue';
 import skeletonAdmin from '@/layouts/EskeletonAdmin.vue'
 // import clientPageLayout from '@/layouts/clientPageLayout.vue'
@@ -39,6 +42,14 @@ const router = createRouter({
           component: () => import('@/pages/opinionClientPage.vue'),
           meta: {
             title : 'Opiniones'
+          },
+        },
+        {
+          name: 'we',
+          path: '/about_us',
+          component: () => import('@/pages/aboutUsClientPage.vue'),
+          meta: {
+            title : 'Nosotros'
           },
         },
       ]
@@ -74,6 +85,14 @@ const router = createRouter({
           name: 'opinion',
           path: '/opinion',
           component: opinionPage,
+          meta: {
+            title : 'Opiniones'
+          },
+        },
+        {
+          name: 'config',
+          path: '/config',
+          component: configPage,
           meta: {
             title : 'Opiniones'
           },

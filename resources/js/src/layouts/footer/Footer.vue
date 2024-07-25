@@ -13,7 +13,7 @@
         <div>
         
 
-          <a
+          <!-- <a
             href="#"
             target="_blank"
             class="footer-link me-4"
@@ -22,7 +22,7 @@
 
           <a href="#" target="_blank" class="footer-link d-none d-sm-inline-block"
             >FAQ</a
-          >
+          > -->
         </div>
       </div>
     </div>

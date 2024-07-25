@@ -124,6 +124,23 @@ class PoliticController extends Controller
 
         return $this->returnSuccess(200, $politic);
     }
+    public function voteJail($id, Request $request) {
+        
+        $politic = Politic::find($id);
+
+        if(isset($request->voteJail)){
+            $politic->vote_jail =  $politic->vote_jail + 1; 
+        }else{
+            $politic->vote_jail =  $politic->vote_jail - 1; 
+        }
+
+    
+
+        $politic->save();
+
+        return $this->returnSuccess(200, $politic);
+    }
+
     private function validateFieldsFromInput($inputs){
 
 

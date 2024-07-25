@@ -92,12 +92,26 @@ class UserController extends Controller
     public function getUserById($userId){
         $user = User::with('rol', 'orders.client', 'orders.products', 'orders.outOrder')->find($userId);
  
-         return $this->returnSuccess(200, $user);
+        return $this->returnSuccess(200, $user);
      }
     public function getAlluserByRol(Request $request){
-       $usersByRol = User::with('rol')->where('rol',$request->rol)->get();
+        $usersByRol = User::with('rol')->where('rol',$request->rol)->get();
 
         return $this->returnSuccess(200, $usersByRol);
+    }
+    public function updatePassword(Request $request) {
+        
+        $user = User::find($request->user()->id);
+
+        if(!$user) return $this->returnFail(404, 'Usuario no existe');
+        if(!Hash::check($request->current, $user->password)) return $this->returnFail(505, 'Contraseña actual no coincide');
+        if($request->new !== $request->repeat) return $this->returnFail(505, 'Contraseñas nueva no coinciden');
+
+        $user->password = bcrypt($request->new);
+        $user->save();
+ 
+        // 
+        return $this->returnSuccess(200, $user);
     }
     private function validateFieldsFromInput($inputs, $type = 'new'){
         // if($type != 'new'){

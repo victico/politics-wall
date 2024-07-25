@@ -13,7 +13,7 @@ export const DELETE_USER = "DELETE_USER";
 export const UPDATE_USER = "UPDATE_USER";
 
 export const GET_USER_BY_ID = "GET_USER_BY_ID";
-
+export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
 
 const state = {
     user: {},
@@ -39,6 +39,23 @@ const actions = {
                     .catch(( { response } ) => {
                         console.log(response)
                         reject('Ocurrió un error desconocido al intentar guardar el usuario.');
+                    });
+            }
+        });
+    },
+    [CHANGE_PASSWORD](context, body) {
+        return new Promise((resolve, reject) => {
+            if (JwtService.getToken()) {
+                ApiService.setHeader();
+                ApiService.post("api/user/change_password", body)
+                    .then(( { data } ) => {
+
+                        resolve(data);
+ 
+                    })
+                    .catch(( { response } ) => {
+                        console.log(response)
+                        reject(response.data);
                     });
             }
         });

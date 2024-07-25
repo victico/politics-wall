@@ -12,6 +12,8 @@ import {
   mdiListBoxOutline,
   mdiWindowClose, 
   mdiCheckCircle,
+  mdiEyeOutline,
+  mdiEyeOffOutline,
 } from '@mdi/js'
 import { mdilPlus, mdilHome, mdilChartLine, mdilLogout, } from '@mdi/light-js'
 // const aliases = {
@@ -82,6 +84,9 @@ export const icons = {
     listCrime: mdiListBoxOutline,
     display_error: mdiWindowClose,
     display_success: mdiCheckCircle,
+    eye:  mdiEyeOutline,
+    eyeClose: mdiEyeOffOutline,
+
   },
   sets: {
     mdi,
