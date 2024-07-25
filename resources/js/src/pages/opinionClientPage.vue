@@ -10,21 +10,68 @@
         <div class="col-12 col-lg-8">
           <div class="row justify-content-xl-end">
             <div class="col-12 col-xl-11">
-              <div class="row gy-4 mt-6">
-                <div class="col-12 col-md-6" v-for="(opinion, index) in opinions" :key="index">
+              <div  v-if="opinions.length > 0  && loading ">
+                <v-infinite-scroll
+                height="100%"
+                mode="manual"
+                style="max-height: 800px; overflow-x:hidden"
+                @load="load"
+                >
+                  <div class="row gy-4 mt-6">
+                    <div class="col-12 col-md-6" v-for="(opinion, index) in opinions" :key="index">
+                      <div class="card border-0 border-bottom border-primary shadow-sm">
+                        <div class="card-body p-4">
+                          <figure>
+                            <img class="img-fluid rounded rounded-circle mb-4 border border-5" loading="lazy" :src="opinion.photo" height="100" width="100" alt="Luna Joh">
+                            <figcaption class="mt-5">
+                              <blockquote class="bsb-blockquote-icon mb-4">
+                                {{ opinion.opinion.substring(0, 400) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
+                                  <span class="text-decoration-underline">
+                                    <!-- {{ opinion.opinion.length > 200 ? 'Ver mas' :'' }} -->
+                                  </span>
+                              </blockquote>
+                              <h4 class="mb-2">{{ opinion.author }}</h4>
+                              <h5 class="fs-6 mb-0" style="color:#5d596c!important">{{ opinion.institution }}</h5>
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <template v-slot:empty>
+                    <div class="bg-error w-50 text-center pa-2 rounded-sm" >
+                      No hay mas politicos
+                    </div>
+                  </template>
+                  <template v-slot:load-more="{ props }">
+                    <v-btn
+                      class="mt-5"
+                      size="large"
+                      variant="tonal"
+                      v-bind="props"
+                      :disabled="loadContinuos"
+                    >Cargar más</v-btn>
+                  </template>
+                </v-infinite-scroll>
+              </div>
+              <div v-else class="row" style="overflow:hidden; max-height: 800px">
+                <div class="col-12 col-md-6 mt-6" v-for=" n in 10" :key="n">
                   <div class="card border-0 border-bottom border-primary shadow-sm">
-                    <div class="card-body p-4">
+                    <div class="card-body pa-4">
                       <figure>
-                        <img class="img-fluid rounded rounded-circle mb-4 border border-5" loading="lazy" :src="opinion.photo" height="100" width="100" alt="Luna Joh">
+                        <v-skeleton-loader
+                          max-width="100"
+                          type="avatar"
+                        />
                         <figcaption class="mt-5">
-                          <blockquote class="bsb-blockquote-icon mb-4">
-                            {{ opinion.opinion.substring(0, 400) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
-                              <span class="text-decoration-underline">
-                                <!-- {{ opinion.opinion.length > 200 ? 'Ver mas' :'' }} -->
-                              </span>
-                          </blockquote>
-                          <h4 class="mb-2">{{ opinion.author }}</h4>
-                          <h5 class="fs-6 mb-0" style="color:#5d596c!important">{{ opinion.institution }}</h5>
+                          <!-- <blockquote class="bsb-blockquote-icon mb-4"> -->
+                              <v-skeleton-loader type="paragraph"/>
+                              <v-skeleton-loader type="paragraph"/>
+
+                          <!-- </blockquote> -->
+                          <v-skeleton-loader width="50%" type="text" style="transform: translatey(35%)"/>
+
+                          <v-skeleton-loader width="70%" type="text"/>
                         </figcaption>
                       </figure>
                     </div>
@@ -36,11 +83,15 @@
         </div>
       </div>
     </div>
+    <viewOpinionModal   :dialog="dialog == 'view'"    :opinion="selectedOpinion" @hideModal="hiddenModal" />
+
   </section>
 </template>
 <script >
 import { defineComponent } from 'vue'
 import { GET_PUBLIC } from '@/core/services/store/opinion.module';
+import viewOpinionModal from '@/components/opinion/modals/viewOpinionModal.vue';
+
 // import debounce from 'debounce';
 
 export default defineComponent({
@@ -49,13 +100,14 @@ export default defineComponent({
       opinions: [],
       currentPage: 0,
       loadContinuos:false,
-      selectedPolitic:null,
-      dialog:false,
+      selectedOpinion:null,
+      dialog:'',
       loading:false,
     }
   },
   components: {
     // modalCardPoliticVue
+    viewOpinionModal,
   },
   methods: {
     getOpinions(type="load"){
@@ -74,7 +126,7 @@ export default defineComponent({
       
         setTimeout(() => {
           this.loading = true
-        }, 1000);
+        }, 800);
         this.paginationAction(data)
       }).catch(() => {
         this.emitter.emit('logoutSession')
@@ -82,22 +134,12 @@ export default defineComponent({
     },    
     getPoliticByID(idPolitic){
       return new Promise((resolve, reject) =>{
-        this.selectedPolitic = this.opinions.find((politic) => politic.id == idPolitic);
-        this.selectedPolitic.show = false
+        this.selectedOpinion = this.opinions.find((politic) => politic.id == idPolitic);
         setTimeout(()=>{
-          resolve(this.selectedPolitic)
+          resolve(this.selectedOpinion)
         }, 800)
       })
 
-    },
-    searchPolitic(){
-      this.loading = false
-      // debounce(this.getOpinions,500)('noload');
-      this.getOpinions('noload')
-    },
-    wastedPolitic(id){
-      let politic = this.opinions.find((politic) => politic.id == id);
-      politic.wasted = true 
     },
     paginationAction(data){
       this.currentPage = data.data.current_page
@@ -109,11 +151,14 @@ export default defineComponent({
         done('ok')
       }, 1000)
     },
-    async shoModal(idPolitic){
+    async showModal(idPolitic){
       await this.getPoliticByID(idPolitic).then(() =>{
-        this.dialog = true
+        this.dialog = 'view'
       })
     },
+    hiddenModal() {
+      this.dialog = ''
+    }
     
 
   },
