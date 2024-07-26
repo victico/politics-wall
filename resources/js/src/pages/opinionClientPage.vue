@@ -27,7 +27,7 @@
                               <blockquote class="bsb-blockquote-icon mb-4">
                                 {{ opinion.opinion.substring(0, 400) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
                                   <span class="text-decoration-underline" @click="showModal(opinion.id)">
-                                    {{ opinion.opinion.length > 200 ? 'Ver opinion completa' :'' }}
+                                    {{ opinion.opinion.length > 200 ? 'Ver opinión completa' :'' }}
                                   </span>
                               </blockquote>
                               <h4 class="mb-2">{{ opinion.author }}</h4>
@@ -40,7 +40,7 @@
                   </div>
                   <template v-slot:empty>
                     <div class="bg-error w-50 text-center pa-2 rounded-sm" >
-                      No hay mas politicos
+                      No hay mas políticos
                     </div>
                   </template>
                   <template v-slot:load-more="{ props }">
