@@ -1,10 +1,10 @@
 <template>
   <div class="body h-screen d-flex  align-center pa-8">
   <VRow class="justify-end">
-    <VCol cols="5">
+    <VCol cols="12" md="5">
 
       <VCard class="elevation-24 "> 
-        <v-form class="px-16 my-16" id="loginForm">
+        <v-form class="pa-md-16 pa-10" id="loginForm">
           <div  class="my-8">
             <h1 class="text-h4">
               Hola 👋🏻 
@@ -52,7 +52,7 @@
               </v-col>
               <v-col cols="12" class="mt-2 d-flex justify-end">
                 <v-btn elevation="24" size="x-large" color="terciary" id="login_button" disabled type="submit"> 
-                  <p class="text-secondary">Ingresar</p> 
+                  <p class="text-white">Ingresar</p> 
                 </v-btn>
               </v-col>
             </v-row>

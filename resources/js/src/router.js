@@ -116,20 +116,20 @@ const router = createRouter({
       },
       beforeEnter: guest
     },
-    // {
-    //   path: '/404',
-    //   component: () => import('@/pages/[...all].vue'),
-    //   meta: {
-    //     title : 'OPPS! 404',
-    //   },
-    // },
-    // {
-    //   path: '/:pathMatch(.*)*',
-    //   component: () => import('@/pages/[...all].vue'),
-    //   meta: {
-    //     title : 'OPPS! 404',
-    //   },
-    // },
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: "/404",
+    },
+    // 404 ROUTEs
+    {
+      // the 404 route, when none of the above matches
+      path: "/404",
+      name: "404",
+      component: () => import("@/pages/404.vue"),
+      meta: {
+        title: 'Opss',
+      },
+    },
   ]
 });
 

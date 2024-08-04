@@ -45,7 +45,7 @@
                   "{{ opinion.title }}"
                 </div>
                 <div class="text-justify">
-                  {{ opinion.opinion.substring(0, 200) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
+                  {{ JSON.parse(opinion.opinion).text.substring(0, 200) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
                   <span class="text-decoration-underline">
                     <!-- {{ opinion.opinion.length > 200 ? 'Ver mas' :'' }} -->
                   </span>
@@ -158,19 +158,20 @@ export default defineComponent({
       })
     },
     async showModal(opinionId, modal = ""){
-      await this.getPoliticByID(opinionId).then(() =>{
+      await this.getOpinionByID(opinionId).then(() =>{
         this.dialogShow = modal
       })
     },
     hideModal(){
       this.dialogShow = ''
     },
-    getPoliticByID(opinionId){
+    getOpinionByID(opinionId){
       return new Promise( (resolve) => {
         this.$store
           .dispatch(GET_OPINION_BY_ID, opinionId)
           .then((response) => {
             this.selectedOpinion = Object.assign({}, response.data);
+            this.selectedOpinion.opinion = JSON.parse(this.selectedOpinion.opinion).text
             setTimeout(() => {
               resolve(response.data);
             }, 500);

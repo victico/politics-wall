@@ -73,6 +73,10 @@
                 <v-textarea 
                   label="Opinión*"
                   variant="outlined"
+                  auto-grow
+                  counter
+                  row-height="25"
+                  shaped
                   required
                   v-model="createOpinion.opinion"
                 />
@@ -161,7 +165,7 @@ export default defineComponent({
       data.append('institution', this.createOpinion.institution)
       data.append('title', this.createOpinion.title)
       data.append('author', this.createOpinion.author)
-      data.append('opinion', this.createOpinion.opinion)
+      data.append('opinion', JSON.stringify({text: this.createOpinion.opinion}))
       data.append('photo', this.$refs.photo.files[0])
 
       this.$store
@@ -179,7 +183,7 @@ export default defineComponent({
       data.append('institution', this.createOpinion.institution)
       data.append('title', this.createOpinion.title)
       data.append('author', this.createOpinion.author)
-      data.append('opinion', this.createOpinion.opinion)
+      data.append('opinion', JSON.stringify({text: this.createOpinion.opinion}))
       data.append('photo', this.$refs.photo !== null ? this.$refs.photo.files[0] : '')
 
 
@@ -221,7 +225,7 @@ export default defineComponent({
         opinion:'',
         photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
       }
-
+      
     }
   },
 })

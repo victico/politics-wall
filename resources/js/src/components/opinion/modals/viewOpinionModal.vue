@@ -31,7 +31,7 @@
             <div class="">
               <div class="mt-4 d-flex align-center">
                 <div class="ms-2">
-                  <div class="text-body-1	" v-html="opinion.opinion" />
+                  <div class="text-body-1	" v-html="opinion.opinion.replace(/\n/gi, '<br>')" />
                 </div>
               </div>
             </div>

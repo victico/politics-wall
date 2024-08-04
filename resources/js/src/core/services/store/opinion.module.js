@@ -10,6 +10,7 @@ export const UPDATE_OPINION = "UPDATE_OPINION";
 export const DELETE_OPINION = "DELETE_OPINION"
 export const GET_OPINION_BY_SEARCH = "GET_OPINION_BY_SEARCH"
 export const GET_PUBLIC = "GET_PUBLIC"
+export const GET_OPINION_BY_ID_PUBLIC = "GET_OPINION_BY_ID_PUBLIC"
 const actions = {
   [GET_OPINION](context, data){
     return new Promise((resolve, reject) => {
@@ -43,6 +44,20 @@ const actions = {
           reject('Ocurrió un error desconocido al intentar obtener las ordenes');
         });
       }
+    });
+  },
+  [GET_OPINION_BY_ID_PUBLIC](context,opinionId){
+    return new Promise((resolve, reject) => {
+        ApiService.get("api/opinion/getOpinion/"+opinionId)
+        .then(( { data } ) => {
+            // console.log(data)
+            resolve(data);
+            
+        })
+        .catch(( { response } ) => {
+            console.log(response )
+            reject('Ocurrió un error desconocido al intentar obtener las ordenes');
+        });
     });
   },
   [GET_OPINION_BY_ID](context,opinionId){

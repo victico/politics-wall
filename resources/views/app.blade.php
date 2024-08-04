@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/testimonials/testimonial-2/assets/css/testimonial-2.css">
 
-        <title>Muro de politicos</title>
-        <link rel="icon" type="image/png"href="https://website-424166ef.objetivolaguzman.com/favicon.png">
+        <title>Muro de políticos</title>
+        <link rel="icon" type="image/png"href="https://muro.pe/favicon.png">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />

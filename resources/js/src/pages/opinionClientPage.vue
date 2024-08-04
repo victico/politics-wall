@@ -25,7 +25,7 @@
                             <img class="img-fluid rounded rounded-circle mb-4 border border-5" loading="lazy" :src="opinion.photo" height="100" width="100" alt="Luna Joh">
                             <figcaption class="mt-5">
                               <blockquote class="bsb-blockquote-icon mb-4">
-                                {{ opinion.opinion.substring(0, 400) }}{{ opinion.opinion.length > 200 ? '...' :'' }}
+                                {{ JSON.parse(opinion.opinion).text.substring(0, 200) }}{{ JSON.parse(opinion.opinion).text.length > 200 ? '...' :'' }}
                                   <span class="text-decoration-underline" @click="showModal(opinion.id)">
                                     {{ opinion.opinion.length > 200 ? 'Ver opinión completa' :'' }}
                                   </span>
@@ -85,7 +85,7 @@
 </template>
 <script >
 import { defineComponent } from 'vue'
-import { GET_PUBLIC } from '@/core/services/store/opinion.module';
+import { GET_PUBLIC, GET_OPINION_BY_ID_PUBLIC } from '@/core/services/store/opinion.module';
 import viewOpinionModal from '@/components/opinion/modals/viewOpinionModal.vue';
 
 // import debounce from 'debounce';
@@ -128,15 +128,35 @@ export default defineComponent({
         this.emitter.emit('logoutSession')
       })
     },    
-    getOpinionByID(idPolitic){
-      console.log(idPolitic)
-      return new Promise((resolve, reject) =>{
-        this.selectedOpinion = this.opinions.find((politic) => politic.id == idPolitic);
-        setTimeout(()=>{
-          resolve(this.selectedOpinion)
-        }, 800)
-      })
+    // getOpinionByID(idPolitic){
+    //   return new Promise((resolve, reject) =>{
+    //     this.selectedOpinion = this.opinions.find((politic) => politic.id == idPolitic);
+    //     // console.log(JSON.parse(this.selectedOpinion.opinion).text)
+    //     this.selectedOpinion.opinion = JSON.parse(this.selectedOpinion.opinion).text
 
+    //     setTimeout(()=>{
+    //       resolve(this.selectedOpinion)
+    //     }, 800)
+    //   })
+
+    // },
+    getOpinionByID(opinionId){
+      return new Promise( (resolve) => {
+        this.$store
+          .dispatch(GET_OPINION_BY_ID_PUBLIC, opinionId)
+          .then((response) => {
+            this.selectedOpinion = Object.assign({}, response.data);
+            this.selectedOpinion.opinion = JSON.parse(this.selectedOpinion.opinion).text
+            setTimeout(() => {
+              resolve(response.data);
+            }, 500);
+          })
+      }).catch((err) => {
+          console.log(err)
+          return new Promise((resolve) => {
+            resolve(false);
+          });
+      });
     },
     paginationAction(data){
       this.currentPage = data.data.current_page
