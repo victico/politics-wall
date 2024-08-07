@@ -14,18 +14,11 @@ class OpinionController extends Controller
     //
     public function indexPublic(Request $request)
     {
-        //
-        // $allPolitics = Opinion::query()->with(['crimes'])->where('name', 'like', '%'.$request->name.'%');
         $allPolitics = Opinion::query();
         return $this->returnSuccess(200, $allPolitics->paginate(25));
     }
     public function getOpinions(Request $request) {
         $opinions = Opinion::query();
-
-        // $opinions = Opinion::query()->with(['crimes'])->where('name', 'like', '%'.$request->name.'%');
-        // if(isset($request->status)){
-        //     $opinions->where('status', $request->status);
-        // }
         return $this->returnSuccess(200, $opinions->paginate(25));
     }
     public function storeOpinion(Request $request) {
@@ -91,7 +84,7 @@ class OpinionController extends Controller
             'title'             => ['required', 'regex:/^[0-9-a-zA-Z-À-ÿ&,$ .]+$/i'],
             'institution'       => ['required', 'regex:/^[0-9-a-zA-Z-À-ÿ&$ .,]+$/i'],
             'author'            => ['required', 'regex:/^[a-zA-Z-À-ÿ .]+$/i'],
-            'opinion'           => ['required', 'regex:/^[^$%&|<>#]*$/'],
+            'opinion'           => ['required'],
             'photo'             => ['required', 'file'],
 
         ];
@@ -103,7 +96,6 @@ class OpinionController extends Controller
             'author.required'       => 'El Autor es requerido.',
             'author.regex'          => 'Autor no valido.',
             'opinion.required'      => 'La opinión es requerida.',
-            'opinion.regex'         => 'Opinión no valida.',
             'photo.required'        => 'La foto es requerida.',
             'photo.file'            => 'La foto es requerida.'
         ];

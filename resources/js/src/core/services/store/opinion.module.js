@@ -48,7 +48,7 @@ const actions = {
   },
   [GET_OPINION_BY_ID_PUBLIC](context,opinionId){
     return new Promise((resolve, reject) => {
-        ApiService.get("api/opinion/getOpinion/"+opinionId)
+        ApiService.get("api/public/getOpinion/"+opinionId)
         .then(( { data } ) => {
             // console.log(data)
             resolve(data);

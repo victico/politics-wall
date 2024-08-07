@@ -128,24 +128,14 @@ export default defineComponent({
         this.emitter.emit('logoutSession')
       })
     },    
-    // getOpinionByID(idPolitic){
-    //   return new Promise((resolve, reject) =>{
-    //     this.selectedOpinion = this.opinions.find((politic) => politic.id == idPolitic);
-    //     // console.log(JSON.parse(this.selectedOpinion.opinion).text)
-    //     this.selectedOpinion.opinion = JSON.parse(this.selectedOpinion.opinion).text
-
-    //     setTimeout(()=>{
-    //       resolve(this.selectedOpinion)
-    //     }, 800)
-    //   })
-
-    // },
     getOpinionByID(opinionId){
       return new Promise( (resolve) => {
         this.$store
           .dispatch(GET_OPINION_BY_ID_PUBLIC, opinionId)
           .then((response) => {
             this.selectedOpinion = Object.assign({}, response.data);
+            console.log(this.selectedOpinion)
+
             this.selectedOpinion.opinion = JSON.parse(this.selectedOpinion.opinion).text
             setTimeout(() => {
               resolve(response.data);

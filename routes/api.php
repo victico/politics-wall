@@ -25,7 +25,7 @@ Route::middleware('jwt.verify')->post('/get_current_user', [AuthController::clas
 
 Route::post('/create-user', [UserController::class, 'store']);
 
-Route::prefix('public')->name('politic.')->group(function () {
+Route::prefix('public')->name('public.')->group(function () {
     Route::get('/politic', [PoliticController::class, 'indexPublic']);
     Route::get('/opinion', [OpinionController::class, 'indexPublic']);
     Route::get('/getOpinion/{id}', [OpinionController::class, 'getOpinionById']);
